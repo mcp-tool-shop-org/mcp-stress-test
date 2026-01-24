@@ -1,7 +1,5 @@
 """Tests for core data models."""
 
-import pytest
-from datetime import datetime
 
 from mcp_stress_test.models import (
     AttackParadigm,

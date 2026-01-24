@@ -6,20 +6,15 @@ to evaluate scanner effectiveness against various attack patterns.
 
 from __future__ import annotations
 
-import time
+from collections.abc import Callable
 from dataclasses import dataclass, field
-from datetime import datetime
 from enum import Enum
-from typing import Any, Callable, Iterator
+from typing import Any
 
-from mcp_stress_test.generator import AttackGenerator, SchemaMutator, TimeSimulator
-from mcp_stress_test.generator.strategies import get_all_strategies, get_strategy
+from mcp_stress_test.generator import AttackGenerator, TimeSimulator
 from mcp_stress_test.models import (
     AttackParadigm,
     PoisonPayload,
-    RiskCategory,
-    ScanComparison,
-    ScanResult,
     TemporalPattern,
     ToolSchema,
 )
@@ -207,7 +202,9 @@ class StressMetrics:
             "precision": round(self.precision, 2),
             "f1_score": round(self.f1_score, 2),
             "avg_scan_time_ms": round(self.avg_scan_time_ms, 2),
-            "min_scan_time_ms": round(self.min_scan_time_ms, 2) if self.min_scan_time_ms != float("inf") else 0,
+            "min_scan_time_ms": round(self.min_scan_time_ms, 2)
+            if self.min_scan_time_ms != float("inf")
+            else 0,
             "max_scan_time_ms": round(self.max_scan_time_ms, 2),
             "by_strategy": self.by_strategy,
             "by_paradigm": self.by_paradigm,
@@ -319,7 +316,10 @@ class StressTestRunner:
             self._results.append(result)
 
             # Checkpoint if needed
-            if self.checkpoint_manager and self._test_counter % self.config.checkpoint_interval == 0:
+            if (
+                self.checkpoint_manager
+                and self._test_counter % self.config.checkpoint_interval == 0
+            ):
                 self.checkpoint_manager.create_checkpoint(
                     tool=tool,
                     scan_results=[scan_result],
@@ -350,7 +350,7 @@ class StressTestRunner:
 
         for tool in tools:
             # Get baseline scan first
-            baseline = self.scanner.scan(tool)
+            self.scanner.scan(tool)
 
             for payload in payloads:
                 for strategy_name in self.config.strategies:
@@ -456,7 +456,7 @@ class StressTestRunner:
                     attack_invocation = None
                     pre_attack_scan = None
 
-                    for inv, current_tool, state, mutated in simulator.simulate_session(
+                    for inv, current_tool, _state, mutated in simulator.simulate_session(
                         tool, self.config.temporal_invocations
                     ):
                         if mutated and attack_invocation is None:
@@ -489,7 +489,8 @@ class StressTestRunner:
                                 attack_detected=detected,
                                 score_before=pre_attack_scan.score if pre_attack_scan else 100.0,
                                 score_after=post_scan.score,
-                                score_delta=post_scan.score - (pre_attack_scan.score if pre_attack_scan else 100.0),
+                                score_delta=post_scan.score
+                                - (pre_attack_scan.score if pre_attack_scan else 100.0),
                                 new_threats=post_scan.threats_detected,
                                 scan_duration_ms=post_scan.scan_duration_ms,
                                 metadata={
@@ -679,7 +680,9 @@ class StressTestRunner:
             return json_module.dumps(data, indent=2)
 
         elif format == "csv":
-            lines = ["test_id,phase,tool,strategy,is_attack,detected,passed,score_delta,duration_ms"]
+            lines = [
+                "test_id,phase,tool,strategy,is_attack,detected,passed,score_delta,duration_ms"
+            ]
             for r in self._results:
                 lines.append(
                     f"{r.test_id},{r.phase.value},{r.tool_name},{r.strategy or ''},"
@@ -708,7 +711,9 @@ class StressTestRunner:
             for strategy, stats in self.metrics.by_strategy.items():
                 total = stats["detected"] + stats["missed"]
                 rate = (stats["detected"] / total * 100) if total > 0 else 0
-                lines.append(f"| {strategy} | {stats['detected']} | {stats['missed']} | {rate:.1f}% |")
+                lines.append(
+                    f"| {strategy} | {stats['detected']} | {stats['missed']} | {rate:.1f}% |"
+                )
 
             return "\n".join(lines)
 

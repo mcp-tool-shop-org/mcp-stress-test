@@ -89,7 +89,7 @@ class TestPatternLibrary:
         assert len(tools) > 0
 
         # Check we have tools in multiple domains
-        domains = set(t.domain for t in tools)
+        domains = {t.domain for t in tools}
         assert len(domains) >= 4
 
     def test_tools_by_domain(self, library):
@@ -151,7 +151,7 @@ class TestPatternLibrary:
     def test_iter_test_cases(self, library):
         """Test iterating over test cases."""
         count = 0
-        for tc in library.iter_test_cases():
+        for _tc in library.iter_test_cases():
             count += 1
             if count >= 10:
                 break
@@ -191,7 +191,7 @@ class TestPatternQuality:
     def test_all_domains_covered(self, library):
         """Test that all 8 domains from MCPTox are covered."""
         tools = library.get_tools()
-        covered_domains = set(t.domain for t in tools)
+        covered_domains = {t.domain for t in tools}
 
         expected_domains = {
             ServerDomain.FILESYSTEM,
@@ -214,8 +214,9 @@ class TestPatternQuality:
     def test_profiles_have_payloads(self, library):
         """Test that all profiles have payloads."""
         for profile in library.get_profiles():
-            assert len(profile.payloads) > 0 or profile.source == "custom", \
+            assert len(profile.payloads) > 0 or profile.source == "custom", (
                 f"Profile {profile.id} missing payloads"
+            )
 
     def test_test_cases_have_benign_queries(self, library):
         """Test that all test cases have benign queries."""

@@ -26,7 +26,6 @@ from mcp_stress_test.models import (
     ToolState,
 )
 
-
 # =============================================================================
 # Fixtures
 # =============================================================================
@@ -39,8 +38,12 @@ def sample_tool() -> ToolSchema:
         name="read_file",
         description="Read the contents of a file at the specified path.",
         parameters=[
-            ToolParameter(name="path", type="string", description="File path to read", required=True),
-            ToolParameter(name="encoding", type="string", description="File encoding", required=False),
+            ToolParameter(
+                name="path", type="string", description="File path to read", required=True
+            ),
+            ToolParameter(
+                name="encoding", type="string", description="File encoding", required=False
+            ),
         ],
     )
 
@@ -262,7 +265,9 @@ class TestSchemaMutator:
     def test_parameter_injection(self, sample_tool, sample_payload):
         """Test injection into parameter."""
         mutator = SchemaMutator()
-        result = mutator.mutate(sample_tool, sample_payload, injection_point="parameter_description")
+        result = mutator.mutate(
+            sample_tool, sample_payload, injection_point="parameter_description"
+        )
 
         assert any("parameter:" in p for p in result.injection_points)
 
@@ -450,14 +455,21 @@ class TestCLIAttackCommands:
     def test_attack_mutate_command(self):
         """Test attack mutate CLI command."""
         from click.testing import CliRunner
+
         from mcp_stress_test.cli_legacy import main
 
         runner = CliRunner()
-        result = runner.invoke(main, [
-            "attack", "mutate",
-            "--tool", "read_file",
-            "--strategy", "direct_injection",
-        ])
+        result = runner.invoke(
+            main,
+            [
+                "attack",
+                "mutate",
+                "--tool",
+                "read_file",
+                "--strategy",
+                "direct_injection",
+            ],
+        )
 
         assert result.exit_code == 0
         assert "Mutation Result" in result.output
@@ -465,16 +477,25 @@ class TestCLIAttackCommands:
     def test_attack_simulate_command(self):
         """Test attack simulate CLI command."""
         from click.testing import CliRunner
+
         from mcp_stress_test.cli_legacy import main
 
         runner = CliRunner()
-        result = runner.invoke(main, [
-            "attack", "simulate",
-            "--tool", "read_file",
-            "--pattern", "rug_pull",
-            "--invocations", "10",
-            "--threshold", "5",
-        ])
+        result = runner.invoke(
+            main,
+            [
+                "attack",
+                "simulate",
+                "--tool",
+                "read_file",
+                "--pattern",
+                "rug_pull",
+                "--invocations",
+                "10",
+                "--threshold",
+                "5",
+            ],
+        )
 
         assert result.exit_code == 0
         assert "Time Simulation" in result.output
@@ -482,6 +503,7 @@ class TestCLIAttackCommands:
     def test_attack_strategies_command(self):
         """Test attack strategies CLI command."""
         from click.testing import CliRunner
+
         from mcp_stress_test.cli_legacy import main
 
         runner = CliRunner()

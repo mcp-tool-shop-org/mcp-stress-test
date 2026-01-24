@@ -13,10 +13,11 @@ import re
 import subprocess
 import tempfile
 from abc import ABC, abstractmethod
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 from mcp_stress_test.models import (
     OwaspMcpCategory,
@@ -242,9 +243,7 @@ class ToolScanBackend(ScannerBackend):
         start_time = datetime.now()
 
         # Write tool to temp file
-        with tempfile.NamedTemporaryFile(
-            mode="w", suffix=".json", delete=False
-        ) as f:
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
             tool_data = tool.model_dump()
             json.dump(tool_data, f)
             temp_path = f.name
@@ -255,7 +254,8 @@ class ToolScanBackend(ScannerBackend):
                 self.scanner_path,
                 "scan",
                 temp_path,
-                "--format", "json",
+                "--format",
+                "json",
                 *self.extra_args,
             ]
 
@@ -434,20 +434,17 @@ class ScannerAdapter:
 
         # Calculate deltas
         score_delta = post_scan.score - pre_scan.score
-        new_threats = [
-            t for t in post_scan.threats_detected
-            if t not in pre_scan.threats_detected
-        ]
+        new_threats = [t for t in post_scan.threats_detected if t not in pre_scan.threats_detected]
         resolved_threats = [
-            t for t in pre_scan.threats_detected
-            if t not in post_scan.threats_detected
+            t for t in pre_scan.threats_detected if t not in post_scan.threats_detected
         ]
 
         # Determine if attack was detected
         attack_detected = (
-            len(new_threats) > 0 or
-            score_delta < -20 or
-            post_scan.grade == "F" and pre_scan.grade != "F"
+            len(new_threats) > 0
+            or score_delta < -20
+            or post_scan.grade == "F"
+            and pre_scan.grade != "F"
         )
 
         return ScanComparison(

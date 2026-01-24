@@ -7,7 +7,7 @@ CyberArk full-schema poisoning.
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 from mcp_stress_test.chains.base import BaseChain, ChainStep, StepType
 

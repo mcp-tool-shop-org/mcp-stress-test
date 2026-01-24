@@ -8,15 +8,15 @@ from security research.
 from __future__ import annotations
 
 from mcp_stress_test.chains.base import BaseChain, ChainStep
+from mcp_stress_test.chains.executor import ChainExecutor
 from mcp_stress_test.chains.library import (
-    DataExfilChain,
-    PrivilegeEscalationChain,
     CredentialTheftChain,
+    DataExfilChain,
     LateralMovementChain,
     PersistenceChain,
+    PrivilegeEscalationChain,
     SamplingLoopChain,
 )
-from mcp_stress_test.chains.executor import ChainExecutor
 
 __all__ = [
     # Base

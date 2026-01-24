@@ -6,7 +6,6 @@ payloads to MCP tool schemas using various mutation strategies.
 
 from __future__ import annotations
 
-import copy
 import random
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING
@@ -18,10 +17,8 @@ from mcp_stress_test.generator.strategies import (
     get_strategy,
 )
 from mcp_stress_test.models import (
-    MutationStrategy,
     PoisonPayload,
     PoisonProfile,
-    RiskCategory,
     ToolSchema,
 )
 
@@ -110,9 +107,7 @@ class SchemaMutator:
         elif injection_point == "parameter_description":
             if poisoned.parameters:
                 param = random.choice(poisoned.parameters)
-                param.poisoned_description = self.strategy.mutate(
-                    param.description or "", payload
-                )
+                param.poisoned_description = self.strategy.mutate(param.description or "", payload)
                 param.description = param.poisoned_description
                 injection_points.append(f"parameter:{param.name}:description")
 
@@ -248,7 +243,8 @@ class SchemaMutator:
             payload_used=payload,
             strategy_used=self.strategy.name,
             injection_points=["name", "description"],
-            detection_hints=self.strategy.detect_signature() + [
+            detection_hints=self.strategy.detect_signature()
+            + [
                 r"_helper$",
                 r"_enhanced$",
                 r"(?i)enhanced version",
@@ -271,9 +267,7 @@ class SchemaMutator:
         Returns:
             MutationResult with fragmented payload.
         """
-        frag_strategy = FragmentationStrategy(
-            num_fragments=min(len(tool.parameters) + 1, 4)
-        )
+        frag_strategy = FragmentationStrategy(num_fragments=min(len(tool.parameters) + 1, 4))
         fragments = frag_strategy.get_fragments(payload)
 
         poisoned = tool.model_copy(deep=True)
@@ -320,13 +314,7 @@ class SchemaMutator:
         # Filter available points based on tool structure
         available = {}
         for point, weight in self.injection_weights.items():
-            if point == "description":
-                available[point] = weight
-            elif point.startswith("parameter") and tool.parameters:
-                available[point] = weight
-            elif point == "error_template":
-                available[point] = weight
-            elif point == "return_description":
+            if point == "description" or point.startswith("parameter") and tool.parameters or point == "error_template" or point == "return_description":
                 available[point] = weight
 
         # Weighted random selection
@@ -413,7 +401,7 @@ class AttackGenerator:
                         results.append(result)
         else:
             # Zip through lists
-            for i, (tool, payload) in enumerate(zip(tools, payloads)):
+            for i, (tool, payload) in enumerate(zip(tools, payloads, strict=False)):
                 strategy_name = strategies[i % len(strategies)]
                 result = self.generate_attack(tool, payload, strategy_name)
                 results.append(result)
@@ -449,20 +437,14 @@ class AttackGenerator:
 
         # Stage 3: Light obfuscation
         if stages >= 3:
-            results.append(
-                self.generate_attack(tool, payload, "obfuscation", method="zero_width")
-            )
+            results.append(self.generate_attack(tool, payload, "obfuscation", method="zero_width"))
 
         # Stage 4: Encoding
         if stages >= 4:
-            results.append(
-                self.generate_attack(tool, payload, "encoding", encoding="base64")
-            )
+            results.append(self.generate_attack(tool, payload, "encoding", encoding="base64"))
 
         # Stage 5: Full obfuscation
         if stages >= 5:
-            results.append(
-                self.generate_attack(tool, payload, "obfuscation", method="mixed")
-            )
+            results.append(self.generate_attack(tool, payload, "obfuscation", method="mixed"))
 
         return results

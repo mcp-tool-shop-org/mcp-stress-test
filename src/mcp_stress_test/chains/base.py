@@ -76,22 +76,20 @@ class BaseChain(ABC):
     @property
     def tools_required(self) -> list[str]:
         """List of tools this chain requires."""
-        return list(set(step.tool_name for step in self.steps))
+        return list({step.tool_name for step in self.steps})
 
     @property
     def step_types(self) -> list[StepType]:
         """Types of steps in this chain."""
-        return list(set(step.step_type for step in self.steps))
+        return list({step.step_type for step in self.steps})
 
-    def can_execute(self, available_tools: dict[str, "ToolDefinition"]) -> bool:
+    def can_execute(self, available_tools: dict[str, ToolDefinition]) -> bool:
         """Check if all required tools are available."""
         required = set(self.tools_required)
         available = set(available_tools.keys())
         return required.issubset(available)
 
-    def get_missing_tools(
-        self, available_tools: dict[str, "ToolDefinition"]
-    ) -> list[str]:
+    def get_missing_tools(self, available_tools: dict[str, ToolDefinition]) -> list[str]:
         """Get list of tools required but not available."""
         required = set(self.tools_required)
         available = set(available_tools.keys())
@@ -100,7 +98,7 @@ class BaseChain(ABC):
     def execute(
         self,
         scanner: Scanner,
-        tools: dict[str, "ToolDefinition"],
+        tools: dict[str, ToolDefinition],
     ) -> ChainResult:
         """Execute the attack chain.
 
@@ -112,7 +110,7 @@ class BaseChain(ABC):
             ChainResult with per-step and aggregate results
         """
         import time
-        from mcp_stress_test.models import ToolSchema as ToolDefinition
+
 
         start = time.perf_counter()
         step_results: list[AttackResult] = []
@@ -163,9 +161,7 @@ class BaseChain(ABC):
             },
         )
 
-    def _poison_tool(
-        self, tool: "ToolDefinition", step: ChainStep
-    ) -> "ToolDefinition":
+    def _poison_tool(self, tool: ToolDefinition, step: ChainStep) -> ToolDefinition:
         """Create a poisoned version of the tool for this step."""
         from mcp_stress_test.models import ToolSchema as ToolDefinition
 

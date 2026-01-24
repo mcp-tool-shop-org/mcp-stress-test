@@ -10,11 +10,10 @@ import base64
 import random
 import re
 from abc import ABC, abstractmethod
+from collections.abc import Iterator
 from dataclasses import dataclass
-from typing import Iterator
 
 from mcp_stress_test.core.protocols import FuzzResult
-
 
 # Zero-width characters for obfuscation
 ZWSP = "\u200b"  # Zero-width space
@@ -167,9 +166,7 @@ class SemanticMutator(Mutator):
         # Also yield with all rewrites applied
         for pattern, replacements in self.REWRITES.items():
             if re.search(pattern, result, re.IGNORECASE):
-                result = re.sub(
-                    pattern, replacements[0], result, flags=re.IGNORECASE
-                )
+                result = re.sub(pattern, replacements[0], result, flags=re.IGNORECASE)
         yield result
 
 
@@ -258,9 +255,7 @@ class SyntacticMutator(Mutator):
                 encoded = base64.b64encode(word.encode()).decode()
                 # Use a hint about the encoding
                 replacement = f"[decoded: {encoded[:8]}...]"
-                result = re.sub(
-                    re.escape(word), replacement, result, flags=re.IGNORECASE
-                )
+                result = re.sub(re.escape(word), replacement, result, flags=re.IGNORECASE)
                 break  # Only encode one word
         return result
 
@@ -307,8 +302,7 @@ class FragmentationMutator(Mutator):
 
         if len(sentences) >= 2:
             # Yield each sentence as a standalone fragment
-            for sentence in sentences:
-                yield sentence
+            yield from sentences
 
             # Yield pairs
             for i in range(len(sentences) - 1):

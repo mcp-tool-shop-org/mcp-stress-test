@@ -91,7 +91,9 @@ class TestPayloadsCommands:
 
     def test_payloads_list_json(self, runner):
         """Test payloads list with JSON output."""
-        result = runner.invoke(main, ["payloads", "list", "--category", "data_exfil", "--json-output"])
+        result = runner.invoke(
+            main, ["payloads", "list", "--category", "data_exfil", "--json-output"]
+        )
         assert result.exit_code == 0
         data = json.loads(result.output)
         assert isinstance(data, list)
@@ -126,25 +128,38 @@ class TestGenerateCommand:
 
     def test_generate_basic(self, runner):
         """Test basic generate command."""
-        result = runner.invoke(main, [
-            "generate",
-            "--paradigm", "p1",
-            "--payload", "data_exfil",
-            "--count", "5",
-        ])
+        result = runner.invoke(
+            main,
+            [
+                "generate",
+                "--paradigm",
+                "p1",
+                "--payload",
+                "data_exfil",
+                "--count",
+                "5",
+            ],
+        )
         assert result.exit_code == 0
         assert "Generated" in result.output
 
     def test_generate_with_output(self, runner, tmp_path):
         """Test generate with file output."""
         output_file = tmp_path / "test_cases.json"
-        result = runner.invoke(main, [
-            "generate",
-            "--paradigm", "p2",
-            "--payload", "cross_tool",
-            "--count", "3",
-            "--output", str(output_file),
-        ])
+        result = runner.invoke(
+            main,
+            [
+                "generate",
+                "--paradigm",
+                "p2",
+                "--payload",
+                "cross_tool",
+                "--count",
+                "3",
+                "--output",
+                str(output_file),
+            ],
+        )
         assert result.exit_code == 0
         assert output_file.exists()
 

@@ -2,29 +2,18 @@
 
 from __future__ import annotations
 
-import asyncio
-from datetime import datetime
-
 import pytest
 
-from mcp_stress_test.models import ServerDomain, ToolParameter, ToolSchema
+from mcp_stress_test.models import ServerDomain
 from mcp_stress_test.servers.base import (
     BaseMCPServer,
     ServerConfig,
     ServerMetrics,
     ServerState,
-    ToolInvocation,
 )
 from mcp_stress_test.servers.domains import (
     DOMAIN_SERVERS,
-    AuthenticationServer,
-    CloudServicesServer,
-    CodeExecutionServer,
-    CommunicationServer,
-    DatabaseServer,
     FileSystemServer,
-    SystemAdminServer,
-    WebAPIServer,
     create_server,
 )
 from mcp_stress_test.servers.farm import (
@@ -33,7 +22,6 @@ from mcp_stress_test.servers.farm import (
     ServerFarm,
     create_farm,
 )
-
 
 # =============================================================================
 # ServerConfig Tests
@@ -238,7 +226,6 @@ class TestToolMutation:
 
         original = server.get_tool("read_file")
         assert original is not None
-        original_desc = original.description
 
         success = server.mutate_tool(
             "read_file",

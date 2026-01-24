@@ -11,7 +11,7 @@ import click
 from rich.console import Console
 from rich.table import Table
 
-from mcp_stress_test.models import AttackParadigm, RiskCategory, ServerDomain
+from mcp_stress_test.models import AttackParadigm, ServerDomain
 from mcp_stress_test.patterns import PatternLibrary, load_payloads
 
 # Force UTF-8 on Windows to avoid Unicode encoding errors
@@ -187,16 +187,18 @@ def payloads() -> None:
 @payloads.command("list")
 @click.option(
     "--category",
-    type=click.Choice([
-        "data_exfil",
-        "privilege_escalation",
-        "cross_tool",
-        "context_manipulation",
-        "error_injection",
-        "parameter",
-        "sampling_exploit",
-        "obfuscated",
-    ]),
+    type=click.Choice(
+        [
+            "data_exfil",
+            "privilege_escalation",
+            "cross_tool",
+            "context_manipulation",
+            "error_injection",
+            "parameter",
+            "sampling_exploit",
+            "obfuscated",
+        ]
+    ),
     help="Filter by payload category",
 )
 @click.option(
@@ -296,12 +298,14 @@ def tools_list(domain: str | None, json_output: bool) -> None:
 )
 @click.option(
     "--payload",
-    type=click.Choice([
-        "data_exfil",
-        "privilege_escalation",
-        "cross_tool",
-        "context_manipulation",
-    ]),
+    type=click.Choice(
+        [
+            "data_exfil",
+            "privilege_escalation",
+            "cross_tool",
+            "context_manipulation",
+        ]
+    ),
     required=True,
     help="Payload category to use",
 )
@@ -371,24 +375,28 @@ def attack() -> None:
 )
 @click.option(
     "--strategy",
-    type=click.Choice([
-        "direct_injection",
-        "semantic_blending",
-        "obfuscation",
-        "encoding",
-        "fragmentation",
-    ]),
+    type=click.Choice(
+        [
+            "direct_injection",
+            "semantic_blending",
+            "obfuscation",
+            "encoding",
+            "fragmentation",
+        ]
+    ),
     default="direct_injection",
     help="Mutation strategy to use",
 )
 @click.option(
     "--payload-category",
-    type=click.Choice([
-        "data_exfil",
-        "privilege_escalation",
-        "cross_tool",
-        "context_manipulation",
-    ]),
+    type=click.Choice(
+        [
+            "data_exfil",
+            "privilege_escalation",
+            "cross_tool",
+            "context_manipulation",
+        ]
+    ),
     default="data_exfil",
     help="Payload category",
 )
@@ -463,7 +471,7 @@ def attack_mutate(
     console.print("\n[bold]Detection Hints:[/bold]")
     for hint in result.detection_hints[:3]:
         # Escape Unicode for Windows console
-        safe_hint = hint.encode('ascii', 'backslashreplace').decode('ascii')
+        safe_hint = hint.encode("ascii", "backslashreplace").decode("ascii")
         console.print(f"  - {safe_hint}")
 
 
@@ -476,13 +484,15 @@ def attack_mutate(
 )
 @click.option(
     "--pattern",
-    type=click.Choice([
-        "rug_pull",
-        "gradual_poisoning",
-        "trust_building",
-        "version_drift",
-        "scheduled_activation",
-    ]),
+    type=click.Choice(
+        [
+            "rug_pull",
+            "gradual_poisoning",
+            "trust_building",
+            "version_drift",
+            "scheduled_activation",
+        ]
+    ),
     default="rug_pull",
     help="Temporal attack pattern",
 )
@@ -550,12 +560,14 @@ def attack_simulate(
     for inv_num, tool_state, lifecycle_state, mutated in sim.simulate_session(
         target_tool, invocations
     ):
-        results.append({
-            "invocation": inv_num,
-            "state": lifecycle_state.value,
-            "mutated": mutated,
-            "poisoned": tool_state.is_poisoned,
-        })
+        results.append(
+            {
+                "invocation": inv_num,
+                "state": lifecycle_state.value,
+                "mutated": mutated,
+                "poisoned": tool_state.is_poisoned,
+            }
+        )
 
     if json_output:
         output = {
@@ -589,7 +601,9 @@ def attack_simulate(
     console.print("\n[bold]Simulation Results:[/bold]")
     mutation_events = [r for r in results if r["mutated"]]
     if mutation_events:
-        console.print(f"  [red]Mutations occurred at invocations: {[r['invocation'] for r in mutation_events]}[/red]")
+        console.print(
+            f"  [red]Mutations occurred at invocations: {[r['invocation'] for r in mutation_events]}[/red]"
+        )
     else:
         console.print("  [green]No mutations occurred (threshold not reached)[/green]")
 
@@ -602,7 +616,6 @@ def attack_simulate(
 @attack.command("strategies")
 def attack_strategies() -> None:
     """List available mutation strategies."""
-    from mcp_stress_test.generator.strategies import STRATEGY_REGISTRY
 
     console.print("\n[bold cyan]Mutation Strategies[/bold cyan]\n")
 
@@ -705,9 +718,12 @@ def stress_run(
     verbose: bool,
 ) -> None:
     """Run stress test suite against a scanner."""
-    from rich.progress import Progress, SpinnerColumn, TextColumn
 
-    from mcp_stress_test.scanner import ScannerAdapter, ScannerConfig, StressTestConfig, StressTestRunner
+    from mcp_stress_test.scanner import (
+        ScannerConfig,
+        StressTestConfig,
+        StressTestRunner,
+    )
     from mcp_stress_test.scanner.runner import StressPhase
 
     library = PatternLibrary()
@@ -776,7 +792,7 @@ def stress_run(
     # Run tests (no spinner on Windows due to Unicode issues)
     console.print("[cyan]Running stress tests...[/cyan]")
 
-    results = runner.run_full_suite(
+    runner.run_full_suite(
         tools=tool_list,
         payloads=payload_list,
         progress_callback=progress_callback if verbose else None,
@@ -843,13 +859,15 @@ def stress_run(
 )
 @click.option(
     "--strategy",
-    type=click.Choice([
-        "direct_injection",
-        "semantic_blending",
-        "obfuscation",
-        "encoding",
-        "fragmentation",
-    ]),
+    type=click.Choice(
+        [
+            "direct_injection",
+            "semantic_blending",
+            "obfuscation",
+            "encoding",
+            "fragmentation",
+        ]
+    ),
     default="direct_injection",
     help="Mutation strategy",
 )
@@ -931,11 +949,15 @@ def stress_compare(tool: str, strategy: str, scanner: str) -> None:
     delta_table.add_column("Value")
 
     delta_color = "red" if comparison.score_delta < 0 else "green"
-    delta_table.add_row("Score Delta", f"[{delta_color}]{comparison.score_delta:+.1f}[/{delta_color}]")
+    delta_table.add_row(
+        "Score Delta", f"[{delta_color}]{comparison.score_delta:+.1f}[/{delta_color}]"
+    )
 
     detection_color = "green" if comparison.attack_detected else "red"
     detection_text = "YES" if comparison.attack_detected else "NO"
-    delta_table.add_row("Attack Detected", f"[{detection_color}]{detection_text}[/{detection_color}]")
+    delta_table.add_row(
+        "Attack Detected", f"[{detection_color}]{detection_text}[/{detection_color}]"
+    )
 
     delta_table.add_row("New Threats", ", ".join(comparison.new_threats) or "None")
     delta_table.add_row("Resolved Threats", ", ".join(comparison.resolved_threats) or "None")
@@ -999,11 +1021,13 @@ def stress_report(input_file: str, format: str, output: str | None) -> None:
             rate = (stats["detected"] / total * 100) if total > 0 else 0
             lines.append(f"| {strat} | {stats['detected']} | {stats['missed']} | {rate:.1f}% |")
 
-        lines.extend([
-            "",
-            "## Failed Tests",
-            "",
-        ])
+        lines.extend(
+            [
+                "",
+                "## Failed Tests",
+                "",
+            ]
+        )
 
         failed = [r for r in results if not r.get("passed", True)]
         for r in failed[:20]:  # Limit to 20
@@ -1030,10 +1054,10 @@ def stress_report(input_file: str, format: str, output: str | None) -> None:
     <h1>MCP Stress Test Report</h1>
     <h2>Summary</h2>
     <ul>
-        <li>Total Tests: {summary.get('total_tests', 0)}</li>
-        <li>Passed: {summary.get('passed', 0)}</li>
-        <li>Failed: {summary.get('failed', 0)}</li>
-        <li>Detection Rate: {summary.get('detection_rate', 0):.1f}%</li>
+        <li>Total Tests: {summary.get("total_tests", 0)}</li>
+        <li>Passed: {summary.get("passed", 0)}</li>
+        <li>Failed: {summary.get("failed", 0)}</li>
+        <li>Detection Rate: {summary.get("detection_rate", 0):.1f}%</li>
     </ul>
 </body>
 </html>"""
@@ -1073,7 +1097,6 @@ def checkpoint() -> None:
 )
 def checkpoint_list(session: str | None, storage_dir: str) -> None:
     """List available checkpoints."""
-    from mcp_stress_test.scanner.checkpoint import CheckpointManager
 
     storage_path = Path(storage_dir)
     if not storage_path.exists():
@@ -1104,7 +1127,9 @@ def checkpoint_list(session: str | None, storage_dir: str) -> None:
         console.print(f"  Started: {started}")
         console.print(f"  Checkpoints: {len(checkpoints)}")
         console.print(f"  Invocations: {data.get('current_invocation', 0)}")
-        console.print(f"  Detection Rate: {data.get('attacks_detected', 0)}/{data.get('mutations_applied', 0) or 1}")
+        console.print(
+            f"  Detection Rate: {data.get('attacks_detected', 0)}/{data.get('mutations_applied', 0) or 1}"
+        )
         console.print()
 
 
@@ -1180,7 +1205,9 @@ def checkpoint_cleanup(keep: int, storage_dir: str, dry_run: bool) -> None:
     checkpoint_files = list(storage_path.glob("cp_*.json"))
 
     if len(checkpoint_files) <= keep:
-        console.print(f"[green]Only {len(checkpoint_files)} checkpoints exist, nothing to clean[/green]")
+        console.print(
+            f"[green]Only {len(checkpoint_files)} checkpoints exist, nothing to clean[/green]"
+        )
         return
 
     # Sort by modification time
@@ -1332,10 +1359,7 @@ def server_list(domain: str | None, json_output: bool) -> None:
     from mcp_stress_test.servers import FarmConfig, ServerFarm
 
     # Filter domains
-    if domain:
-        domain_list = [ServerDomain(domain)]
-    else:
-        domain_list = list(ServerDomain)
+    domain_list = [ServerDomain(domain)] if domain else list(ServerDomain)
 
     config = FarmConfig(domains=domain_list)
     farm = ServerFarm(config)
@@ -1387,12 +1411,14 @@ def server_list(domain: str | None, json_output: bool) -> None:
 )
 @click.option(
     "--payload-category",
-    type=click.Choice([
-        "data_exfil",
-        "privilege_escalation",
-        "cross_tool",
-        "context_manipulation",
-    ]),
+    type=click.Choice(
+        [
+            "data_exfil",
+            "privilege_escalation",
+            "cross_tool",
+            "context_manipulation",
+        ]
+    ),
     default="data_exfil",
     help="Payload category (if not providing custom)",
 )
@@ -1517,7 +1543,7 @@ def server_call(tool: str, args: str, repeat: int) -> None:
             results.append(call_result)
 
             if repeat > 1:
-                console.print(f"[dim]Call {i+1}/{repeat}[/dim]")
+                console.print(f"[dim]Call {i + 1}/{repeat}[/dim]")
 
         # Show last result
         console.print("\n[bold]Result:[/bold]")
@@ -1569,7 +1595,9 @@ def server_status(json_output: bool) -> None:
 
         # Health
         health_color = "green" if health["healthy"] else "red"
-        console.print(f"[{health_color}]Health: {'HEALTHY' if health['healthy'] else 'UNHEALTHY'}[/{health_color}]")
+        console.print(
+            f"[{health_color}]Health: {'HEALTHY' if health['healthy'] else 'UNHEALTHY'}[/{health_color}]"
+        )
 
         if health["issues"]:
             console.print("[red]Issues:[/red]")
@@ -1633,12 +1661,14 @@ def server_status(json_output: bool) -> None:
 )
 @click.option(
     "--payload-category",
-    type=click.Choice([
-        "data_exfil",
-        "privilege_escalation",
-        "cross_tool",
-        "context_manipulation",
-    ]),
+    type=click.Choice(
+        [
+            "data_exfil",
+            "privilege_escalation",
+            "cross_tool",
+            "context_manipulation",
+        ]
+    ),
     default="data_exfil",
     help="Payload category",
 )
@@ -1650,7 +1680,7 @@ def server_rug_pull(tool: str, safe_calls: int, payload_category: str) -> None:
 
     payloads = load_payloads(payload_category)
     if not payloads:
-        console.print(f"[red]No payloads found[/red]")
+        console.print("[red]No payloads found[/red]")
         return
 
     poison_payload = payloads[0]
@@ -1678,7 +1708,7 @@ def server_rug_pull(tool: str, safe_calls: int, payload_category: str) -> None:
         if "error" in result:
             console.print(f"[red]{result['error']}[/red]")
         else:
-            console.print(f"\n[bold]Attack Summary:[/bold]")
+            console.print("\n[bold]Attack Summary:[/bold]")
             console.print(f"  Attack type: {result['attack_type']}")
             console.print(f"  Poison activated at: invocation {result['poison_activated_at']}")
 
@@ -1742,7 +1772,7 @@ def server_gradual_poison(tool: str, stages: int, calls_between: int) -> None:
         if "error" in result:
             console.print(f"[red]{result['error']}[/red]")
         else:
-            console.print(f"\n[bold]Attack Summary:[/bold]")
+            console.print("\n[bold]Attack Summary:[/bold]")
             console.print(f"  Attack type: {result['attack_type']}")
             console.print(f"  Total stages: {result['stages']}")
             console.print(f"  Calls per stage: {result['calls_per_stage']}")
@@ -1790,7 +1820,7 @@ def info() -> None:
     console.print("  mcp-stress server start --interactive")
     console.print("  mcp-stress server list --domain filesystem")
     console.print("  mcp-stress server poison --tool read_file --payload-category data_exfil")
-    console.print("  mcp-stress server call --tool read_file --args '{\"path\": \"/etc/passwd\"}'")
+    console.print('  mcp-stress server call --tool read_file --args \'{"path": "/etc/passwd"}\'')
     console.print("  mcp-stress server status")
     console.print("  mcp-stress server rug-pull --tool read_file --safe-calls 10")
     console.print("  mcp-stress server gradual-poison --tool send_email --stages 3\n")

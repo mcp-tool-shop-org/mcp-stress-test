@@ -20,7 +20,7 @@ from mcp_stress_test.servers.domains import (
     SystemAdminServer,
     WebAPIServer,
 )
-from mcp_stress_test.servers.farm import ServerFarm, FarmConfig
+from mcp_stress_test.servers.farm import FarmConfig, ServerFarm
 
 __all__ = [
     # Base

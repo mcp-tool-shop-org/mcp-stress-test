@@ -60,7 +60,7 @@ class ChainExecutor:
     """
 
     scanner: Scanner
-    tools: dict[str, "ToolDefinition"]
+    tools: dict[str, ToolDefinition]
     _results: list[ChainResult] = field(default_factory=list)
     _stats: ChainExecutionStats = field(default_factory=ChainExecutionStats)
 
@@ -157,9 +157,7 @@ class ChainExecutor:
         return [
             r
             for r in self._results
-            if r.chain_detected
-            and r.steps_detected > 0
-            and r.steps_detected < len(r.steps)
+            if r.chain_detected and r.steps_detected > 0 and r.steps_detected < len(r.steps)
         ]
 
     def clear(self) -> None:
@@ -170,7 +168,7 @@ class ChainExecutor:
 
 def execute_chains(
     scanner: Scanner,
-    tools: dict[str, "ToolDefinition"],
+    tools: dict[str, ToolDefinition],
     chain_names: list[str] | None = None,
 ) -> tuple[list[ChainResult], ChainExecutionStats]:
     """Convenience function to execute chains.

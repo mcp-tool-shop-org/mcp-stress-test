@@ -102,7 +102,9 @@ def chain_show(chain_name: str) -> None:
 
 
 @chain_group.command("execute")
-@click.option("--chain", "-c", "chain_names", multiple=True, help="Chains to execute (default: all)")
+@click.option(
+    "--chain", "-c", "chain_names", multiple=True, help="Chains to execute (default: all)"
+)
 @click.option("--scanner", "-s", default="mock", help="Scanner to test against")
 @click.option("--output", "-o", type=click.Path(), help="Output file for results")
 @click.option("--json-output", is_flag=True, help="Output as JSON")
@@ -119,8 +121,8 @@ def chain_execute(
     """
     from mcp_stress_test.chains.executor import ChainExecutor
     from mcp_stress_test.chains.library import BUILTIN_CHAINS, get_chain
-    from mcp_stress_test.scanners.mock import MockScanner
     from mcp_stress_test.models import ToolSchema as ToolDefinition
+    from mcp_stress_test.scanners.mock import MockScanner
 
     # Create scanner
     scan = MockScanner()
@@ -192,7 +194,7 @@ def chain_execute(
 
         # Summary
         stats = executor.get_stats()
-        console.print(f"\n[bold]Summary:[/bold]")
+        console.print("\n[bold]Summary:[/bold]")
         console.print(f"  Chains executed: {stats.chains_executed}")
         console.print(f"  Chains detected: {stats.chains_detected}")
         console.print(f"  Chain detection rate: {stats.chain_detection_rate:.1f}%")
@@ -205,10 +207,7 @@ def chain_execute(
                     {
                         "chain": r.chain_name,
                         "detected": r.chain_detected,
-                        "steps": [
-                            {"tool": s.tool_name, "detected": s.detected}
-                            for s in r.steps
-                        ],
+                        "steps": [{"tool": s.tool_name, "detected": s.detected} for s in r.steps],
                     }
                     for r in results
                 ],

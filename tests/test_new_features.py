@@ -3,10 +3,10 @@
 from __future__ import annotations
 
 import json
+
 import pytest
 
 from mcp_stress_test.models import ToolSchema as ToolDefinition
-
 
 # =============================================================================
 # Core Protocol Tests
@@ -199,9 +199,9 @@ class TestEvasionEngine:
 
     def test_evasion_test(self):
         """Test evasion testing."""
-        from mcp_stress_test.core.config import LLMConfig, FuzzConfig
-        from mcp_stress_test.fuzzing.llm_fuzzer import MockFuzzer
+        from mcp_stress_test.core.config import FuzzConfig, LLMConfig
         from mcp_stress_test.fuzzing.evasion import EvasionEngine
+        from mcp_stress_test.fuzzing.llm_fuzzer import MockFuzzer
         from mcp_stress_test.scanners.mock import MockScanner
 
         fuzzer = MockFuzzer(config=LLMConfig())
@@ -447,6 +447,7 @@ class TestNewCLI:
     def runner(self):
         """Create CLI test runner."""
         from click.testing import CliRunner
+
         return CliRunner()
 
     def test_cli_info(self, runner):

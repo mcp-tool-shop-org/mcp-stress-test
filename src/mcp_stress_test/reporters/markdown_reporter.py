@@ -108,8 +108,7 @@ class MarkdownReporter(BaseReporter):
             status = "✅" if r.detected else "❌"
             threats = ", ".join(r.threats_found[:2]) if r.threats_found else "-"
             lines.append(
-                f"| {r.tool_name} | {r.strategy} | "
-                f"{r.score_delta:+.1f} | {status} | {threats} |"
+                f"| {r.tool_name} | {r.strategy} | {r.score_delta:+.1f} | {status} | {threats} |"
             )
 
         if len(results) > 20:

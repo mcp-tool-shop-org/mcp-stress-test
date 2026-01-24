@@ -6,6 +6,6 @@ features including patterns, fuzzing, chains, and reporting.
 
 from __future__ import annotations
 
-from mcp_stress_test.cli.main import main, app
+from mcp_stress_test.cli.main import app, main
 
 __all__ = ["main", "app"]

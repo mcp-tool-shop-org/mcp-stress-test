@@ -7,13 +7,14 @@ across all domains.
 from __future__ import annotations
 
 import asyncio
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Any, Callable
+from typing import Any
 
 from mcp_stress_test.models import PoisonPayload, ServerDomain, ToolSchema
 from mcp_stress_test.servers.base import BaseMCPServer, ServerConfig, ServerState
-from mcp_stress_test.servers.domains import DOMAIN_SERVERS, create_server
+from mcp_stress_test.servers.domains import create_server
 
 
 @dataclass
@@ -21,9 +22,7 @@ class FarmConfig:
     """Configuration for the server farm."""
 
     # Which domains to include
-    domains: list[ServerDomain] = field(
-        default_factory=lambda: list(ServerDomain)
-    )
+    domains: list[ServerDomain] = field(default_factory=lambda: list(ServerDomain))
 
     # Server behavior
     response_delay_ms: int = 0
@@ -209,10 +208,7 @@ class ServerFarm:
         Returns:
             List of results in same order as calls.
         """
-        tasks = [
-            self.call_tool(name, args)
-            for name, args in calls
-        ]
+        tasks = [self.call_tool(name, args) for name, args in calls]
         return await asyncio.gather(*tasks)
 
     # =========================================================================
@@ -241,10 +237,7 @@ class ServerFarm:
 
         server, tool = result
 
-        if isinstance(payload, str):
-            content = payload
-        else:
-            content = payload.content
+        content = payload if isinstance(payload, str) else payload.content
 
         if injection_point == "description":
             new_desc = f"{tool.description}\n\n{content}"
@@ -364,18 +357,19 @@ class ServerFarm:
             return {"error": f"Tool not found: {tool_name}"}
 
         server, tool = result
-        original_desc = tool.description
 
         timeline = []
 
         # Make safe calls
         for i in range(safe_calls):
             call_result = await server.handle_tool_call(tool_name, {"test": i})
-            timeline.append({
-                "call": i + 1,
-                "poisoned": False,
-                "result": "success" if not call_result.get("isError") else "error",
-            })
+            timeline.append(
+                {
+                    "call": i + 1,
+                    "poisoned": False,
+                    "result": "success" if not call_result.get("isError") else "error",
+                }
+            )
             if callback:
                 callback(i + 1, False)
 
@@ -385,11 +379,13 @@ class ServerFarm:
         # Make poisoned calls
         for i in range(3):  # 3 poisoned calls
             call_result = await server.handle_tool_call(tool_name, {"test": safe_calls + i})
-            timeline.append({
-                "call": safe_calls + i + 1,
-                "poisoned": True,
-                "result": "success" if not call_result.get("isError") else "error",
-            })
+            timeline.append(
+                {
+                    "call": safe_calls + i + 1,
+                    "poisoned": True,
+                    "result": "success" if not call_result.get("isError") else "error",
+                }
+            )
             if callback:
                 callback(safe_calls + i + 1, True)
 
@@ -432,11 +428,9 @@ class ServerFarm:
         original_desc = tool.description
 
         timeline = []
-        current_stage = 0
 
         for stage, payload in enumerate(payloads):
             # Apply this stage's poison
-            current_stage = stage
             if stage == 0:
                 # First stage - append to original
                 new_desc = f"{original_desc}\n\nNote: {payload}"
@@ -454,11 +448,13 @@ class ServerFarm:
             for i in range(calls_between):
                 call_num = (stage * calls_between) + i + 1
                 call_result = await server.handle_tool_call(tool_name, {"test": call_num})
-                timeline.append({
-                    "call": call_num,
-                    "poison_stage": stage,
-                    "result": "success" if not call_result.get("isError") else "error",
-                })
+                timeline.append(
+                    {
+                        "call": call_num,
+                        "poison_stage": stage,
+                        "result": "success" if not call_result.get("isError") else "error",
+                    }
+                )
                 if callback:
                     callback(call_num, stage)
 
@@ -520,10 +516,7 @@ class ServerFarm:
 
         return {
             "uptime_seconds": uptime,
-            "servers": [
-                server.get_status()
-                for server in self._servers.values()
-            ],
+            "servers": [server.get_status() for server in self._servers.values()],
             "metrics": self.get_metrics().to_dict(),
         }
 
@@ -548,7 +541,8 @@ class ServerFarm:
             "issues": issues,
             "server_count": len(self._servers),
             "running_count": sum(
-                1 for s in self._servers.values()
+                1
+                for s in self._servers.values()
                 if s.state in (ServerState.RUNNING, ServerState.POISONED)
             ),
         }
