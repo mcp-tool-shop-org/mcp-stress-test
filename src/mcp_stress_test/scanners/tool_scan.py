@@ -40,7 +40,7 @@ class ToolScanAdapter:
     def name(self) -> str:
         return "tool-scan"
 
-    def scan(self, tool: "ToolDefinition") -> AttackResult:
+    def scan(self, tool: ToolDefinition) -> AttackResult:
         """Scan a tool using tool-scan CLI.
 
         Args:
@@ -52,9 +52,7 @@ class ToolScanAdapter:
         start = time.perf_counter()
 
         # Write tool to temp file
-        with tempfile.NamedTemporaryFile(
-            mode="w", suffix=".json", delete=False
-        ) as f:
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
             tool_json = self._tool_to_json(tool)
             json.dump(tool_json, f)
             temp_path = f.name
@@ -124,14 +122,14 @@ class ToolScanAdapter:
             # Clean up temp file
             Path(temp_path).unlink(missing_ok=True)
 
-    def scan_batch(self, tools: list["ToolDefinition"]) -> list[AttackResult]:
+    def scan_batch(self, tools: list[ToolDefinition]) -> list[AttackResult]:
         """Scan multiple tools.
 
         TODO: Use tool-scan batch mode for efficiency.
         """
         return [self.scan(tool) for tool in tools]
 
-    def _tool_to_json(self, tool: "ToolDefinition") -> dict:
+    def _tool_to_json(self, tool: ToolDefinition) -> dict:
         """Convert tool definition to JSON format expected by tool-scan."""
         return {
             "name": tool.name,
@@ -150,9 +148,7 @@ class ToolScanAdapter:
             },
         }
 
-    def _parse_output(
-        self, tool: "ToolDefinition", output: str, duration: float
-    ) -> AttackResult:
+    def _parse_output(self, tool: ToolDefinition, output: str, duration: float) -> AttackResult:
         """Parse tool-scan JSON output."""
         try:
             data = json.loads(output)

@@ -15,7 +15,7 @@ if TYPE_CHECKING:
     pass
 
 
-HTML_TEMPLATE = '''<!DOCTYPE html>
+HTML_TEMPLATE = """<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -250,9 +250,9 @@ HTML_TEMPLATE = '''<!DOCTYPE html>
         }});
     </script>
 </body>
-</html>'''
+</html>"""
 
-CHAIN_SECTION_TEMPLATE = '''
+CHAIN_SECTION_TEMPLATE = """
 <div class="section">
     <h2>Attack Chain Results</h2>
     <table>
@@ -270,7 +270,7 @@ CHAIN_SECTION_TEMPLATE = '''
         </tbody>
     </table>
 </div>
-'''
+"""
 
 
 class HTMLReporter(BaseReporter):
@@ -333,21 +333,16 @@ class HTMLReporter(BaseReporter):
                         <td>{status_badge}</td>
                     </tr>
                 """)
-            chains_section = CHAIN_SECTION_TEMPLATE.format(
-                chain_rows="\n".join(chain_rows)
-            )
+            chains_section = CHAIN_SECTION_TEMPLATE.format(chain_rows="\n".join(chain_rows))
 
         # Prepare chart data
         strategy_labels = list(metrics.by_strategy.keys())
-        strategy_detected = [
-            metrics.by_strategy[s]["detected"] for s in strategy_labels
-        ]
+        strategy_detected = [metrics.by_strategy[s]["detected"] for s in strategy_labels]
         strategy_missed = [metrics.by_strategy[s]["missed"] for s in strategy_labels]
 
         tool_labels = list(metrics.by_tool.keys())[:8]  # Limit for readability
         tool_data = [
-            metrics.by_tool[t]["detected"] + metrics.by_tool[t]["missed"]
-            for t in tool_labels
+            metrics.by_tool[t]["detected"] + metrics.by_tool[t]["missed"] for t in tool_labels
         ]
 
         return HTML_TEMPLATE.format(

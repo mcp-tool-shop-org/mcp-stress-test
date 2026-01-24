@@ -14,8 +14,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import TYPE_CHECKING
 
-from mcp_stress_test.core.protocols import FuzzResult, Scanner
 from mcp_stress_test.core.config import FuzzConfig
+from mcp_stress_test.core.protocols import Scanner
 from mcp_stress_test.fuzzing.llm_fuzzer import LLMFuzzer, MockFuzzer
 
 if TYPE_CHECKING:
@@ -219,9 +219,7 @@ class EvasionEngine:
             )
 
         # Track by tool
-        self._stats.by_tool[result.tool_name] = (
-            self._stats.by_tool.get(result.tool_name, 0) + 1
-        )
+        self._stats.by_tool[result.tool_name] = self._stats.by_tool.get(result.tool_name, 0) + 1
 
     def get_stats(self) -> EvasionStats:
         """Get current evasion statistics."""

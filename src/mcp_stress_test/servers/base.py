@@ -13,9 +13,9 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Callable, Protocol
+from typing import Any, Protocol
 
-from mcp_stress_test.models import ServerDomain, ToolParameter, ToolSchema
+from mcp_stress_test.models import ServerDomain, ToolSchema
 
 
 class ServerState(str, Enum):
@@ -302,11 +302,13 @@ class BaseMCPServer(ABC):
                 if param.required:
                     input_schema["required"].append(param.name)
 
-            tools.append({
-                "name": tool.name,
-                "description": tool.description,
-                "inputSchema": input_schema,
-            })
+            tools.append(
+                {
+                    "name": tool.name,
+                    "description": tool.description,
+                    "inputSchema": input_schema,
+                }
+            )
 
         return {"tools": tools}
 
@@ -324,8 +326,8 @@ class BaseMCPServer(ABC):
         Returns:
             MCP tool result.
         """
-        import time
         import random
+        import time
 
         start_time = time.perf_counter()
 

@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from mcp_stress_test.models import AttackTestCase, PoisonPayload
+from mcp_stress_test.models import PoisonPayload
 from mcp_stress_test.patterns.library import PatternLibrary
 from mcp_stress_test.patterns.payloads import ALL_PAYLOADS, get_all_payloads
 

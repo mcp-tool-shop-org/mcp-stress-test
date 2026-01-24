@@ -21,11 +21,22 @@ def report_group() -> None:
 
 
 @report_group.command("generate")
-@click.option("--input", "-i", "input_file", required=True, type=click.Path(exists=True),
-              help="Input JSON results file")
-@click.option("--format", "-f", "fmt", default="markdown",
-              type=click.Choice(["json", "markdown", "html", "sarif"]),
-              help="Output format")
+@click.option(
+    "--input",
+    "-i",
+    "input_file",
+    required=True,
+    type=click.Path(exists=True),
+    help="Input JSON results file",
+)
+@click.option(
+    "--format",
+    "-f",
+    "fmt",
+    default="markdown",
+    type=click.Choice(["json", "markdown", "html", "sarif"]),
+    help="Output format",
+)
 @click.option("--output", "-o", type=click.Path(), help="Output file path")
 @click.option("--include-chains", is_flag=True, help="Include chain results if present")
 def report_generate(
@@ -41,9 +52,9 @@ def report_generate(
     """
     from mcp_stress_test.core.protocols import AttackResult, ChainResult
     from mcp_stress_test.reporters import (
+        HTMLReporter,
         JSONReporter,
         MarkdownReporter,
-        HTMLReporter,
         SARIFReporter,
     )
 
@@ -108,14 +119,16 @@ def report_generate(
         output = str(input_path.with_suffix(f".{reporter.file_extension}"))
 
     # Generate report
-    content = reporter.generate(
+    reporter.generate(
         results,
         chain_results if chain_results else None,
         output,
     )
 
     console.print(f"[green]Report generated: {output}[/green]")
-    console.print(f"[dim]Format: {fmt}, Results: {len(results)}, Chains: {len(chain_results)}[/dim]")
+    console.print(
+        f"[dim]Format: {fmt}, Results: {len(results)}, Chains: {len(chain_results)}[/dim]"
+    )
 
 
 @report_group.command("formats")
@@ -137,8 +150,14 @@ def report_formats() -> None:
 
 
 @report_group.command("preview")
-@click.option("--input", "-i", "input_file", required=True, type=click.Path(exists=True),
-              help="Input JSON results file")
+@click.option(
+    "--input",
+    "-i",
+    "input_file",
+    required=True,
+    type=click.Path(exists=True),
+    help="Input JSON results file",
+)
 def report_preview(input_file: str) -> None:
     """Preview report statistics without generating."""
     from rich.table import Table

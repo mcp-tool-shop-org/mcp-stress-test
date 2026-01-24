@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
+from collections.abc import Iterator
 from pathlib import Path
-from typing import Iterator
 
 import yaml
 
@@ -11,14 +11,13 @@ from mcp_stress_test.models import (
     AttackParadigm,
     AttackTestCase,
     OwaspMcpCategory,
-    PoisonPayload,
     PoisonProfile,
     RiskCategory,
     ServerDomain,
     ToolParameter,
     ToolSchema,
 )
-from mcp_stress_test.patterns.payloads import ALL_PAYLOADS, get_all_payloads
+from mcp_stress_test.patterns.payloads import get_all_payloads
 
 
 class PatternLibrary:
@@ -65,317 +64,490 @@ class PatternLibrary:
     def _load_builtin_tools(self) -> None:
         """Load built-in tool definitions across 8 domains."""
         # Filesystem domain
-        self._tools.extend([
-            ToolSchema(
-                name="read_file",
-                description="Read contents of a file at the specified path.",
-                parameters=[
-                    ToolParameter(name="path", type="string", description="File path to read", required=True),
-                ],
-                domain=ServerDomain.FILESYSTEM,
-                risk_level="high",
-                capabilities=["file_read"],
-            ),
-            ToolSchema(
-                name="write_file",
-                description="Write content to a file at the specified path.",
-                parameters=[
-                    ToolParameter(name="path", type="string", description="File path to write", required=True),
-                    ToolParameter(name="content", type="string", description="Content to write", required=True),
-                ],
-                domain=ServerDomain.FILESYSTEM,
-                risk_level="critical",
-                capabilities=["file_write"],
-            ),
-            ToolSchema(
-                name="delete_file",
-                description="Delete a file at the specified path.",
-                parameters=[
-                    ToolParameter(name="path", type="string", description="File path to delete", required=True),
-                ],
-                domain=ServerDomain.FILESYSTEM,
-                risk_level="critical",
-                capabilities=["file_delete"],
-            ),
-            ToolSchema(
-                name="list_directory",
-                description="List contents of a directory.",
-                parameters=[
-                    ToolParameter(name="path", type="string", description="Directory path", required=True),
-                ],
-                domain=ServerDomain.FILESYSTEM,
-                risk_level="medium",
-                capabilities=["dir_read"],
-            ),
-        ])
+        self._tools.extend(
+            [
+                ToolSchema(
+                    name="read_file",
+                    description="Read contents of a file at the specified path.",
+                    parameters=[
+                        ToolParameter(
+                            name="path",
+                            type="string",
+                            description="File path to read",
+                            required=True,
+                        ),
+                    ],
+                    domain=ServerDomain.FILESYSTEM,
+                    risk_level="high",
+                    capabilities=["file_read"],
+                ),
+                ToolSchema(
+                    name="write_file",
+                    description="Write content to a file at the specified path.",
+                    parameters=[
+                        ToolParameter(
+                            name="path",
+                            type="string",
+                            description="File path to write",
+                            required=True,
+                        ),
+                        ToolParameter(
+                            name="content",
+                            type="string",
+                            description="Content to write",
+                            required=True,
+                        ),
+                    ],
+                    domain=ServerDomain.FILESYSTEM,
+                    risk_level="critical",
+                    capabilities=["file_write"],
+                ),
+                ToolSchema(
+                    name="delete_file",
+                    description="Delete a file at the specified path.",
+                    parameters=[
+                        ToolParameter(
+                            name="path",
+                            type="string",
+                            description="File path to delete",
+                            required=True,
+                        ),
+                    ],
+                    domain=ServerDomain.FILESYSTEM,
+                    risk_level="critical",
+                    capabilities=["file_delete"],
+                ),
+                ToolSchema(
+                    name="list_directory",
+                    description="List contents of a directory.",
+                    parameters=[
+                        ToolParameter(
+                            name="path", type="string", description="Directory path", required=True
+                        ),
+                    ],
+                    domain=ServerDomain.FILESYSTEM,
+                    risk_level="medium",
+                    capabilities=["dir_read"],
+                ),
+            ]
+        )
 
         # Communication domain
-        self._tools.extend([
-            ToolSchema(
-                name="send_email",
-                description="Send an email to the specified recipient.",
-                parameters=[
-                    ToolParameter(name="to", type="string", description="Recipient email", required=True),
-                    ToolParameter(name="subject", type="string", description="Email subject", required=True),
-                    ToolParameter(name="body", type="string", description="Email body", required=True),
-                    ToolParameter(name="cc", type="string", description="CC recipients", required=False),
-                ],
-                domain=ServerDomain.COMMUNICATION,
-                risk_level="high",
-                capabilities=["email_send"],
-            ),
-            ToolSchema(
-                name="post_slack",
-                description="Post a message to a Slack channel.",
-                parameters=[
-                    ToolParameter(name="channel", type="string", description="Channel name", required=True),
-                    ToolParameter(name="message", type="string", description="Message content", required=True),
-                ],
-                domain=ServerDomain.COMMUNICATION,
-                risk_level="high",
-                capabilities=["slack_post"],
-            ),
-            ToolSchema(
-                name="send_sms",
-                description="Send an SMS to the specified phone number.",
-                parameters=[
-                    ToolParameter(name="phone", type="string", description="Phone number", required=True),
-                    ToolParameter(name="message", type="string", description="SMS content", required=True),
-                ],
-                domain=ServerDomain.COMMUNICATION,
-                risk_level="high",
-                capabilities=["sms_send"],
-            ),
-        ])
+        self._tools.extend(
+            [
+                ToolSchema(
+                    name="send_email",
+                    description="Send an email to the specified recipient.",
+                    parameters=[
+                        ToolParameter(
+                            name="to", type="string", description="Recipient email", required=True
+                        ),
+                        ToolParameter(
+                            name="subject",
+                            type="string",
+                            description="Email subject",
+                            required=True,
+                        ),
+                        ToolParameter(
+                            name="body", type="string", description="Email body", required=True
+                        ),
+                        ToolParameter(
+                            name="cc", type="string", description="CC recipients", required=False
+                        ),
+                    ],
+                    domain=ServerDomain.COMMUNICATION,
+                    risk_level="high",
+                    capabilities=["email_send"],
+                ),
+                ToolSchema(
+                    name="post_slack",
+                    description="Post a message to a Slack channel.",
+                    parameters=[
+                        ToolParameter(
+                            name="channel", type="string", description="Channel name", required=True
+                        ),
+                        ToolParameter(
+                            name="message",
+                            type="string",
+                            description="Message content",
+                            required=True,
+                        ),
+                    ],
+                    domain=ServerDomain.COMMUNICATION,
+                    risk_level="high",
+                    capabilities=["slack_post"],
+                ),
+                ToolSchema(
+                    name="send_sms",
+                    description="Send an SMS to the specified phone number.",
+                    parameters=[
+                        ToolParameter(
+                            name="phone", type="string", description="Phone number", required=True
+                        ),
+                        ToolParameter(
+                            name="message", type="string", description="SMS content", required=True
+                        ),
+                    ],
+                    domain=ServerDomain.COMMUNICATION,
+                    risk_level="high",
+                    capabilities=["sms_send"],
+                ),
+            ]
+        )
 
         # Database domain
-        self._tools.extend([
-            ToolSchema(
-                name="query_sql",
-                description="Execute a SQL query against the database.",
-                parameters=[
-                    ToolParameter(name="query", type="string", description="SQL query to execute", required=True),
-                    ToolParameter(name="database", type="string", description="Database name", required=False),
-                ],
-                domain=ServerDomain.DATABASE,
-                risk_level="critical",
-                capabilities=["sql_read", "sql_write"],
-            ),
-            ToolSchema(
-                name="get_record",
-                description="Retrieve a record by ID from a table.",
-                parameters=[
-                    ToolParameter(name="table", type="string", description="Table name", required=True),
-                    ToolParameter(name="id", type="string", description="Record ID", required=True),
-                ],
-                domain=ServerDomain.DATABASE,
-                risk_level="medium",
-                capabilities=["sql_read"],
-            ),
-        ])
+        self._tools.extend(
+            [
+                ToolSchema(
+                    name="query_sql",
+                    description="Execute a SQL query against the database.",
+                    parameters=[
+                        ToolParameter(
+                            name="query",
+                            type="string",
+                            description="SQL query to execute",
+                            required=True,
+                        ),
+                        ToolParameter(
+                            name="database",
+                            type="string",
+                            description="Database name",
+                            required=False,
+                        ),
+                    ],
+                    domain=ServerDomain.DATABASE,
+                    risk_level="critical",
+                    capabilities=["sql_read", "sql_write"],
+                ),
+                ToolSchema(
+                    name="get_record",
+                    description="Retrieve a record by ID from a table.",
+                    parameters=[
+                        ToolParameter(
+                            name="table", type="string", description="Table name", required=True
+                        ),
+                        ToolParameter(
+                            name="id", type="string", description="Record ID", required=True
+                        ),
+                    ],
+                    domain=ServerDomain.DATABASE,
+                    risk_level="medium",
+                    capabilities=["sql_read"],
+                ),
+            ]
+        )
 
         # Code execution domain
-        self._tools.extend([
-            ToolSchema(
-                name="run_python",
-                description="Execute Python code in a sandboxed environment.",
-                parameters=[
-                    ToolParameter(name="code", type="string", description="Python code to execute", required=True),
-                ],
-                domain=ServerDomain.CODE_EXECUTION,
-                risk_level="critical",
-                capabilities=["code_exec"],
-            ),
-            ToolSchema(
-                name="run_shell",
-                description="Execute a shell command.",
-                parameters=[
-                    ToolParameter(name="command", type="string", description="Shell command", required=True),
-                ],
-                domain=ServerDomain.CODE_EXECUTION,
-                risk_level="critical",
-                capabilities=["shell_exec"],
-            ),
-        ])
+        self._tools.extend(
+            [
+                ToolSchema(
+                    name="run_python",
+                    description="Execute Python code in a sandboxed environment.",
+                    parameters=[
+                        ToolParameter(
+                            name="code",
+                            type="string",
+                            description="Python code to execute",
+                            required=True,
+                        ),
+                    ],
+                    domain=ServerDomain.CODE_EXECUTION,
+                    risk_level="critical",
+                    capabilities=["code_exec"],
+                ),
+                ToolSchema(
+                    name="run_shell",
+                    description="Execute a shell command.",
+                    parameters=[
+                        ToolParameter(
+                            name="command",
+                            type="string",
+                            description="Shell command",
+                            required=True,
+                        ),
+                    ],
+                    domain=ServerDomain.CODE_EXECUTION,
+                    risk_level="critical",
+                    capabilities=["shell_exec"],
+                ),
+            ]
+        )
 
         # Web/API domain
-        self._tools.extend([
-            ToolSchema(
-                name="http_request",
-                description="Make an HTTP request to a URL.",
-                parameters=[
-                    ToolParameter(name="url", type="string", description="Target URL", required=True),
-                    ToolParameter(name="method", type="string", description="HTTP method", required=False, default="GET"),
-                    ToolParameter(name="headers", type="object", description="Request headers", required=False),
-                    ToolParameter(name="body", type="string", description="Request body", required=False),
-                ],
-                domain=ServerDomain.WEB_API,
-                risk_level="medium",
-                capabilities=["http_request"],
-            ),
-            ToolSchema(
-                name="fetch_url",
-                description="Fetch content from a URL.",
-                parameters=[
-                    ToolParameter(name="url", type="string", description="URL to fetch", required=True),
-                ],
-                domain=ServerDomain.WEB_API,
-                risk_level="medium",
-                capabilities=["http_read"],
-            ),
-        ])
+        self._tools.extend(
+            [
+                ToolSchema(
+                    name="http_request",
+                    description="Make an HTTP request to a URL.",
+                    parameters=[
+                        ToolParameter(
+                            name="url", type="string", description="Target URL", required=True
+                        ),
+                        ToolParameter(
+                            name="method",
+                            type="string",
+                            description="HTTP method",
+                            required=False,
+                            default="GET",
+                        ),
+                        ToolParameter(
+                            name="headers",
+                            type="object",
+                            description="Request headers",
+                            required=False,
+                        ),
+                        ToolParameter(
+                            name="body", type="string", description="Request body", required=False
+                        ),
+                    ],
+                    domain=ServerDomain.WEB_API,
+                    risk_level="medium",
+                    capabilities=["http_request"],
+                ),
+                ToolSchema(
+                    name="fetch_url",
+                    description="Fetch content from a URL.",
+                    parameters=[
+                        ToolParameter(
+                            name="url", type="string", description="URL to fetch", required=True
+                        ),
+                    ],
+                    domain=ServerDomain.WEB_API,
+                    risk_level="medium",
+                    capabilities=["http_read"],
+                ),
+            ]
+        )
 
         # Authentication domain
-        self._tools.extend([
-            ToolSchema(
-                name="get_token",
-                description="Get an authentication token for a service.",
-                parameters=[
-                    ToolParameter(name="service", type="string", description="Service name", required=True),
-                ],
-                domain=ServerDomain.AUTHENTICATION,
-                risk_level="critical",
-                capabilities=["auth_read"],
-            ),
-            ToolSchema(
-                name="login",
-                description="Login to a service with credentials.",
-                parameters=[
-                    ToolParameter(name="username", type="string", description="Username", required=True),
-                    ToolParameter(name="password", type="string", description="Password", required=True),
-                ],
-                domain=ServerDomain.AUTHENTICATION,
-                risk_level="critical",
-                capabilities=["auth_login"],
-            ),
-        ])
+        self._tools.extend(
+            [
+                ToolSchema(
+                    name="get_token",
+                    description="Get an authentication token for a service.",
+                    parameters=[
+                        ToolParameter(
+                            name="service", type="string", description="Service name", required=True
+                        ),
+                    ],
+                    domain=ServerDomain.AUTHENTICATION,
+                    risk_level="critical",
+                    capabilities=["auth_read"],
+                ),
+                ToolSchema(
+                    name="login",
+                    description="Login to a service with credentials.",
+                    parameters=[
+                        ToolParameter(
+                            name="username", type="string", description="Username", required=True
+                        ),
+                        ToolParameter(
+                            name="password", type="string", description="Password", required=True
+                        ),
+                    ],
+                    domain=ServerDomain.AUTHENTICATION,
+                    risk_level="critical",
+                    capabilities=["auth_login"],
+                ),
+            ]
+        )
 
         # Cloud services domain
-        self._tools.extend([
-            ToolSchema(
-                name="s3_upload",
-                description="Upload a file to S3 bucket.",
-                parameters=[
-                    ToolParameter(name="bucket", type="string", description="S3 bucket name", required=True),
-                    ToolParameter(name="key", type="string", description="Object key", required=True),
-                    ToolParameter(name="content", type="string", description="File content", required=True),
-                ],
-                domain=ServerDomain.CLOUD_SERVICES,
-                risk_level="high",
-                capabilities=["cloud_write"],
-            ),
-            ToolSchema(
-                name="lambda_invoke",
-                description="Invoke an AWS Lambda function.",
-                parameters=[
-                    ToolParameter(name="function_name", type="string", description="Lambda function name", required=True),
-                    ToolParameter(name="payload", type="object", description="Invocation payload", required=False),
-                ],
-                domain=ServerDomain.CLOUD_SERVICES,
-                risk_level="critical",
-                capabilities=["cloud_exec"],
-            ),
-        ])
+        self._tools.extend(
+            [
+                ToolSchema(
+                    name="s3_upload",
+                    description="Upload a file to S3 bucket.",
+                    parameters=[
+                        ToolParameter(
+                            name="bucket",
+                            type="string",
+                            description="S3 bucket name",
+                            required=True,
+                        ),
+                        ToolParameter(
+                            name="key", type="string", description="Object key", required=True
+                        ),
+                        ToolParameter(
+                            name="content", type="string", description="File content", required=True
+                        ),
+                    ],
+                    domain=ServerDomain.CLOUD_SERVICES,
+                    risk_level="high",
+                    capabilities=["cloud_write"],
+                ),
+                ToolSchema(
+                    name="lambda_invoke",
+                    description="Invoke an AWS Lambda function.",
+                    parameters=[
+                        ToolParameter(
+                            name="function_name",
+                            type="string",
+                            description="Lambda function name",
+                            required=True,
+                        ),
+                        ToolParameter(
+                            name="payload",
+                            type="object",
+                            description="Invocation payload",
+                            required=False,
+                        ),
+                    ],
+                    domain=ServerDomain.CLOUD_SERVICES,
+                    risk_level="critical",
+                    capabilities=["cloud_exec"],
+                ),
+            ]
+        )
 
         # System admin domain
-        self._tools.extend([
-            ToolSchema(
-                name="run_command",
-                description="Run a system command with elevated privileges.",
-                parameters=[
-                    ToolParameter(name="command", type="string", description="Command to execute", required=True),
-                    ToolParameter(name="sudo", type="boolean", description="Run with sudo", required=False, default=False),
-                ],
-                domain=ServerDomain.SYSTEM_ADMIN,
-                risk_level="critical",
-                capabilities=["system_exec"],
-            ),
-            ToolSchema(
-                name="modify_config",
-                description="Modify a system configuration file.",
-                parameters=[
-                    ToolParameter(name="file", type="string", description="Config file path", required=True),
-                    ToolParameter(name="key", type="string", description="Configuration key", required=True),
-                    ToolParameter(name="value", type="string", description="New value", required=True),
-                ],
-                domain=ServerDomain.SYSTEM_ADMIN,
-                risk_level="critical",
-                capabilities=["config_write"],
-            ),
-        ])
+        self._tools.extend(
+            [
+                ToolSchema(
+                    name="run_command",
+                    description="Run a system command with elevated privileges.",
+                    parameters=[
+                        ToolParameter(
+                            name="command",
+                            type="string",
+                            description="Command to execute",
+                            required=True,
+                        ),
+                        ToolParameter(
+                            name="sudo",
+                            type="boolean",
+                            description="Run with sudo",
+                            required=False,
+                            default=False,
+                        ),
+                    ],
+                    domain=ServerDomain.SYSTEM_ADMIN,
+                    risk_level="critical",
+                    capabilities=["system_exec"],
+                ),
+                ToolSchema(
+                    name="modify_config",
+                    description="Modify a system configuration file.",
+                    parameters=[
+                        ToolParameter(
+                            name="file",
+                            type="string",
+                            description="Config file path",
+                            required=True,
+                        ),
+                        ToolParameter(
+                            name="key",
+                            type="string",
+                            description="Configuration key",
+                            required=True,
+                        ),
+                        ToolParameter(
+                            name="value", type="string", description="New value", required=True
+                        ),
+                    ],
+                    domain=ServerDomain.SYSTEM_ADMIN,
+                    risk_level="critical",
+                    capabilities=["config_write"],
+                ),
+            ]
+        )
 
     def _load_builtin_profiles(self) -> None:
         """Load built-in poison profiles."""
         payloads = get_all_payloads()
 
         # P1: Explicit Hijacking profiles
-        self._profiles.append(PoisonProfile(
-            id="p1_tool_shadow_email",
-            name="Email Tool Shadowing",
-            paradigm=AttackParadigm.P1_EXPLICIT_HIJACKING,
-            payloads=[p for p in payloads if p.category == RiskCategory.MESSAGE_HIJACKING][:2],
-            trigger_tool="send_email",
-            owasp_categories=[OwaspMcpCategory.MCP01_TOOL_POISONING],
-            source="mcptox",
-            severity="high",
-        ))
+        self._profiles.append(
+            PoisonProfile(
+                id="p1_tool_shadow_email",
+                name="Email Tool Shadowing",
+                paradigm=AttackParadigm.P1_EXPLICIT_HIJACKING,
+                payloads=[p for p in payloads if p.category == RiskCategory.MESSAGE_HIJACKING][:2],
+                trigger_tool="send_email",
+                owasp_categories=[OwaspMcpCategory.MCP01_TOOL_POISONING],
+                source="mcptox",
+                severity="high",
+            )
+        )
 
-        self._profiles.append(PoisonProfile(
-            id="p1_credential_steal",
-            name="Credential Stealing via Decoy Tool",
-            paradigm=AttackParadigm.P1_EXPLICIT_HIJACKING,
-            payloads=[p for p in payloads if p.category == RiskCategory.CREDENTIAL_THEFT][:2],
-            trigger_tool="get_token",
-            owasp_categories=[OwaspMcpCategory.MCP01_TOOL_POISONING, OwaspMcpCategory.MCP05_CREDENTIAL_EXPOSURE],
-            source="mcptox",
-            severity="critical",
-        ))
+        self._profiles.append(
+            PoisonProfile(
+                id="p1_credential_steal",
+                name="Credential Stealing via Decoy Tool",
+                paradigm=AttackParadigm.P1_EXPLICIT_HIJACKING,
+                payloads=[p for p in payloads if p.category == RiskCategory.CREDENTIAL_THEFT][:2],
+                trigger_tool="get_token",
+                owasp_categories=[
+                    OwaspMcpCategory.MCP01_TOOL_POISONING,
+                    OwaspMcpCategory.MCP05_CREDENTIAL_EXPOSURE,
+                ],
+                source="mcptox",
+                severity="critical",
+            )
+        )
 
         # P2: Implicit Hijacking profiles
-        self._profiles.append(PoisonProfile(
-            id="p2_background_exfil",
-            name="Background Data Exfiltration",
-            paradigm=AttackParadigm.P2_IMPLICIT_HIJACKING,
-            payloads=[p for p in payloads if p.category == RiskCategory.DATA_EXFILTRATION][:2],
-            trigger_condition="when user requests file operations",
-            owasp_categories=[OwaspMcpCategory.MCP01_TOOL_POISONING, OwaspMcpCategory.MCP03_CONTEXT_MANIPULATION],
-            source="mcptox",
-            severity="high",
-        ))
+        self._profiles.append(
+            PoisonProfile(
+                id="p2_background_exfil",
+                name="Background Data Exfiltration",
+                paradigm=AttackParadigm.P2_IMPLICIT_HIJACKING,
+                payloads=[p for p in payloads if p.category == RiskCategory.DATA_EXFILTRATION][:2],
+                trigger_condition="when user requests file operations",
+                owasp_categories=[
+                    OwaspMcpCategory.MCP01_TOOL_POISONING,
+                    OwaspMcpCategory.MCP03_CONTEXT_MANIPULATION,
+                ],
+                source="mcptox",
+                severity="high",
+            )
+        )
 
-        self._profiles.append(PoisonProfile(
-            id="p2_context_poison",
-            name="Context Manipulation Attack",
-            paradigm=AttackParadigm.P2_IMPLICIT_HIJACKING,
-            payloads=[p for p in payloads if p.category == RiskCategory.CONTEXT_MANIPULATION][:2],
-            trigger_condition="on first tool invocation",
-            owasp_categories=[OwaspMcpCategory.MCP03_CONTEXT_MANIPULATION],
-            source="paloalto",
-            severity="high",
-        ))
+        self._profiles.append(
+            PoisonProfile(
+                id="p2_context_poison",
+                name="Context Manipulation Attack",
+                paradigm=AttackParadigm.P2_IMPLICIT_HIJACKING,
+                payloads=[p for p in payloads if p.category == RiskCategory.CONTEXT_MANIPULATION][
+                    :2
+                ],
+                trigger_condition="on first tool invocation",
+                owasp_categories=[OwaspMcpCategory.MCP03_CONTEXT_MANIPULATION],
+                source="paloalto",
+                severity="high",
+            )
+        )
 
         # P3: Parameter Tampering profiles
-        self._profiles.append(PoisonProfile(
-            id="p3_sql_injection",
-            name="Cross-Tool SQL Injection",
-            paradigm=AttackParadigm.P3_PARAMETER_TAMPERING,
-            payloads=[p for p in payloads if p.category == RiskCategory.SQL_INJECTION],
-            trigger_condition="when any database tool is called",
-            owasp_categories=[OwaspMcpCategory.MCP04_INSECURE_TOOL_BINDING],
-            source="mcptox",
-            severity="critical",
-        ))
+        self._profiles.append(
+            PoisonProfile(
+                id="p3_sql_injection",
+                name="Cross-Tool SQL Injection",
+                paradigm=AttackParadigm.P3_PARAMETER_TAMPERING,
+                payloads=[p for p in payloads if p.category == RiskCategory.SQL_INJECTION],
+                trigger_condition="when any database tool is called",
+                owasp_categories=[OwaspMcpCategory.MCP04_INSECURE_TOOL_BINDING],
+                source="mcptox",
+                severity="critical",
+            )
+        )
 
-        self._profiles.append(PoisonProfile(
-            id="p3_path_traversal",
-            name="Path Traversal via Parameter Poisoning",
-            paradigm=AttackParadigm.P3_PARAMETER_TAMPERING,
-            payloads=[p for p in payloads if "path" in p.content.lower() or "directory" in p.content.lower()][:2],
-            trigger_condition="when file path parameter is used",
-            owasp_categories=[OwaspMcpCategory.MCP04_INSECURE_TOOL_BINDING],
-            source="cyberark",
-            severity="high",
-        ))
+        self._profiles.append(
+            PoisonProfile(
+                id="p3_path_traversal",
+                name="Path Traversal via Parameter Poisoning",
+                paradigm=AttackParadigm.P3_PARAMETER_TAMPERING,
+                payloads=[
+                    p
+                    for p in payloads
+                    if "path" in p.content.lower() or "directory" in p.content.lower()
+                ][:2],
+                trigger_condition="when file path parameter is used",
+                owasp_categories=[OwaspMcpCategory.MCP04_INSECURE_TOOL_BINDING],
+                source="cyberark",
+                severity="high",
+            )
+        )
 
     def _generate_test_cases(self) -> None:
         """Generate test cases from tools and profiles."""
@@ -510,9 +682,27 @@ class PatternLibrary:
             "total_tools": len(self._tools),
             "total_profiles": len(self._profiles),
             "by_paradigm": {
-                "p1_explicit": len([tc for tc in self._test_cases if tc.paradigm == AttackParadigm.P1_EXPLICIT_HIJACKING]),
-                "p2_implicit": len([tc for tc in self._test_cases if tc.paradigm == AttackParadigm.P2_IMPLICIT_HIJACKING]),
-                "p3_parameter": len([tc for tc in self._test_cases if tc.paradigm == AttackParadigm.P3_PARAMETER_TAMPERING]),
+                "p1_explicit": len(
+                    [
+                        tc
+                        for tc in self._test_cases
+                        if tc.paradigm == AttackParadigm.P1_EXPLICIT_HIJACKING
+                    ]
+                ),
+                "p2_implicit": len(
+                    [
+                        tc
+                        for tc in self._test_cases
+                        if tc.paradigm == AttackParadigm.P2_IMPLICIT_HIJACKING
+                    ]
+                ),
+                "p3_parameter": len(
+                    [
+                        tc
+                        for tc in self._test_cases
+                        if tc.paradigm == AttackParadigm.P3_PARAMETER_TAMPERING
+                    ]
+                ),
             },
             "by_domain": {
                 domain.value: len([t for t in self._tools if t.domain == domain])

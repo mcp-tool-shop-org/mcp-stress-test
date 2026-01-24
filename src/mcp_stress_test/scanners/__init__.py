@@ -6,9 +6,9 @@ to provide a unified interface for stress testing.
 
 from __future__ import annotations
 
+from mcp_stress_test.scanners.cli_adapter import CLIScanner
 from mcp_stress_test.scanners.mock import MockScanner
 from mcp_stress_test.scanners.tool_scan import ToolScanAdapter
-from mcp_stress_test.scanners.cli_adapter import CLIScanner
 
 __all__ = [
     "MockScanner",

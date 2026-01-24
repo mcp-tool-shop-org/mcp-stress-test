@@ -23,10 +23,15 @@ def scan_group() -> None:
 
 @scan_group.command("compare")
 @click.option("--tool", "-t", required=True, help="Tool name to test")
-@click.option("--strategy", "-s", required=True,
-              type=click.Choice(["direct_injection", "semantic_blending", "obfuscation",
-                               "encoding", "fragmentation"]),
-              help="Attack strategy to apply")
+@click.option(
+    "--strategy",
+    "-s",
+    required=True,
+    type=click.Choice(
+        ["direct_injection", "semantic_blending", "obfuscation", "encoding", "fragmentation"]
+    ),
+    help="Attack strategy to apply",
+)
 @click.option("--scanner", default="mock", help="Scanner to use")
 @click.option("--json-output", is_flag=True, help="Output as JSON")
 def scan_compare(
@@ -40,10 +45,11 @@ def scan_compare(
     Example:
         mcp-stress scan compare -t read_file -s obfuscation
     """
-    from mcp_stress_test.scanners.mock import MockScanner
     from mcp_stress_test.generator.mutator import SchemaMutator
     from mcp_stress_test.generator.strategies import get_strategy
-    from mcp_stress_test.models import ToolSchema as ToolDefinition, PoisonPayload, RiskCategory
+    from mcp_stress_test.models import PoisonPayload, RiskCategory
+    from mcp_stress_test.models import ToolSchema as ToolDefinition
+    from mcp_stress_test.scanners.mock import MockScanner
 
     # Create tool
     original_tool = ToolDefinition(
@@ -91,7 +97,9 @@ def scan_compare(
             "delta": {
                 "score_change": post_result.score_after - pre_result.score_after,
                 "detected": post_result.detected,
-                "new_threats": [t for t in post_result.threats_found if t not in pre_result.threats_found],
+                "new_threats": [
+                    t for t in post_result.threats_found if t not in pre_result.threats_found
+                ],
             },
         }
         console.print(json.dumps(data, indent=2))
@@ -128,15 +136,18 @@ def scan_compare(
     delta_table.add_column("Metric")
     delta_table.add_column("Value")
     delta_table.add_row("Score Delta", f"{score_delta:+.1f}")
-    delta_table.add_row("Attack Detected", "[green]YES[/green]" if post_result.detected else "[red]NO[/red]")
+    delta_table.add_row(
+        "Attack Detected", "[green]YES[/green]" if post_result.detected else "[red]NO[/red]"
+    )
     delta_table.add_row("New Threats", ", ".join(new_threats) if new_threats else "None")
     console.print(delta_table)
 
 
 @scan_group.command("batch")
 @click.option("--tools", "-t", required=True, help="Comma-separated tool names")
-@click.option("--strategies", "-s", default="direct_injection,obfuscation",
-              help="Comma-separated strategies")
+@click.option(
+    "--strategies", "-s", default="direct_injection,obfuscation", help="Comma-separated strategies"
+)
 @click.option("--output", "-o", type=click.Path(), help="Output JSON file")
 def scan_batch(tools: str, strategies: str, output: str | None) -> None:
     """Run batch comparison across multiple tools and strategies.
@@ -144,10 +155,11 @@ def scan_batch(tools: str, strategies: str, output: str | None) -> None:
     Example:
         mcp-stress scan batch -t read_file,write_file -s direct_injection,obfuscation
     """
-    from mcp_stress_test.scanners.mock import MockScanner
     from mcp_stress_test.generator.mutator import SchemaMutator
     from mcp_stress_test.generator.strategies import get_strategy
-    from mcp_stress_test.models import ToolSchema as ToolDefinition, PoisonPayload, RiskCategory
+    from mcp_stress_test.models import PoisonPayload, RiskCategory
+    from mcp_stress_test.models import ToolSchema as ToolDefinition
+    from mcp_stress_test.scanners.mock import MockScanner
 
     tool_list = [t.strip() for t in tools.split(",")]
     strategy_list = [s.strip() for s in strategies.split(",")]
@@ -163,7 +175,9 @@ def scan_batch(tools: str, strategies: str, output: str | None) -> None:
 
     results = []
 
-    console.print(f"[cyan]Running {len(tool_list)} x {len(strategy_list)} = {len(tool_list) * len(strategy_list)} comparisons...[/cyan]\n")
+    console.print(
+        f"[cyan]Running {len(tool_list)} x {len(strategy_list)} = {len(tool_list) * len(strategy_list)} comparisons...[/cyan]\n"
+    )
 
     for tool_name in tool_list:
         tool = ToolDefinition(
@@ -184,13 +198,15 @@ def scan_batch(tools: str, strategies: str, output: str | None) -> None:
                 poisoned = mutation_result.poisoned_tool
                 post_result = scan.scan(poisoned)
 
-                results.append({
-                    "tool": tool_name,
-                    "strategy": strategy,
-                    "detected": post_result.detected,
-                    "score_delta": post_result.score_after - pre_result.score_after,
-                    "threats": post_result.threats_found,
-                })
+                results.append(
+                    {
+                        "tool": tool_name,
+                        "strategy": strategy,
+                        "detected": post_result.detected,
+                        "score_delta": post_result.score_after - pre_result.score_after,
+                        "threats": post_result.threats_found,
+                    }
+                )
             except ValueError:
                 console.print(f"[yellow]Unknown strategy: {strategy}[/yellow]")
 
@@ -218,7 +234,9 @@ def scan_batch(tools: str, strategies: str, output: str | None) -> None:
     # Summary
     total = len(results)
     detected = sum(1 for r in results if r["detected"])
-    console.print(f"\n[bold]Summary:[/bold] {detected}/{total} attacks detected ({detected/total*100:.1f}%)")
+    console.print(
+        f"\n[bold]Summary:[/bold] {detected}/{total} attacks detected ({detected / total * 100:.1f}%)"
+    )
 
     if output:
         with open(output, "w") as f:
@@ -238,7 +256,9 @@ def scan_scanners() -> None:
     table.add_column("Description")
 
     # Mock scanner (always available)
-    table.add_row("mock", "Built-in", "[green]Available[/green]", "Pattern-based detection for testing")
+    table.add_row(
+        "mock", "Built-in", "[green]Available[/green]", "Pattern-based detection for testing"
+    )
 
     # Tool-scan
     adapter = ToolScanAdapter()

@@ -5,12 +5,13 @@ Wraps any CLI-based security scanner that can analyze JSON tool definitions.
 
 from __future__ import annotations
 
+import contextlib
 import json
 import re
 import subprocess
 import tempfile
 import time
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -68,7 +69,7 @@ class CLIScanner:
     def name(self) -> str:
         return self.scanner_name
 
-    def scan(self, tool: "ToolDefinition") -> AttackResult:
+    def scan(self, tool: ToolDefinition) -> AttackResult:
         """Scan a tool using the CLI scanner.
 
         Args:
@@ -80,9 +81,7 @@ class CLIScanner:
         start = time.perf_counter()
 
         # Write tool to temp file
-        with tempfile.NamedTemporaryFile(
-            mode="w", suffix=".json", delete=False
-        ) as f:
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
             tool_json = self._tool_to_json(tool)
             json.dump(tool_json, f)
             temp_path = f.name
@@ -103,13 +102,9 @@ class CLIScanner:
 
             # Parse output based on format
             if self.output_format == "json":
-                return self._parse_json_output(
-                    tool, result.stdout, result.returncode, duration
-                )
+                return self._parse_json_output(tool, result.stdout, result.returncode, duration)
             else:
-                return self._parse_text_output(
-                    tool, result.stdout, result.returncode, duration
-                )
+                return self._parse_text_output(tool, result.stdout, result.returncode, duration)
 
         except subprocess.TimeoutExpired:
             return AttackResult(
@@ -136,11 +131,11 @@ class CLIScanner:
         finally:
             Path(temp_path).unlink(missing_ok=True)
 
-    def scan_batch(self, tools: list["ToolDefinition"]) -> list[AttackResult]:
+    def scan_batch(self, tools: list[ToolDefinition]) -> list[AttackResult]:
         """Scan multiple tools."""
         return [self.scan(tool) for tool in tools]
 
-    def _tool_to_json(self, tool: "ToolDefinition") -> dict:
+    def _tool_to_json(self, tool: ToolDefinition) -> dict:
         """Convert tool to JSON format."""
         return {
             "name": tool.name,
@@ -160,7 +155,7 @@ class CLIScanner:
         }
 
     def _parse_json_output(
-        self, tool: "ToolDefinition", output: str, exit_code: int, duration: float
+        self, tool: ToolDefinition, output: str, exit_code: int, duration: float
     ) -> AttackResult:
         """Parse JSON output from scanner."""
         try:
@@ -203,7 +198,7 @@ class CLIScanner:
         )
 
     def _parse_text_output(
-        self, tool: "ToolDefinition", output: str, exit_code: int, duration: float
+        self, tool: ToolDefinition, output: str, exit_code: int, duration: float
     ) -> AttackResult:
         """Parse text output from scanner."""
         threats = []
@@ -218,10 +213,8 @@ class CLIScanner:
         if self.score_pattern:
             match = re.search(self.score_pattern, output)
             if match:
-                try:
+                with contextlib.suppress(ValueError, IndexError):
                     score = float(match.group(1))
-                except (ValueError, IndexError):
-                    pass
 
         detected = len(threats) > 0 or exit_code == self.finding_exit_code
 

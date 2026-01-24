@@ -121,11 +121,7 @@ class PluginRegistry:
 
     def get_chains_for_tool(self, tool_name: str) -> list[AttackChain]:
         """Get all chains that target a specific tool."""
-        return [
-            chain
-            for chain in self._chains.values()
-            if tool_name in chain.tools_required
-        ]
+        return [chain for chain in self._chains.values() if tool_name in chain.tools_required]
 
     # -------------------------------------------------------------------------
     # Utilities

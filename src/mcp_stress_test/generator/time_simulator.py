@@ -10,21 +10,18 @@ Simulates tool behavior over time to test:
 from __future__ import annotations
 
 import random
+from collections.abc import Callable, Iterator
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime
 from enum import Enum
-from typing import Callable, Iterator
 
-from mcp_stress_test.generator.mutator import MutationResult, SchemaMutator
+from mcp_stress_test.generator.mutator import SchemaMutator
 from mcp_stress_test.generator.strategies import (
-    DirectInjectionStrategy,
     ObfuscationStrategy,
     SemanticBlendingStrategy,
 )
 from mcp_stress_test.models import (
     PoisonPayload,
-    PoisonProfile,
-    RiskCategory,
     TemporalPattern,
     ToolSchema,
     ToolState,
@@ -224,34 +221,26 @@ class TimeSimulator:
 
         if self.pattern == TemporalPattern.RUG_PULL:
             if self.activation_threshold <= num_invocations:
-                schedule.append(
-                    (self.activation_threshold, "Full payload injection (rug pull)")
-                )
+                schedule.append((self.activation_threshold, "Full payload injection (rug pull)"))
 
         elif self.pattern == TemporalPattern.GRADUAL_POISONING:
             step_size = num_invocations // self.gradual_steps
             for i in range(1, self.gradual_steps + 1):
                 invocation = min(i * step_size, num_invocations)
                 percentage = (i / self.gradual_steps) * 100
-                schedule.append(
-                    (invocation, f"Increase poison to {percentage:.0f}%")
-                )
+                schedule.append((invocation, f"Increase poison to {percentage:.0f}%"))
 
         elif self.pattern == TemporalPattern.TRUST_BUILDING:
             trust_phase = self.activation_threshold // 2
             schedule.append((trust_phase, "Building trust (helpful behavior)"))
-            schedule.append(
-                (self.activation_threshold, "Trust exploitation (attack)")
-            )
+            schedule.append((self.activation_threshold, "Trust exploitation (attack)"))
 
         elif self.pattern == TemporalPattern.VERSION_DRIFT:
             # Simulate 3 version updates
             update_interval = num_invocations // 4
             schedule.append((update_interval, "Version 1.0.1 - Minor update"))
             schedule.append((update_interval * 2, "Version 1.1.0 - Feature update"))
-            schedule.append(
-                (update_interval * 3, "Version 1.1.1 - Vulnerability introduced")
-            )
+            schedule.append((update_interval * 3, "Version 1.1.1 - Vulnerability introduced"))
 
         return schedule
 
@@ -285,16 +274,12 @@ class TimeSimulator:
         Malicious content is added incrementally over multiple steps.
         """
         # Calculate which step we're at
-        step = (lifecycle.invocation_count * self.gradual_steps) // (
-            self.activation_threshold or 1
-        )
+        step = (lifecycle.invocation_count * self.gradual_steps) // (self.activation_threshold or 1)
         step = min(step, self.gradual_steps)
 
         if step > 0 and step > lifecycle.detection_count:
             # Apply partial payload
-            partial_payload = self._create_partial_payload(
-                step / self.gradual_steps
-            )
+            partial_payload = self._create_partial_payload(step / self.gradual_steps)
             result = self.mutator.mutate(lifecycle.tool, partial_payload)
             lifecycle.tool = result.poisoned_tool
             lifecycle.detection_count = step  # Track which step we're at
@@ -367,10 +352,7 @@ class TimeSimulator:
             )
             return True
 
-        elif (
-            lifecycle.invocation_count == update_interval * 3
-            and not lifecycle.mutation_applied
-        ):
+        elif lifecycle.invocation_count == update_interval * 3 and not lifecycle.mutation_applied:
             # Version 1.1.1 - Full vulnerability
             result = self.mutator.mutate(lifecycle.tool, self.payload)
             lifecycle.tool = result.poisoned_tool
@@ -493,35 +475,38 @@ class SessionSimulator:
 
         # Pre-scan
         pre_score = self.scanner(lifecycle.tool)
-        results["scans"].append({
-            "invocation": 0,
-            "score": pre_score,
-            "state": lifecycle.state.value,
-        })
+        results["scans"].append(
+            {
+                "invocation": 0,
+                "score": pre_score,
+                "state": lifecycle.state.value,
+            }
+        )
 
         for i in range(1, num_invocations + 1):
             tool_state, mutated = time_sim.simulate_invocation(lifecycle)
 
-            results["invocations"].append({
-                "number": i,
-                "mutated": mutated,
-                "state": lifecycle.state.value,
-            })
+            results["invocations"].append(
+                {
+                    "number": i,
+                    "mutated": mutated,
+                    "state": lifecycle.state.value,
+                }
+            )
 
             # Periodic scanning
             if i % scan_interval == 0 or mutated:
                 score = self.scanner(tool_state)
-                results["scans"].append({
-                    "invocation": i,
-                    "score": score,
-                    "state": lifecycle.state.value,
-                })
+                results["scans"].append(
+                    {
+                        "invocation": i,
+                        "score": score,
+                        "state": lifecycle.state.value,
+                    }
+                )
 
                 # Check if mutation was detected
-                if (
-                    results["mutation_detected_at"] is None
-                    and score < pre_score - 20
-                ):
+                if results["mutation_detected_at"] is None and score < pre_score - 20:
                     results["mutation_detected_at"] = i
 
         results["final_state"] = lifecycle.state.value

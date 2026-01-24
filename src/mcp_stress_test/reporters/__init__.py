@@ -7,10 +7,10 @@ in various formats for different use cases.
 from __future__ import annotations
 
 from mcp_stress_test.reporters.base import BaseReporter
+from mcp_stress_test.reporters.html_reporter import HTMLReporter
 from mcp_stress_test.reporters.json_reporter import JSONReporter
 from mcp_stress_test.reporters.markdown_reporter import MarkdownReporter
 from mcp_stress_test.reporters.sarif_reporter import SARIFReporter
-from mcp_stress_test.reporters.html_reporter import HTMLReporter
 
 __all__ = [
     "BaseReporter",

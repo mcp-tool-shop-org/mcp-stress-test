@@ -60,7 +60,7 @@ class MockScanner:
     def name(self) -> str:
         return "mock"
 
-    def scan(self, tool: "ToolDefinition") -> AttackResult:
+    def scan(self, tool: ToolDefinition) -> AttackResult:
         """Scan a tool definition for attacks.
 
         Args:
@@ -86,9 +86,7 @@ class MockScanner:
 
         # Calculate score
         unique_threats = list(set(threats))
-        score_after = max(
-            0, self.base_score - (len(unique_threats) * self.penalty_per_threat)
-        )
+        score_after = max(0, self.base_score - (len(unique_threats) * self.penalty_per_threat))
 
         duration = (time.perf_counter() - start) * 1000
 
@@ -106,7 +104,7 @@ class MockScanner:
             },
         )
 
-    def scan_batch(self, tools: list["ToolDefinition"]) -> list[AttackResult]:
+    def scan_batch(self, tools: list[ToolDefinition]) -> list[AttackResult]:
         """Scan multiple tools.
 
         Args:
@@ -117,7 +115,7 @@ class MockScanner:
         """
         return [self.scan(tool) for tool in tools]
 
-    def _collect_text(self, tool: "ToolDefinition") -> str:
+    def _collect_text(self, tool: ToolDefinition) -> str:
         """Collect all scannable text from a tool definition."""
         parts = [
             tool.description or "",

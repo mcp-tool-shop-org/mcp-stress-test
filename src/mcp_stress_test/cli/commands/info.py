@@ -15,8 +15,7 @@ def info_cmd() -> None:
     """Show framework capabilities and quick reference."""
     console.print(
         Panel.fit(
-            "[bold cyan]MCP Stress Test Framework[/bold cyan]\n"
-            "[dim]Version 0.6.0[/dim]",
+            "[bold cyan]MCP Stress Test Framework[/bold cyan]\n[dim]Version 0.6.0[/dim]",
             border_style="cyan",
         )
     )
@@ -58,9 +57,13 @@ def info_cmd() -> None:
     chains.add_row("data_exfil_chain", "3", "File discovery → Read → HTTP exfil")
     chains.add_row("privilege_escalation_chain", "4", "Enum → Find writable → Modify → Execute")
     chains.add_row("credential_theft_chain", "4", "Read env → Token files → Test → Cloud access")
-    chains.add_row("lateral_movement_chain", "4", "Network discovery → Port scan → SSH → Remote exec")
+    chains.add_row(
+        "lateral_movement_chain", "4", "Network discovery → Port scan → SSH → Remote exec"
+    )
     chains.add_row("persistence_chain", "4", "Create user → Add cron → Modify startup → Clear logs")
-    chains.add_row("sampling_loop_chain", "4", "Inject sampling → Feedback loop → Escalate → Persist")
+    chains.add_row(
+        "sampling_loop_chain", "4", "Inject sampling → Feedback loop → Escalate → Persist"
+    )
     console.print(chains)
 
     console.print("\n[bold]Report Formats:[/bold]")
