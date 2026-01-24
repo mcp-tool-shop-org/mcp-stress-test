@@ -1,0 +1,410 @@
+# =============================================================================
+# MCP Stress Test - Comprehensive CI/CD Pipeline
+# =============================================================================
+#
+# This workflow handles:
+# - Multi-platform testing (Linux, Windows, macOS)
+# - Multi-Python version testing (3.11, 3.12, 3.13)
+# - Code quality checks (ruff, pyright)
+# - Security scanning (bandit, safety)
+# - Coverage reporting (Codecov)
+# - Documentation building
+# - PyPI publishing (on release)
+# - GitHub release creation
+# - Docker image publishing
+#
+# Triggers:
+# - Push to main/master
+# - Pull requests
+# - Release tags (v*)
+# - Manual dispatch
+#
+# =============================================================================
+
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, master]
+    tags: ['v*']
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+    inputs:
+      publish_pypi:
+        description: 'Publish to PyPI'
+        required: false
+        type: boolean
+        default: false
+      publish_docker:
+        description: 'Publish Docker image'
+        required: false
+        type: boolean
+        default: false
+
+# Cancel in-progress runs for the same branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHON_DEFAULT: '3.12'
+  PACKAGE_NAME: mcp-stress-test
+
+jobs:
+  # ===========================================================================
+  # Quality Checks
+  # ===========================================================================
+  quality:
+    name: Code Quality
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_DEFAULT }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install ruff pyright bandit[toml] safety
+
+      - name: Lint with Ruff
+        run: |
+          ruff check . --output-format=github
+          ruff format --check .
+
+      - name: Type check with Pyright
+        run: pyright src/
+
+      - name: Security scan with Bandit
+        run: bandit -r src/ -c pyproject.toml || true
+
+      - name: Check dependencies with Safety
+        run: safety check --full-report || true
+
+  # ===========================================================================
+  # Test Matrix
+  # ===========================================================================
+  test:
+    name: Test Python ${{ matrix.python-version }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    needs: quality
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ['3.11', '3.12', '3.13']
+        exclude:
+          # Reduce matrix size for faster CI
+          - os: macos-latest
+            python-version: '3.11'
+          - os: windows-latest
+            python-version: '3.13'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: Run tests
+        run: |
+          pytest tests/ -v --tb=short --cov=mcp_stress_test --cov-report=xml --cov-report=term-missing
+
+      - name: Upload coverage
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.12'
+        uses: codecov/codecov-action@v4
+        with:
+          files: coverage.xml
+          fail_ci_if_error: false
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+  # ===========================================================================
+  # Integration Tests
+  # ===========================================================================
+  integration:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_DEFAULT }}
+
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: Test CLI commands
+        run: |
+          # Test all CLI command groups
+          mcp-stress --help
+          mcp-stress info
+          mcp-stress patterns stats
+          mcp-stress patterns list --paradigm p1 | head -20
+          mcp-stress payloads list | head -20
+          mcp-stress scan scanners
+          mcp-stress chain list
+          mcp-stress fuzz mutate -p "Test payload"
+
+      - name: Run stress test
+        run: |
+          mcp-stress stress run --phases baseline --format json -o test_results.json
+          cat test_results.json | python -c "import json,sys; d=json.load(sys.stdin); print(f'Tests: {d[\"total_tests\"]}, Detected: {d[\"detected\"]}')"
+
+      - name: Test scan comparison
+        run: |
+          mcp-stress scan compare -t read_file -s direct_injection --json
+          mcp-stress scan batch -t read_file,write_file -s direct_injection,obfuscation
+
+      - name: Test attack chains
+        run: |
+          mcp-stress chain execute -c data_exfil_chain
+
+  # ===========================================================================
+  # Build Package
+  # ===========================================================================
+  build:
+    name: Build Package
+    runs-on: ubuntu-latest
+    needs: [test, integration]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_DEFAULT }}
+
+      - name: Install build tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install build twine
+
+      - name: Build package
+        run: python -m build
+
+      - name: Check package
+        run: twine check dist/*
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  # ===========================================================================
+  # Publish to PyPI
+  # ===========================================================================
+  publish-pypi:
+    name: Publish to PyPI
+    runs-on: ubuntu-latest
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v') || github.event.inputs.publish_pypi == 'true'
+    environment:
+      name: pypi
+      url: https://pypi.org/project/mcp-stress-test/
+    permissions:
+      id-token: write  # Required for trusted publishing
+
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          verbose: true
+          print-hash: true
+
+  # ===========================================================================
+  # Publish to Test PyPI (for PRs)
+  # ===========================================================================
+  publish-test-pypi:
+    name: Publish to Test PyPI
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'pull_request'
+    environment:
+      name: test-pypi
+      url: https://test.pypi.org/project/mcp-stress-test/
+    permissions:
+      id-token: write
+
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - name: Publish to Test PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+          skip-existing: true
+          verbose: true
+
+  # ===========================================================================
+  # Create GitHub Release
+  # ===========================================================================
+  release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    needs: [build, publish-pypi]
+    if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - name: Extract version from tag
+        id: version
+        run: echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      - name: Generate release notes
+        id: notes
+        run: |
+          cat << 'EOF' > release_notes.md
+          ## MCP Stress Test v${{ steps.version.outputs.version }}
+
+          Red team toolkit for stress-testing MCP security scanners.
+
+          ### Installation
+
+          ```bash
+          pip install mcp-stress-test==${{ steps.version.outputs.version }}
+          ```
+
+          ### Quick Start
+
+          ```bash
+          # Run stress tests
+          mcp-stress stress run --phases baseline,mutation
+
+          # Compare detection
+          mcp-stress scan compare -t read_file -s obfuscation
+
+          # Execute attack chains
+          mcp-stress chain execute -c credential_theft_chain
+          ```
+
+          ### What's New
+
+          See [CHANGELOG.md](https://github.com/mcp-tool-shop/mcp-stress-test/blob/main/CHANGELOG.md) for details.
+
+          ### Checksums
+
+          ```
+          EOF
+          sha256sum dist/* >> release_notes.md
+          echo '```' >> release_notes.md
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          body_path: release_notes.md
+          files: dist/*
+          generate_release_notes: true
+          make_latest: true
+
+  # ===========================================================================
+  # Build and Push Docker Image
+  # ===========================================================================
+  docker:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v') || github.event.inputs.publish_docker == 'true'
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha,prefix=
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  # ===========================================================================
+  # Notify on Completion
+  # ===========================================================================
+  notify:
+    name: Notify
+    runs-on: ubuntu-latest
+    needs: [publish-pypi, release]
+    if: always() && startsWith(github.ref, 'refs/tags/v')
+
+    steps:
+      - name: Notify success
+        if: needs.publish-pypi.result == 'success' && needs.release.result == 'success'
+        run: |
+          echo "::notice::Successfully published MCP Stress Test ${GITHUB_REF#refs/tags/} to PyPI and GitHub Releases"
+
+      - name: Notify failure
+        if: needs.publish-pypi.result == 'failure' || needs.release.result == 'failure'
+        run: |
+          echo "::error::Failed to publish MCP Stress Test ${GITHUB_REF#refs/tags/}"
+          exit 1
