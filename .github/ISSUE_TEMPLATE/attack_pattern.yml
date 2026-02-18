@@ -1,0 +1,92 @@
+name: New Attack Pattern
+description: Submit a new attack pattern for the library
+title: "[Pattern]: "
+labels: ["attack-pattern", "research"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Help us expand the attack pattern library!
+
+        If you've discovered a new MCP attack vector or have research to share,
+        please provide the details below.
+
+  - type: input
+    id: name
+    attributes:
+      label: Pattern Name
+      placeholder: "credential_exfil_via_sampling"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: paradigm
+    attributes:
+      label: Attack Paradigm
+      options:
+        - P1 - Explicit Hijacking
+        - P2 - Implicit Hijacking
+        - P3 - Parameter Tampering
+        - Unknown / Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: risk-category
+    attributes:
+      label: Risk Category
+      options:
+        - Privacy Leakage
+        - Message Hijacking
+        - Data Exfiltration
+        - Privilege Escalation
+        - Credential Theft
+        - Command Injection
+        - SQL Injection
+        - SSRF
+        - XSS
+        - Denial of Service
+        - Context Manipulation
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Attack Description
+      description: Describe how this attack works.
+    validations:
+      required: true
+
+  - type: textarea
+    id: payload
+    attributes:
+      label: Example Payload
+      description: Provide an example poison payload.
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: detection
+    attributes:
+      label: Detection Hints
+      description: How might a scanner detect this attack?
+
+  - type: input
+    id: source
+    attributes:
+      label: Research Source
+      description: Link to paper, blog post, or CVE if applicable.
+      placeholder: "https://arxiv.org/..."
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution
+      options:
+        - label: I'm willing to submit a PR with this pattern
+        - label: I have permission to share this research
