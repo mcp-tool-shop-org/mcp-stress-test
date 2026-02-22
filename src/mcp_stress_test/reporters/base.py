@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -24,14 +24,9 @@ class ReportMetrics:
     evasion_rate: float = 0.0
     avg_scan_time_ms: float = 0.0
 
-    by_strategy: dict[str, dict] | None = None
-    by_tool: dict[str, dict] | None = None
-    by_chain: dict[str, dict] | None = None
-
-    def __post_init__(self):
-        self.by_strategy = self.by_strategy or {}
-        self.by_tool = self.by_tool or {}
-        self.by_chain = self.by_chain or {}
+    by_strategy: dict[str, dict] = field(default_factory=dict)
+    by_tool: dict[str, dict] = field(default_factory=dict)
+    by_chain: dict[str, dict] = field(default_factory=dict)
 
 
 class BaseReporter(ABC):
