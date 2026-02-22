@@ -309,7 +309,6 @@ class TestCheckpointManager:
         """Test listing checkpoints."""
         manager = CheckpointManager(storage_dir=temp_storage_dir)
 
-
         # Create multiple checkpoints
         for _i in range(3):
             manager.increment_invocation()

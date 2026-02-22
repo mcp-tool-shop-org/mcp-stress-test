@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import StrEnum
 from typing import Any
 
 from mcp_stress_test.generator import AttackGenerator, TimeSimulator
@@ -22,7 +22,7 @@ from mcp_stress_test.scanner.adapter import ScannerAdapter, ScannerConfig
 from mcp_stress_test.scanner.checkpoint import CheckpointManager
 
 
-class StressPhase(str, Enum):
+class StressPhase(StrEnum):
     """Phases of stress testing."""
 
     BASELINE = "baseline"

@@ -314,7 +314,13 @@ class SchemaMutator:
         # Filter available points based on tool structure
         available = {}
         for point, weight in self.injection_weights.items():
-            if point == "description" or point.startswith("parameter") and tool.parameters or point == "error_template" or point == "return_description":
+            if (
+                point == "description"
+                or point.startswith("parameter")
+                and tool.parameters
+                or point == "error_template"
+                or point == "return_description"
+            ):
                 available[point] = weight
 
         # Weighted random selection

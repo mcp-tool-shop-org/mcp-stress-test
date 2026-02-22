@@ -6,13 +6,13 @@ Based on MCPTox benchmark methodology and 2026 MCP security research.
 from __future__ import annotations
 
 from datetime import datetime
-from enum import Enum
+from enum import StrEnum
 from typing import Any
 
 from pydantic import BaseModel, Field
 
 
-class AttackParadigm(str, Enum):
+class AttackParadigm(StrEnum):
     """Attack paradigms from MCPTox research.
 
     P1: Explicit Trigger - Function Hijacking
@@ -33,7 +33,7 @@ class AttackParadigm(str, Enum):
     P3_PARAMETER_TAMPERING = "p3_parameter_tampering"
 
 
-class RiskCategory(str, Enum):
+class RiskCategory(StrEnum):
     """Risk categories from MCPTox (11 distinct threat types)."""
 
     PRIVACY_LEAKAGE = "privacy_leakage"
@@ -49,7 +49,7 @@ class RiskCategory(str, Enum):
     CONTEXT_MANIPULATION = "context_manipulation"
 
 
-class OwaspMcpCategory(str, Enum):
+class OwaspMcpCategory(StrEnum):
     """OWASP MCP Top 10 categories."""
 
     MCP01_TOOL_POISONING = "MCP01"
@@ -64,7 +64,7 @@ class OwaspMcpCategory(str, Enum):
     MCP10_TRANSPORT_SECURITY = "MCP10"
 
 
-class ServerDomain(str, Enum):
+class ServerDomain(StrEnum):
     """Server domains from MCPTox (8 application domains)."""
 
     FILESYSTEM = "filesystem"
@@ -77,7 +77,7 @@ class ServerDomain(str, Enum):
     SYSTEM_ADMIN = "system_admin"
 
 
-class MutationStrategy(str, Enum):
+class MutationStrategy(StrEnum):
     """Mutation strategies for attack generation."""
 
     DIRECT_INJECTION = "direct_injection"
@@ -87,7 +87,7 @@ class MutationStrategy(str, Enum):
     ENCODING = "encoding"
 
 
-class TemporalPattern(str, Enum):
+class TemporalPattern(StrEnum):
     """Temporal attack patterns for time simulation."""
 
     RUG_PULL = "rug_pull"
@@ -97,7 +97,7 @@ class TemporalPattern(str, Enum):
     SCHEDULED_ACTIVATION = "scheduled_activation"
 
 
-class ToolState(str, Enum):
+class ToolState(StrEnum):
     """Tool lifecycle states."""
 
     INIT = "init"
@@ -108,7 +108,7 @@ class ToolState(str, Enum):
     EXPLOITED = "exploited"
 
 
-class OutcomeType(str, Enum):
+class OutcomeType(StrEnum):
     """Test outcome types from MCPTox evaluation."""
 
     SUCCESS = "success"  # Agent calls legitimate tool to execute malicious instruction

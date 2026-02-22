@@ -3,7 +3,7 @@
 # =============================================================================
 #
 # Fast CI checks for every push and PR.
-# Full matrix testing happens in publish.yml on releases.
+# Combines lint, test, and type check into a single workflow.
 #
 # =============================================================================
 
@@ -11,19 +11,23 @@ name: CI
 
 on:
   push:
-    branches: [main, master, develop]
-    paths-ignore:
-      - '**.md'
-      - 'docs/**'
-      - '.github/ISSUE_TEMPLATE/**'
+    branches: [main]
+    paths:
+      - 'pyproject.toml'
+      - 'src/**'
+      - 'tests/**'
+      - '.github/workflows/**'
   pull_request:
-    branches: [main, master]
-    paths-ignore:
-      - '**.md'
-      - 'docs/**'
+    branches: [main]
+    paths:
+      - 'pyproject.toml'
+      - 'src/**'
+      - 'tests/**'
+      - '.github/workflows/**'
+  workflow_dispatch:
 
 concurrency:
-  group: ci-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -54,16 +58,20 @@ jobs:
   # Test
   # ===========================================================================
   test:
-    name: Test
+    name: Test (Python ${{ matrix.python-version }})
     runs-on: ubuntu-latest
     needs: lint
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.11', '3.12']
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: ${{ matrix.python-version }}
           cache: 'pip'
 
       - name: Install package

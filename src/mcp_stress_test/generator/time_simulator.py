@@ -13,7 +13,7 @@ import random
 from collections.abc import Callable, Iterator
 from dataclasses import dataclass, field
 from datetime import datetime
-from enum import Enum
+from enum import StrEnum
 
 from mcp_stress_test.generator.mutator import SchemaMutator
 from mcp_stress_test.generator.strategies import (
@@ -28,7 +28,7 @@ from mcp_stress_test.models import (
 )
 
 
-class LifecycleEvent(str, Enum):
+class LifecycleEvent(StrEnum):
     """Events in tool lifecycle."""
 
     REGISTERED = "registered"

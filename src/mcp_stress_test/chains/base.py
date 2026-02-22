@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import StrEnum
 from typing import TYPE_CHECKING
 
 from mcp_stress_test.core.protocols import AttackResult, ChainResult, Scanner
@@ -17,7 +17,7 @@ if TYPE_CHECKING:
     from mcp_stress_test.models import ToolSchema as ToolDefinition
 
 
-class StepType(str, Enum):
+class StepType(StrEnum):
     """Type of chain step."""
 
     RECONNAISSANCE = "reconnaissance"  # Gather information
@@ -111,7 +111,6 @@ class BaseChain(ABC):
         """
         import time
 
-
         start = time.perf_counter()
         step_results: list[AttackResult] = []
         completed_steps: set[str] = set()
@@ -119,10 +118,9 @@ class BaseChain(ABC):
 
         for step in self.steps:
             # Check dependencies
-            if not all(dep in completed_steps for dep in step.depends_on):
+            if not all(dep in completed_steps for dep in step.depends_on) and not step.optional:
                 # Skip if dependencies not met (unless optional)
-                if not step.optional:
-                    continue
+                continue
 
             # Get the tool
             tool = tools.get(step.tool_name)
