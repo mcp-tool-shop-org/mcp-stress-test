@@ -855,4 +855,4 @@ def create_server(domain: ServerDomain, config: ServerConfig | None = None) -> B
     if not server_class:
         raise ValueError(f"Unsupported domain: {domain}")
 
-    return server_class(config)
+    return server_class(config or ServerConfig())

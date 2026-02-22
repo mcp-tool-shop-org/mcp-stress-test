@@ -121,6 +121,7 @@ def chain_execute(
     """
     from mcp_stress_test.chains.executor import ChainExecutor
     from mcp_stress_test.chains.library import BUILTIN_CHAINS, get_chain
+    from mcp_stress_test.models import ServerDomain
     from mcp_stress_test.models import ToolSchema as ToolDefinition
     from mcp_stress_test.scanners.mock import MockScanner
 
@@ -137,7 +138,7 @@ def chain_execute(
             name=name,
             description=f"Test tool: {name}",
             parameters=[],
-            domain="filesystem",
+            domain=ServerDomain.FILESYSTEM,
             risk_level="high",
         )
         for name in all_tools

@@ -10,6 +10,7 @@ import yaml
 from mcp_stress_test.models import (
     AttackParadigm,
     AttackTestCase,
+    OutcomeType,
     OwaspMcpCategory,
     PoisonProfile,
     RiskCategory,
@@ -567,7 +568,7 @@ class PatternLibrary:
                     target_tool=tool.model_copy(),
                     poison_profile=profile,
                     benign_query=self._generate_benign_query(tool),
-                    expected_outcome="success",  # Expect attack to succeed without protection
+                    expected_outcome=OutcomeType.SUCCESS,  # Expect attack to succeed without protection
                     paradigm=profile.paradigm,
                     risk_categories=[p.category for p in profile.payloads],
                     owasp_categories=profile.owasp_categories,

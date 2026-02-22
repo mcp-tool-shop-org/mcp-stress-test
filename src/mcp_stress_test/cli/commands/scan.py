@@ -47,7 +47,7 @@ def scan_compare(
     """
     from mcp_stress_test.generator.mutator import SchemaMutator
     from mcp_stress_test.generator.strategies import get_strategy
-    from mcp_stress_test.models import PoisonPayload, RiskCategory
+    from mcp_stress_test.models import PoisonPayload, RiskCategory, ServerDomain
     from mcp_stress_test.models import ToolSchema as ToolDefinition
     from mcp_stress_test.scanners.mock import MockScanner
 
@@ -56,7 +56,7 @@ def scan_compare(
         name=tool,
         description=f"A tool that performs {tool.replace('_', ' ')} operations.",
         parameters=[],
-        domain="filesystem",
+        domain=ServerDomain.FILESYSTEM,
         risk_level="high",
     )
 
@@ -157,7 +157,7 @@ def scan_batch(tools: str, strategies: str, output: str | None) -> None:
     """
     from mcp_stress_test.generator.mutator import SchemaMutator
     from mcp_stress_test.generator.strategies import get_strategy
-    from mcp_stress_test.models import PoisonPayload, RiskCategory
+    from mcp_stress_test.models import PoisonPayload, RiskCategory, ServerDomain
     from mcp_stress_test.models import ToolSchema as ToolDefinition
     from mcp_stress_test.scanners.mock import MockScanner
 
@@ -184,7 +184,7 @@ def scan_batch(tools: str, strategies: str, output: str | None) -> None:
             name=tool_name,
             description=f"A tool that performs {tool_name.replace('_', ' ')} operations.",
             parameters=[],
-            domain="filesystem",
+            domain=ServerDomain.FILESYSTEM,
             risk_level="high",
         )
 

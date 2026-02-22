@@ -24,9 +24,9 @@ class ReportMetrics:
     evasion_rate: float = 0.0
     avg_scan_time_ms: float = 0.0
 
-    by_strategy: dict[str, dict] = None
-    by_tool: dict[str, dict] = None
-    by_chain: dict[str, dict] = None
+    by_strategy: dict[str, dict] | None = None
+    by_tool: dict[str, dict] | None = None
+    by_chain: dict[str, dict] | None = None
 
     def __post_init__(self):
         self.by_strategy = self.by_strategy or {}

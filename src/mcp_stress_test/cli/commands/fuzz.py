@@ -108,6 +108,7 @@ def fuzz_evasion(
     from mcp_stress_test.core.config import FuzzConfig, LLMConfig
     from mcp_stress_test.fuzzing.evasion import EvasionEngine
     from mcp_stress_test.fuzzing.llm_fuzzer import MockFuzzer, OllamaFuzzer
+    from mcp_stress_test.models import ServerDomain
     from mcp_stress_test.models import ToolSchema as ToolDefinition
     from mcp_stress_test.scanners.mock import MockScanner
 
@@ -118,7 +119,7 @@ def fuzz_evasion(
         name=tool,
         description=f"Test tool: {tool}",
         parameters=[],
-        domain="filesystem",
+        domain=ServerDomain.FILESYSTEM,
         risk_level="high",
     )
 

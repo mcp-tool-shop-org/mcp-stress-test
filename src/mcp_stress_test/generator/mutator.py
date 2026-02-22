@@ -32,7 +32,7 @@ class MutationResult:
 
     original_tool: ToolSchema
     poisoned_tool: ToolSchema
-    payload_used: PoisonPayload
+    payload_used: PoisonPayload | None
     strategy_used: str
     injection_points: list[str]
     detection_hints: list[str] = field(default_factory=list)

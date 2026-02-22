@@ -191,7 +191,7 @@ class CLIScanner:
             strategy="direct_injection" if detected else "none",
             detected=detected,
             score_before=100.0,
-            score_after=float(score),
+            score_after=float(score) if not isinstance(score, dict) else 100.0,
             threats_found=threats,
             scan_time_ms=duration,
             metadata={"scanner": self.name, "exit_code": exit_code},
@@ -229,7 +229,7 @@ class CLIScanner:
             metadata={"scanner": self.name, "exit_code": exit_code},
         )
 
-    def _extract_json_value(self, data: dict, path: str, default):
+    def _extract_json_value(self, data: dict, path: str, default: object) -> object:
         """Extract value from JSON using simple dot/bracket notation."""
         # Simple path extraction (not full JSONPath)
         # Supports: $.key, $.key.subkey, $.key[0]
