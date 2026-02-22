@@ -12,13 +12,13 @@ import sys
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime
-from enum import Enum
+from enum import StrEnum
 from typing import Any, Protocol
 
 from mcp_stress_test.models import ServerDomain, ToolSchema
 
 
-class ServerState(str, Enum):
+class ServerState(StrEnum):
     """Server lifecycle states."""
 
     STOPPED = "stopped"

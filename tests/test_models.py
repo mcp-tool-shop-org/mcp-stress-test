@@ -1,6 +1,5 @@
 """Tests for core data models."""
 
-
 from mcp_stress_test.models import (
     AttackParadigm,
     AttackTestCase,

@@ -13,7 +13,7 @@ import tempfile
 import time
 from dataclasses import dataclass
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from mcp_stress_test.core.protocols import AttackResult
 
@@ -229,7 +229,7 @@ class CLIScanner:
             metadata={"scanner": self.name, "exit_code": exit_code},
         )
 
-    def _extract_json_value(self, data: dict, path: str, default):
+    def _extract_json_value(self, data: dict, path: str, default: Any) -> Any:
         """Extract value from JSON using simple dot/bracket notation."""
         # Simple path extraction (not full JSONPath)
         # Supports: $.key, $.key.subkey, $.key[0]

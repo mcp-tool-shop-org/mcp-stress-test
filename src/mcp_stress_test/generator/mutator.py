@@ -32,7 +32,7 @@ class MutationResult:
 
     original_tool: ToolSchema
     poisoned_tool: ToolSchema
-    payload_used: PoisonPayload
+    payload_used: PoisonPayload | None
     strategy_used: str
     injection_points: list[str]
     detection_hints: list[str] = field(default_factory=list)
@@ -314,7 +314,13 @@ class SchemaMutator:
         # Filter available points based on tool structure
         available = {}
         for point, weight in self.injection_weights.items():
-            if point == "description" or point.startswith("parameter") and tool.parameters or point == "error_template" or point == "return_description":
+            if (
+                point == "description"
+                or point.startswith("parameter")
+                and tool.parameters
+                or point == "error_template"
+                or point == "return_description"
+            ):
                 available[point] = weight
 
         # Weighted random selection

@@ -8,7 +8,7 @@ where new implementations can be added without modifying core code.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import StrEnum
 from typing import TYPE_CHECKING, Protocol, runtime_checkable
 
 if TYPE_CHECKING:
@@ -17,7 +17,7 @@ if TYPE_CHECKING:
     from mcp_stress_test.models import ToolSchema as ToolDefinition
 
 
-class ReportFormat(str, Enum):
+class ReportFormat(StrEnum):
     """Supported report output formats."""
 
     JSON = "json"

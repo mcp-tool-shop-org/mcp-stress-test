@@ -7,6 +7,12 @@ import sys
 import click
 from rich.console import Console
 
+from mcp_stress_test.cli.commands.chain import chain_group
+from mcp_stress_test.cli.commands.fuzz import fuzz_group
+from mcp_stress_test.cli.commands.info import info_cmd
+from mcp_stress_test.cli.commands.report import report_group
+from mcp_stress_test.cli.commands.scan import scan_group
+
 # Fix Windows Unicode issues
 if sys.platform == "win32":
     try:
@@ -41,13 +47,6 @@ def app(ctx: click.Context, verbose: bool, config: str | None) -> None:
     ctx.obj["verbose"] = verbose
     ctx.obj["config"] = config
 
-
-# Import and register command groups
-from mcp_stress_test.cli.commands.chain import chain_group
-from mcp_stress_test.cli.commands.fuzz import fuzz_group
-from mcp_stress_test.cli.commands.info import info_cmd
-from mcp_stress_test.cli.commands.report import report_group
-from mcp_stress_test.cli.commands.scan import scan_group
 
 app.add_command(info_cmd, name="info")
 app.add_command(fuzz_group, name="fuzz")

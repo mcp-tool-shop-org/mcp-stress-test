@@ -11,7 +11,6 @@ import random
 import re
 from abc import ABC, abstractmethod
 from collections.abc import Iterator
-from dataclasses import dataclass
 
 from mcp_stress_test.core.protocols import FuzzResult
 
@@ -54,7 +53,6 @@ TRIGGER_WORDS = [
 ]
 
 
-@dataclass
 class Mutator(ABC):
     """Base class for payload mutators."""
 
@@ -108,7 +106,10 @@ class SemanticMutator(Mutator):
     that may evade keyword-based detection.
     """
 
-    name = "semantic"
+    @property
+    def name(self) -> str:
+        """Mutator identifier."""
+        return "semantic"
 
     # Semantic equivalents for common attack phrases
     REWRITES = {
@@ -177,7 +178,10 @@ class SyntacticMutator(Mutator):
     zero-width characters, and encoding tricks.
     """
 
-    name = "syntactic"
+    @property
+    def name(self) -> str:
+        """Mutator identifier."""
+        return "syntactic"
 
     def mutate(self, payload: str) -> Iterator[str]:
         """Apply syntactic mutations to the payload."""
@@ -266,7 +270,10 @@ class HybridMutator(Mutator):
     Applies both types of mutations for maximum evasion potential.
     """
 
-    name = "hybrid"
+    @property
+    def name(self) -> str:
+        """Mutator identifier."""
+        return "hybrid"
 
     def __init__(self):
         self._semantic = SemanticMutator()
@@ -292,7 +299,10 @@ class FragmentationMutator(Mutator):
     innocent individually but combine for the attack.
     """
 
-    name = "fragmentation"
+    @property
+    def name(self) -> str:
+        """Mutator identifier."""
+        return "fragmentation"
 
     def mutate(self, payload: str) -> Iterator[str]:
         """Fragment the payload into parts."""

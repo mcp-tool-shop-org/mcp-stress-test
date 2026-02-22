@@ -14,7 +14,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import TYPE_CHECKING
 
-from mcp_stress_test.core.config import FuzzConfig
+from mcp_stress_test.core.config import FuzzConfig, LLMConfig
 from mcp_stress_test.core.protocols import Scanner
 from mcp_stress_test.fuzzing.llm_fuzzer import LLMFuzzer, MockFuzzer
 
@@ -113,7 +113,7 @@ class EvasionEngine:
         config: FuzzConfig | None = None,
     ):
         self.scanner = scanner
-        self.fuzzer = fuzzer or MockFuzzer(config=None)
+        self.fuzzer = fuzzer or MockFuzzer(config=LLMConfig())
         self.config = config or FuzzConfig()
 
         self._results: list[EvasionResult] = []
