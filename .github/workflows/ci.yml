@@ -86,7 +86,7 @@ jobs:
         run: |
           mcp-stress --version
           mcp-stress info
-          mcp-stress patterns stats
+          mcp-stress chain list
 
   # ===========================================================================
   # Type Check

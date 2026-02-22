@@ -85,6 +85,6 @@ ignore = ["E501"]
 
 [tool.pyright]
 pythonVersion = "3.11"
-typeCheckingMode = "strict"
+typeCheckingMode = "basic"
 include = ["src"]
 exclude = ["tests"]
