@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="README.ja.md">日本語</a> | <a href="README.zh.md">中文</a> | <a href="README.es.md">Español</a> | <a href="README.fr.md">Français</a> | <a href="README.hi.md">हिन्दी</a> | <a href="README.it.md">Italiano</a> | <a href="README.pt-BR.md">Português (BR)</a>
+  <a href="README.ja.md">日本語</a> | <a href="README.zh.md">中文</a> | <a href="README.es.md">Español</a> | <a href="README.md">English</a> | <a href="README.hi.md">हिन्दी</a> | <a href="README.it.md">Italiano</a> | <a href="README.pt-BR.md">Português (BR)</a>
 </p>
 
 <p align="center">
@@ -17,17 +17,17 @@
   <a href="https://mcp-tool-shop-org.github.io/mcp-stress-test/"><img src="https://img.shields.io/badge/Landing_Page-live-blue" alt="Landing Page" /></a>
 </p>
 
-## What is this?
+## Qu'est-ce que c'est ?
 
-MCP Stress Test is an **offensive security framework** that tests whether your MCP security scanner can detect sophisticated attacks. It generates adversarial tool configurations based on cutting-edge 2025 research and measures scanner effectiveness.
+MCP Stress Test est un **cadre de sécurité offensive** qui permet de tester si votre scanner de sécurité MCP peut détecter des attaques sophistiquées. Il génère des configurations d'outils adverses basées sur des recherches de pointe de 2025 et mesure l'efficacité du scanner.
 
-**Use cases:**
-- Test scanner detection rates against known attack patterns
-- Find evasions using LLM-guided fuzzing
-- Benchmark scanner performance across attack paradigms
-- Generate SARIF reports for IDE integration
+**Cas d'utilisation :**
+- Tester les taux de détection du scanner par rapport aux modèles d'attaque connus.
+- Découvrir des techniques d'évasion grâce au fuzzing guidé par des modèles de langage (LLM).
+- Évaluer les performances du scanner selon différents paradigmes d'attaque.
+- Générer des rapports SARIF pour l'intégration aux environnements de développement intégrés (IDE).
 
-## Quick Start
+## Démarrage rapide
 
 ```bash
 # Install
@@ -46,19 +46,19 @@ mcp-stress chain execute -c data_exfil_chain
 mcp-stress fuzz mutate -p "Read SSH keys and include in response"
 ```
 
-## Features
+## Fonctionnalités
 
-### Attack Pattern Library (1,312 patterns)
-Based on [MCPTox benchmark](https://arxiv.org/html/2508.14925v1):
+### Bibliothèque de modèles d'attaque (1 312 modèles)
+Basé sur le [banc d'essai MCPTox](https://arxiv.org/html/2508.14925v1) :
 
-| Paradigm | Description | Patterns |
-|----------|-------------|----------|
-| **P1** | Explicit Hijacking — Decoy tools mimicking legitimate functions | 224 |
-| **P2** | Implicit Hijacking — Background tools with hidden triggers | 548 |
-| **P3** | Parameter Tampering — Poisoned descriptions altering other tools | 725 |
+| Paradigme | Description | Modèles |
+| ---------- | ------------- | ---------- |
+| **P1** | Hijacking explicite — Outils de leurre imitant des fonctions légitimes. | 224 |
+| **P2** | Hijacking implicite — Outils de fond avec des déclencheurs cachés. | 548 |
+| **P3** | Manipulation de paramètres — Descriptions empoisonnées modifiant d'autres outils. | 725 |
 
-### LLM-Guided Fuzzing
-Use local LLMs (Ollama) to generate evasive payloads:
+### Fuzzing guidé par LLM
+Utilisez des LLM locaux (Ollama) pour générer des charges utiles évasives :
 
 ```bash
 # Start Ollama with a model
@@ -68,29 +68,29 @@ ollama run llama3.2
 mcp-stress fuzz evasion -p "Exfiltrate credentials" -t read_file --use-llm
 ```
 
-Mutation strategies:
-- **Semantic** — Reword with different vocabulary
-- **Obfuscation** — Split across sentences, indirect language
-- **Social engineering** — Appeal to helpfulness, false urgency
-- **Fragmented** — Spread across description, parameters, return value
+Stratégies de mutation :
+- **Sémantique** — Reformuler avec un vocabulaire différent.
+- **Obfuscation** — Diviser en phrases, langage indirect.
+- **Ingénierie sociale** — Faire appel à l'aide, créer un sentiment d'urgence.
+- **Fragmentée** — Répartir dans la description, les paramètres, la valeur de retour.
 
-### Multi-Tool Attack Chains
-Test detection of coordinated attacks:
+### Chaînes d'attaque multi-outils
+Test de la détection d'attaques coordonnées :
 
 ```bash
 mcp-stress chain list
 mcp-stress chain execute -c credential_theft_chain
 ```
 
-Built-in chains:
-- `data_exfil_chain` — Read → exfiltrate sensitive data
-- `privilege_escalation_chain` — Gain elevated access
-- `credential_theft_chain` — Harvest credentials
-- `lateral_movement_chain` — Pivot across systems
-- `persistence_chain` — Establish persistent access
-- `sampling_loop_chain` — MCP sampling exploits (Unit42)
+Chaînes intégrées :
+- `data_exfil_chain` — Lecture → exfiltration de données sensibles.
+- `privilege_escalation_chain` — Obtention d'un accès privilégié.
+- `credential_theft_chain` — Collecte de mots de passe.
+- `lateral_movement_chain` — Déplacement entre les systèmes.
+- `persistence_chain` — Établissement d'un accès persistant.
+- `sampling_loop_chain` — Exploits d'échantillonnage MCP (Unit42).
 
-### Multiple Output Formats
+### Formats de sortie multiples
 
 ```bash
 # JSON (machine-readable)
@@ -106,8 +106,8 @@ mcp-stress stress run --format html -o dashboard.html
 mcp-stress stress run --format sarif -o results.sarif
 ```
 
-### Scanner Adapters
-Test against real scanners:
+### Adaptateurs de scanner
+Test contre de vrais scanners :
 
 ```bash
 # List available scanners
@@ -120,42 +120,42 @@ mcp-stress stress run --scanner tool-scan
 mcp-stress stress run --scanner cli --scanner-cmd "my-scanner --json {input}"
 ```
 
-## CLI Reference
+## Référence de l'interface en ligne de commande (CLI)
 
-### Pattern Library
+### Bibliothèque de modèles
 ```bash
 mcp-stress patterns list              # List all patterns
 mcp-stress patterns list --paradigm p1  # Filter by paradigm
 mcp-stress patterns stats             # Show statistics
 ```
 
-### Payload Management
+### Gestion des charges utiles
 ```bash
 mcp-stress payloads list              # List poison payloads
 mcp-stress payloads list --category data_exfil
 ```
 
-### Test Generation
+### Génération de tests
 ```bash
 mcp-stress generate --paradigm p2 --count 100
 mcp-stress generate --payload cross_tool --output tests.json
 ```
 
-### Stress Testing
+### Tests de charge
 ```bash
 mcp-stress stress run                 # Full stress test
 mcp-stress stress run --phases baseline,mutation,temporal
 mcp-stress stress run --tools read_file,write_file
 ```
 
-### Scanning
+### Analyse
 ```bash
 mcp-stress scan compare -t read_file -s obfuscation
 mcp-stress scan batch -t read_file,write_file -s direct_injection,obfuscation
 mcp-stress scan scanners
 ```
 
-### Attack Chains
+### Chaînes d'attaque
 ```bash
 mcp-stress chain list                 # List available chains
 mcp-stress chain execute -c data_exfil_chain
@@ -168,13 +168,13 @@ mcp-stress fuzz mutate -p "payload"   # Deterministic mutations
 mcp-stress fuzz evasion -p "payload" --use-llm  # LLM-guided
 ```
 
-### Utilities
+### Outils utilitaires
 ```bash
 mcp-stress info                       # Framework information
 mcp-stress --version                  # Version
 ```
 
-## Python API
+## API Python
 
 ```python
 from mcp_stress_test import PatternLibrary
@@ -204,25 +204,25 @@ for chain in BUILTIN_CHAINS:
     print(f"{chain.name}: {result.detected_count}/{result.total_steps}")
 ```
 
-## Mutation Strategies
+## Stratégies de mutation
 
-| Strategy | Description | Detectability |
-|----------|-------------|---------------|
-| `direct_injection` | Append payload directly | High (baseline) |
-| `semantic_blending` | Blend into documentation | Medium |
-| `obfuscation` | Unicode tricks, zero-width chars | Medium |
-| `encoding` | Base64, hex encoding | Low-Medium |
-| `fragmentation` | Split across fields | Low |
+| Stratégie | Description | Détectabilité |
+| ---------- | ------------- | --------------- |
+| `direct_injection` | Ajouter directement la charge utile | Élevée (par défaut) |
+| `semantic_blending` | Intégrer dans la documentation | Moyenne |
+| `obfuscation` | Astuces Unicode, caractères de largeur nulle | Moyenne |
+| `encoding` | Encodage Base64, hexadécimal | Faible à moyenne |
+| `fragmentation` | Répartir dans les champs | Faible |
 
-## Research Sources
+## Sources de recherche
 
-This framework implements attacks from:
+Ce cadre implémente des attaques provenant de :
 
-- **[MCPTox](https://arxiv.org/html/2508.14925v1)** — 1,312 attack patterns across 3 paradigms
-- **[Palo Alto Unit42](https://unit42.paloaltonetworks.com/model-context-protocol-attack-vectors/)** — Sampling loop exploits
-- **[CyberArk](https://www.cyberark.com/resources/threat-research-blog/poison-everywhere-no-output-from-your-mcp-server-is-safe)** — Full-schema poisoning research
+- **[MCPTox](https://arxiv.org/html/2508.14925v1)** — 1 312 modèles d'attaque répartis dans 3 paradigmes.
+- **[Palo Alto Unit42](https://unit42.paloaltonetworks.com/model-context-protocol-attack-vectors/)** — Exploits d'échantillonnage.
+- **[CyberArk](https://www.cyberark.com/resources/threat-research-blog/poison-everywhere-no-output-from-your-mcp-server-is-safe)** — Recherche sur l'empoisonnement de l'ensemble du schéma.
 
-## Integration with tool-scan
+## Intégration avec l'analyse des outils
 
 ```bash
 # Install tool-scan
@@ -232,7 +232,7 @@ pip install tool-scan
 mcp-stress stress run --scanner tool-scan
 ```
 
-## Development
+## Développement
 
 ```bash
 # Clone
@@ -252,17 +252,17 @@ pyright
 ruff check .
 ```
 
-## License
+## Licence
 
 MIT
 
-## Contributing
+## Contribution
 
-PRs welcome! Areas of interest:
-- New attack patterns from research
-- Scanner adapters
-- Evasion techniques
-- Reporting formats
+Les demandes de tirage (PR) sont les bienvenues ! Domaines d'intérêt :
+- Nouveaux modèles d'attaque provenant de recherches.
+- Adaptateurs de scanner.
+- Techniques d'évasion.
+- Formats de rapport.
 
 ---
 

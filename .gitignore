@@ -90,3 +90,7 @@ full_stress_report.md
 *.key
 .env.local
 .env.*.local
+site/.astro/
+site/dist/
+site/node_modules/
+.polyglot-cache.json
