@@ -1,6 +1,6 @@
 [project]
 name = "mcp-stress-test"
-version = "0.1.2"
+version = "1.0.0"
 description = "Stress testing framework for MCP security tools - simulating attacks, temporal degradation, and edge cases"
 readme = "README.md"
 license = "MIT"
@@ -10,7 +10,7 @@ authors = [
 ]
 keywords = ["mcp", "security", "testing", "stress-test", "llm", "ai-agents"]
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
     "Intended Audience :: Information Technology",
     "License :: OSI Approved :: MIT License",

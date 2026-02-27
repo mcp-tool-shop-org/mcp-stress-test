@@ -252,6 +252,31 @@ pyright
 ruff check .
 ```
 
+## Security & Data Scope
+
+| Aspect | Detail |
+|--------|--------|
+| **Data touched** | Attack pattern YAML/JSON files (bundled). User-specified output files for reports |
+| **Data NOT touched** | No network access to external systems. No telemetry. No analytics. No credential handling |
+| **Permissions** | Read: bundled pattern library. Write: output reports to user-specified paths only |
+| **Network** | Optional Ollama connection (localhost only) for LLM-guided fuzzing. No other network egress |
+| **Telemetry** | None collected or sent |
+
+See [SECURITY.md](SECURITY.md) for vulnerability reporting and responsible use guidelines.
+
+## Scorecard
+
+| Category | Score |
+|----------|-------|
+| A. Security | 10 |
+| B. Error Handling | 10 |
+| C. Operator Docs | 10 |
+| D. Shipping Hygiene | 10 |
+| E. Identity (soft) | 10 |
+| **Overall** | **50/50** |
+
+> Full audit: [SHIP_GATE.md](SHIP_GATE.md) · [SCORECARD.md](SCORECARD.md)
+
 ## License
 
 MIT
