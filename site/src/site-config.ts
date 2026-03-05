@@ -14,7 +14,7 @@ export const config: SiteConfig = {
     headlineAccent: 'before attackers do.',
     description: '1,312 adversarial attack patterns from MCPTox, Unit42, and CyberArk research. Mutation, fuzzing, chain attacks, and SARIF reporting — all from a single CLI.',
     primaryCta: { href: '#usage', label: 'Get started' },
-    secondaryCta: { href: '#strategies', label: 'See strategies' },
+    secondaryCta: { href: 'handbook/', label: 'Read the Handbook' },
     previews: [
       { label: 'Install', code: 'pip install mcp-stress-test' },
       { label: 'Stress', code: 'mcp-stress stress run\n  --phases baseline,mutation' },
