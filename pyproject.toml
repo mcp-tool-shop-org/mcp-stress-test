@@ -1,6 +1,6 @@
 [project]
 name = "mcp-stress-test"
-version = "1.0.0"
+version = "1.0.1"
 description = "Stress testing framework for MCP security tools - simulating attacks, temporal degradation, and edge cases"
 readme = "README.md"
 license = "MIT"

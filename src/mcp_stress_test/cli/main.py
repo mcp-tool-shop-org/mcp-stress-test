@@ -7,6 +7,7 @@ import sys
 import click
 from rich.console import Console
 
+from mcp_stress_test import __version__
 from mcp_stress_test.cli.commands.chain import chain_group
 from mcp_stress_test.cli.commands.fuzz import fuzz_group
 from mcp_stress_test.cli.commands.info import info_cmd
@@ -26,7 +27,7 @@ console = Console(force_terminal=_is_terminal)
 
 
 @click.group()
-@click.version_option(version="0.6.0", prog_name="mcp-stress")
+@click.version_option(version=__version__, prog_name="mcp-stress")
 @click.option("--verbose", "-v", is_flag=True, help="Enable verbose output")
 @click.option("--config", "-c", type=click.Path(), help="Path to config file")
 @click.pass_context

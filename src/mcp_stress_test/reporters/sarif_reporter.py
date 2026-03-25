@@ -13,6 +13,7 @@ import json
 from datetime import datetime
 from typing import TYPE_CHECKING
 
+from mcp_stress_test import __version__
 from mcp_stress_test.core.protocols import AttackResult, ChainResult, ReportFormat
 from mcp_stress_test.reporters.base import BaseReporter, ReportMetrics
 
@@ -171,7 +172,7 @@ class SARIFReporter(BaseReporter):
         return {
             "driver": {
                 "name": "mcp-stress-test",
-                "version": "0.6.0",
+                "version": __version__,
                 "informationUri": "https://github.com/mcp-tool-shop/mcp-stress-test",
                 "rules": [
                     {

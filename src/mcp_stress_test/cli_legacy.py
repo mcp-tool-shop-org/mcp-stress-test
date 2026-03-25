@@ -11,6 +11,7 @@ import click
 from rich.console import Console
 from rich.table import Table
 
+from mcp_stress_test import __version__
 from mcp_stress_test.models import AttackParadigm, ServerDomain
 from mcp_stress_test.patterns import PatternLibrary, load_payloads
 
@@ -28,7 +29,7 @@ console = Console(force_terminal=_is_terminal)
 
 
 @click.group()
-@click.version_option(version="0.1.0")
+@click.version_option(version=__version__)
 def main() -> None:
     """MCP Stress Test Framework - Security testing for MCP tools."""
     pass

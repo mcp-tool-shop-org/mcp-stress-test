@@ -21,7 +21,7 @@ class TestMainCommands:
         """Test version command."""
         result = runner.invoke(main, ["--version"])
         assert result.exit_code == 0
-        assert "0.1.0" in result.output
+        assert "1.0.1" in result.output
 
     def test_info(self, runner):
         """Test info command."""

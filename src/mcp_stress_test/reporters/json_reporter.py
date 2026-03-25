@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 from datetime import datetime
 
+from mcp_stress_test import __version__
 from mcp_stress_test.core.protocols import AttackResult, ChainResult, ReportFormat
 from mcp_stress_test.reporters.base import BaseReporter, ReportMetrics
 
@@ -30,7 +31,7 @@ class JSONReporter(BaseReporter):
         report = {
             "metadata": {
                 "generated": datetime.now().isoformat(),
-                "version": "0.6.0",
+                "version": __version__,
                 "framework": "mcp-stress-test",
             },
             "summary": {

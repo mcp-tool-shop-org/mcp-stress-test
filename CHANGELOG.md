@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1] - 2026-03-25
+
+### Fixed
+- Version alignment: `__init__.py` (was 0.1.0), CLI (was 0.6.0), JSON reporter,
+  and SARIF reporter all now read from single `__version__` source of truth
+- CLI `--version` now uses dynamic import instead of hardcoded string
+
 ## [1.0.0] - 2026-02-27
 
 ### Changed
