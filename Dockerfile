@@ -15,7 +15,7 @@
 # -----------------------------------------------------------------------------
 # Stage 1: Build
 # -----------------------------------------------------------------------------
-FROM python:3.12-slim as builder
+FROM python:3.14-slim as builder
 
 WORKDIR /build
 
@@ -32,7 +32,7 @@ RUN python -m build --wheel
 # -----------------------------------------------------------------------------
 # Stage 2: Runtime
 # -----------------------------------------------------------------------------
-FROM python:3.12-slim as runtime
+FROM python:3.14-slim as runtime
 
 # Labels
 LABEL org.opencontainers.image.title="MCP Stress Test"
