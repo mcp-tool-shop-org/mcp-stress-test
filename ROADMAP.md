@@ -199,7 +199,7 @@ async def test_with_checkpoint(tool, attack):
     checkpoint = await cwm.window_freeze(
         session_id=session.id,
         window_name=f"pre-attack-{attack.id}",
-        description="Checkpoint before stress test"
+        description="Checkpoint before stress test",
     )
 
     try:

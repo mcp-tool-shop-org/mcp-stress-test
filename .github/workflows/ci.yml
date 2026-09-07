@@ -46,7 +46,12 @@ jobs:
           python-version: '3.12'
 
       - name: Install linters
-        run: pip install ruff
+        # PINNED. This was `pip install ruff`, so every ruff release was a live
+        # dependency of CI going green. 0.16.x formats Python code blocks inside
+        # Markdown, which turned this repo red on an illustrative snippet in
+        # ROADMAP.md -- a docs file, on a release nobody here asked for. Bump this
+        # deliberately and take the reformat in the same commit.
+        run: pip install ruff==0.16.6
 
       - name: Check formatting
         run: ruff format --check .
