@@ -47,4 +47,9 @@ updates:
     groups:
       site-security:
         applies-to: security-updates
+        # Majors stay OUT of the group. Grouping a major with safe patches makes
+        # the whole PR unmergeable until someone takes the framework upgrade --
+        # measured here 2026-09-17, when astro 5->7 stranded postcss-selector-parser,
+        # svgo, js-yaml and smol-toml at their vulnerable versions on main.
+        update-types: ["minor", "patch"]
         patterns: ["*"]
