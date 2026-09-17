@@ -19,11 +19,6 @@ on:
       - '.github/workflows/**'
   pull_request:
     branches: [main]
-    paths:
-      - 'pyproject.toml'
-      - 'src/**'
-      - 'tests/**'
-      - '.github/workflows/**'
   workflow_dispatch:
 
 concurrency:
