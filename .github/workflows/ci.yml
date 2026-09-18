@@ -17,6 +17,9 @@ on:
       - 'src/**'
       - 'tests/**'
       - '.github/workflows/**'
+      - 'site/package.json'
+      - 'site/package-lock.json'
+      - 'site/astro.config.mjs'
   pull_request:
     branches: [main]
   workflow_dispatch:
