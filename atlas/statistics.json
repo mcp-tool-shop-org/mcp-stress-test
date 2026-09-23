@@ -1,0 +1,781 @@
+{
+  "boundaries": [
+    {
+      "breakage": {
+        "coChangesOnly": [],
+        "collapsed": false,
+        "confidence": "low",
+        "importsAndCoChanges": [],
+        "importsOnly": []
+      },
+      "cohesion": null,
+      "cohesionDropped": false,
+      "confidence": "low",
+      "highWater": null,
+      "name": ".github",
+      "qualifyingSourceCommits": 0,
+      "rebaseline": null
+    },
+    {
+      "breakage": {
+        "coChangesOnly": [],
+        "collapsed": false,
+        "confidence": "low",
+        "importsAndCoChanges": [],
+        "importsOnly": []
+      },
+      "cohesion": null,
+      "cohesionDropped": false,
+      "confidence": "low",
+      "highWater": null,
+      "name": "docs",
+      "qualifyingSourceCommits": 0,
+      "rebaseline": null
+    },
+    {
+      "breakage": {
+        "coChangesOnly": [],
+        "collapsed": false,
+        "confidence": "low",
+        "importsAndCoChanges": [],
+        "importsOnly": []
+      },
+      "cohesion": null,
+      "cohesionDropped": false,
+      "confidence": "low",
+      "highWater": null,
+      "name": "root",
+      "qualifyingSourceCommits": 0,
+      "rebaseline": null
+    },
+    {
+      "breakage": {
+        "coChangesOnly": [],
+        "collapsed": false,
+        "confidence": "low",
+        "importsAndCoChanges": [],
+        "importsOnly": []
+      },
+      "cohesion": null,
+      "cohesionDropped": false,
+      "confidence": "low",
+      "highWater": null,
+      "name": "site",
+      "qualifyingSourceCommits": 1,
+      "rebaseline": null
+    },
+    {
+      "breakage": {
+        "coChangesOnly": [],
+        "collapsed": false,
+        "confidence": "low",
+        "importsAndCoChanges": [],
+        "importsOnly": [
+          "tests"
+        ]
+      },
+      "cohesion": null,
+      "cohesionDropped": false,
+      "confidence": "low",
+      "highWater": null,
+      "name": "src",
+      "qualifyingSourceCommits": 1,
+      "rebaseline": null
+    },
+    {
+      "breakage": {
+        "coChangesOnly": [],
+        "collapsed": false,
+        "confidence": "low",
+        "importsAndCoChanges": [],
+        "importsOnly": []
+      },
+      "cohesion": null,
+      "cohesionDropped": false,
+      "confidence": "low",
+      "highWater": null,
+      "name": "tests",
+      "qualifyingSourceCommits": 0,
+      "rebaseline": null
+    }
+  ],
+  "churn": {
+    "definition": "commits is how many commits in the window touch the file, including merges and commits dropped from coupling. lines is added plus deleted in those commits.",
+    "files": [
+      {
+        "commits": 1,
+        "lines": 92,
+        "path": ".github/ISSUE_TEMPLATE/attack_pattern.yml"
+      },
+      {
+        "commits": 1,
+        "lines": 80,
+        "path": ".github/ISSUE_TEMPLATE/bug_report.yml"
+      },
+      {
+        "commits": 1,
+        "lines": 65,
+        "path": ".github/ISSUE_TEMPLATE/feature_request.yml"
+      },
+      {
+        "commits": 2,
+        "lines": 27,
+        "path": ".github/dependabot.yml"
+      },
+      {
+        "commits": 9,
+        "lines": 179,
+        "path": ".github/workflows/ci.yml"
+      },
+      {
+        "commits": 5,
+        "lines": 75,
+        "path": ".github/workflows/pages.yml"
+      },
+      {
+        "commits": 5,
+        "lines": 282,
+        "path": ".github/workflows/publish.yml"
+      },
+      {
+        "commits": 2,
+        "lines": 97,
+        "path": ".gitignore"
+      },
+      {
+        "commits": 2,
+        "lines": 106,
+        "path": "CHANGELOG.md"
+      },
+      {
+        "commits": 1,
+        "lines": 31,
+        "path": "CLAUDE.md"
+      },
+      {
+        "commits": 1,
+        "lines": 195,
+        "path": "CONTRIBUTING.md"
+      },
+      {
+        "commits": 4,
+        "lines": 95,
+        "path": "Dockerfile"
+      },
+      {
+        "commits": 1,
+        "lines": 21,
+        "path": "LICENSE"
+      },
+      {
+        "commits": 2,
+        "lines": 125,
+        "path": "PRESS_RELEASE.md"
+      },
+      {
+        "commits": 2,
+        "lines": 506,
+        "path": "README.es.md"
+      },
+      {
+        "commits": 2,
+        "lines": 504,
+        "path": "README.fr.md"
+      },
+      {
+        "commits": 2,
+        "lines": 502,
+        "path": "README.hi.md"
+      },
+      {
+        "commits": 2,
+        "lines": 486,
+        "path": "README.it.md"
+      },
+      {
+        "commits": 2,
+        "lines": 510,
+        "path": "README.ja.md"
+      },
+      {
+        "commits": 2,
+        "lines": 342,
+        "path": "README.md"
+      },
+      {
+        "commits": 2,
+        "lines": 510,
+        "path": "README.pt-BR.md"
+      },
+      {
+        "commits": 2,
+        "lines": 470,
+        "path": "README.zh.md"
+      },
+      {
+        "commits": 4,
+        "lines": 506,
+        "path": "ROADMAP.md"
+      },
+      {
+        "commits": 1,
+        "lines": 44,
+        "path": "SCORECARD.md"
+      },
+      {
+        "commits": 1,
+        "lines": 65,
+        "path": "SECURITY.md"
+      },
+      {
+        "commits": 1,
+        "lines": 80,
+        "path": "SHIP_GATE.md"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "logo.png"
+      },
+      {
+        "commits": 2,
+        "lines": 92,
+        "path": "pyproject.toml"
+      },
+      {
+        "commits": 2,
+        "lines": 26,
+        "path": "site/astro.config.mjs"
+      },
+      {
+        "commits": 7,
+        "lines": 13712,
+        "path": "site/package-lock.json"
+      },
+      {
+        "commits": 2,
+        "lines": 24,
+        "path": "site/package.json"
+      },
+      {
+        "commits": 1,
+        "lines": 7,
+        "path": "site/src/content.config.ts"
+      },
+      {
+        "commits": 2,
+        "lines": 199,
+        "path": "site/src/content/docs/handbook/beginners.md"
+      },
+      {
+        "commits": 2,
+        "lines": 190,
+        "path": "site/src/content/docs/handbook/configuration.md"
+      },
+      {
+        "commits": 2,
+        "lines": 136,
+        "path": "site/src/content/docs/handbook/getting-started.md"
+      },
+      {
+        "commits": 3,
+        "lines": 70,
+        "path": "site/src/content/docs/handbook/index.md"
+      },
+      {
+        "commits": 2,
+        "lines": 314,
+        "path": "site/src/content/docs/handbook/reference.md"
+      },
+      {
+        "commits": 1,
+        "lines": 217,
+        "path": "site/src/content/docs/handbook/usage.md"
+      },
+      {
+        "commits": 1,
+        "lines": 33,
+        "path": "site/src/pages/index.astro"
+      },
+      {
+        "commits": 2,
+        "lines": 84,
+        "path": "site/src/site-config.ts"
+      },
+      {
+        "commits": 1,
+        "lines": 3,
+        "path": "site/src/styles/global.css"
+      },
+      {
+        "commits": 1,
+        "lines": 17,
+        "path": "site/src/styles/starlight-custom.css"
+      },
+      {
+        "commits": 1,
+        "lines": 5,
+        "path": "site/tsconfig.json"
+      },
+      {
+        "commits": 2,
+        "lines": 27,
+        "path": "src/mcp_stress_test/__init__.py"
+      },
+      {
+        "commits": 2,
+        "lines": 43,
+        "path": "src/mcp_stress_test/chains/__init__.py"
+      },
+      {
+        "commits": 2,
+        "lines": 225,
+        "path": "src/mcp_stress_test/chains/base.py"
+      },
+      {
+        "commits": 2,
+        "lines": 205,
+        "path": "src/mcp_stress_test/chains/executor.py"
+      },
+      {
+        "commits": 2,
+        "lines": 458,
+        "path": "src/mcp_stress_test/chains/library.py"
+      },
+      {
+        "commits": 1,
+        "lines": 147,
+        "path": "src/mcp_stress_test/chains/loader.py"
+      },
+      {
+        "commits": 1,
+        "lines": 11,
+        "path": "src/mcp_stress_test/cli/__init__.py"
+      },
+      {
+        "commits": 1,
+        "lines": 3,
+        "path": "src/mcp_stress_test/cli/commands/__init__.py"
+      },
+      {
+        "commits": 2,
+        "lines": 297,
+        "path": "src/mcp_stress_test/cli/commands/chain.py"
+      },
+      {
+        "commits": 2,
+        "lines": 249,
+        "path": "src/mcp_stress_test/cli/commands/fuzz.py"
+      },
+      {
+        "commits": 1,
+        "lines": 99,
+        "path": "src/mcp_stress_test/cli/commands/generate.py"
+      },
+      {
+        "commits": 2,
+        "lines": 92,
+        "path": "src/mcp_stress_test/cli/commands/info.py"
+      },
+      {
+        "commits": 1,
+        "lines": 149,
+        "path": "src/mcp_stress_test/cli/commands/patterns.py"
+      },
+      {
+        "commits": 1,
+        "lines": 66,
+        "path": "src/mcp_stress_test/cli/commands/payloads.py"
+      },
+      {
+        "commits": 2,
+        "lines": 732,
+        "path": "src/mcp_stress_test/cli/commands/report.py"
+      },
+      {
+        "commits": 2,
+        "lines": 348,
+        "path": "src/mcp_stress_test/cli/commands/scan.py"
+      },
+      {
+        "commits": 2,
+        "lines": 120,
+        "path": "src/mcp_stress_test/cli/commands/server.py"
+      },
+      {
+        "commits": 1,
+        "lines": 256,
+        "path": "src/mcp_stress_test/cli/commands/stress.py"
+      },
+      {
+        "commits": 1,
+        "lines": 63,
+        "path": "src/mcp_stress_test/cli/commands/tools.py"
+      },
+      {
+        "commits": 2,
+        "lines": 83,
+        "path": "src/mcp_stress_test/cli/main.py"
+      },
+      {
+        "commits": 1,
+        "lines": 52,
+        "path": "src/mcp_stress_test/cli/quality_gate.py"
+      },
+      {
+        "commits": 1,
+        "lines": 84,
+        "path": "src/mcp_stress_test/cli/scanner_resolve.py"
+      },
+      {
+        "commits": 2,
+        "lines": 2018,
+        "path": "src/mcp_stress_test/cli_legacy.py"
+      },
+      {
+        "commits": 2,
+        "lines": 42,
+        "path": "src/mcp_stress_test/core/__init__.py"
+      },
+      {
+        "commits": 2,
+        "lines": 228,
+        "path": "src/mcp_stress_test/core/config.py"
+      },
+      {
+        "commits": 2,
+        "lines": 51,
+        "path": "src/mcp_stress_test/core/data_paths.py"
+      },
+      {
+        "commits": 2,
+        "lines": 370,
+        "path": "src/mcp_stress_test/core/protocols.py"
+      },
+      {
+        "commits": 1,
+        "lines": 148,
+        "path": "src/mcp_stress_test/core/registry.py"
+      },
+      {
+        "commits": 2,
+        "lines": 38,
+        "path": "src/mcp_stress_test/fuzzing/__init__.py"
+      },
+      {
+        "commits": 1,
+        "lines": 274,
+        "path": "src/mcp_stress_test/fuzzing/evasion.py"
+      },
+      {
+        "commits": 1,
+        "lines": 135,
+        "path": "src/mcp_stress_test/fuzzing/evolutionary.py"
+      },
+      {
+        "commits": 2,
+        "lines": 379,
+        "path": "src/mcp_stress_test/fuzzing/llm_fuzzer.py"
+      },
+      {
+        "commits": 2,
+        "lines": 351,
+        "path": "src/mcp_stress_test/fuzzing/mutations.py"
+      },
+      {
+        "commits": 2,
+        "lines": 43,
+        "path": "src/mcp_stress_test/generator/__init__.py"
+      },
+      {
+        "commits": 2,
+        "lines": 628,
+        "path": "src/mcp_stress_test/generator/mutator.py"
+      },
+      {
+        "commits": 1,
+        "lines": 288,
+        "path": "src/mcp_stress_test/generator/protocol.py"
+      },
+      {
+        "commits": 1,
+        "lines": 409,
+        "path": "src/mcp_stress_test/generator/strategies.py"
+      },
+      {
+        "commits": 2,
+        "lines": 531,
+        "path": "src/mcp_stress_test/generator/time_simulator.py"
+      },
+      {
+        "commits": 2,
+        "lines": 377,
+        "path": "src/mcp_stress_test/models.py"
+      },
+      {
+        "commits": 1,
+        "lines": 10,
+        "path": "src/mcp_stress_test/patterns/__init__.py"
+      },
+      {
+        "commits": 1,
+        "lines": 211,
+        "path": "src/mcp_stress_test/patterns/corpus.py"
+      },
+      {
+        "commits": 1,
+        "lines": 170,
+        "path": "src/mcp_stress_test/patterns/data/cases.json"
+      },
+      {
+        "commits": 1,
+        "lines": 33,
+        "path": "src/mcp_stress_test/patterns/data/chains.yaml"
+      },
+      {
+        "commits": 1,
+        "lines": 13,
+        "path": "src/mcp_stress_test/patterns/data/manifest.json"
+      },
+      {
+        "commits": 1,
+        "lines": 378,
+        "path": "src/mcp_stress_test/patterns/data/patterns.json"
+      },
+      {
+        "commits": 1,
+        "lines": 314,
+        "path": "src/mcp_stress_test/patterns/data/payloads.json"
+      },
+      {
+        "commits": 1,
+        "lines": 220,
+        "path": "src/mcp_stress_test/patterns/data/profiles.json"
+      },
+      {
+        "commits": 1,
+        "lines": 462,
+        "path": "src/mcp_stress_test/patterns/data/tools.json"
+      },
+      {
+        "commits": 2,
+        "lines": 957,
+        "path": "src/mcp_stress_test/patterns/library.py"
+      },
+      {
+        "commits": 1,
+        "lines": 35,
+        "path": "src/mcp_stress_test/patterns/loader.py"
+      },
+      {
+        "commits": 2,
+        "lines": 414,
+        "path": "src/mcp_stress_test/patterns/payloads.py"
+      },
+      {
+        "commits": 1,
+        "lines": 21,
+        "path": "src/mcp_stress_test/reporters/__init__.py"
+      },
+      {
+        "commits": 2,
+        "lines": 214,
+        "path": "src/mcp_stress_test/reporters/base.py"
+      },
+      {
+        "commits": 2,
+        "lines": 418,
+        "path": "src/mcp_stress_test/reporters/html_reporter.py"
+      },
+      {
+        "commits": 2,
+        "lines": 88,
+        "path": "src/mcp_stress_test/reporters/json_reporter.py"
+      },
+      {
+        "commits": 2,
+        "lines": 129,
+        "path": "src/mcp_stress_test/reporters/markdown_reporter.py"
+      },
+      {
+        "commits": 2,
+        "lines": 332,
+        "path": "src/mcp_stress_test/reporters/sarif_reporter.py"
+      },
+      {
+        "commits": 2,
+        "lines": 19,
+        "path": "src/mcp_stress_test/scanner/__init__.py"
+      },
+      {
+        "commits": 2,
+        "lines": 630,
+        "path": "src/mcp_stress_test/scanner/adapter.py"
+      },
+      {
+        "commits": 3,
+        "lines": 771,
+        "path": "src/mcp_stress_test/scanner/checkpoint.py"
+      },
+      {
+        "commits": 1,
+        "lines": 218,
+        "path": "src/mcp_stress_test/scanner/comparative.py"
+      },
+      {
+        "commits": 1,
+        "lines": 287,
+        "path": "src/mcp_stress_test/scanner/mcp_client.py"
+      },
+      {
+        "commits": 2,
+        "lines": 1233,
+        "path": "src/mcp_stress_test/scanner/runner.py"
+      },
+      {
+        "commits": 2,
+        "lines": 19,
+        "path": "src/mcp_stress_test/scanners/__init__.py"
+      },
+      {
+        "commits": 2,
+        "lines": 370,
+        "path": "src/mcp_stress_test/scanners/cli_adapter.py"
+      },
+      {
+        "commits": 1,
+        "lines": 222,
+        "path": "src/mcp_stress_test/scanners/http.py"
+      },
+      {
+        "commits": 1,
+        "lines": 161,
+        "path": "src/mcp_stress_test/scanners/mock.py"
+      },
+      {
+        "commits": 3,
+        "lines": 321,
+        "path": "src/mcp_stress_test/scanners/tool_scan.py"
+      },
+      {
+        "commits": 1,
+        "lines": 43,
+        "path": "src/mcp_stress_test/servers/__init__.py"
+      },
+      {
+        "commits": 3,
+        "lines": 753,
+        "path": "src/mcp_stress_test/servers/base.py"
+      },
+      {
+        "commits": 1,
+        "lines": 858,
+        "path": "src/mcp_stress_test/servers/domains.py"
+      },
+      {
+        "commits": 1,
+        "lines": 575,
+        "path": "src/mcp_stress_test/servers/farm.py"
+      },
+      {
+        "commits": 1,
+        "lines": 1,
+        "path": "tests/__init__.py"
+      },
+      {
+        "commits": 1,
+        "lines": 8,
+        "path": "tests/conftest.py"
+      },
+      {
+        "commits": 2,
+        "lines": 178,
+        "path": "tests/test_cli.py"
+      },
+      {
+        "commits": 2,
+        "lines": 521,
+        "path": "tests/test_generator.py"
+      },
+      {
+        "commits": 1,
+        "lines": 241,
+        "path": "tests/test_models.py"
+      },
+      {
+        "commits": 2,
+        "lines": 682,
+        "path": "tests/test_new_features.py"
+      },
+      {
+        "commits": 1,
+        "lines": 557,
+        "path": "tests/test_operator_contract.py"
+      },
+      {
+        "commits": 1,
+        "lines": 238,
+        "path": "tests/test_patterns.py"
+      },
+      {
+        "commits": 2,
+        "lines": 959,
+        "path": "tests/test_scanner.py"
+      },
+      {
+        "commits": 1,
+        "lines": 236,
+        "path": "tests/test_scanner_adapters.py"
+      },
+      {
+        "commits": 2,
+        "lines": 1115,
+        "path": "tests/test_servers.py"
+      }
+    ]
+  },
+  "confidence": {
+    "level": "low",
+    "reason": "fewer than 30 qualifying commits in the window, and fewer than 20 source files reach 10 revisions"
+  },
+  "generatedAt": "2026-09-23T17:48:06.369Z",
+  "generatedFrom": {
+    "commit": "be7da06fb4542fb3c6503e23280490179bb6bdde"
+  },
+  "pairs": [],
+  "parameters": {
+    "appliedChangesetLimit": 33.75,
+    "changeset": 50,
+    "changesetFraction": 0.25,
+    "cohesionDrop": 0.2,
+    "couplingPopulation": "source",
+    "fallenShared": 3,
+    "floor": "fallen",
+    "floorTrigger": "both",
+    "headDate": "2026-09-23T13:08:56-04:00",
+    "inScopeFiles": 135,
+    "pinnedStart": null,
+    "qualifyingCommits": 16,
+    "qualifyingMinimum": 30,
+    "revisions": 5,
+    "shared": 10,
+    "sharedFloorUsed": 3,
+    "since": "2026-03-27T17:08:56.000Z",
+    "sourceExtensions": [
+      ".js",
+      ".mjs",
+      ".cjs",
+      ".jsx",
+      ".ts",
+      ".tsx",
+      ".mts",
+      ".cts",
+      ".py"
+    ],
+    "sourceFileReach": 20,
+    "sourceFilesReachingStrongFloor": 0,
+    "strength": 0.5,
+    "windowDays": 180
+  },
+  "strengthDefinition": "strength is the shared qualifying commits divided by either. either is the number of qualifying commits that touch either file."
+}

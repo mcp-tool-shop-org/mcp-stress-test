@@ -1,0 +1,1928 @@
+{
+  "boundaries": [
+    {
+      "dynamicReads": 0,
+      "dynamicWrites": 0,
+      "entryPoints": [],
+      "externals": 0,
+      "files": [
+        {
+          "hash": "d3d3ef1fe16ad379f4650c0e7ae99340d451449e63d5e75184cf8faf2f81891a",
+          "path": ".github/ISSUE_TEMPLATE/attack_pattern.yml"
+        },
+        {
+          "hash": "a1ceaa0a045783b1f2f8e23590553b258093842c3a54114f7a9e2836936214c9",
+          "path": ".github/ISSUE_TEMPLATE/bug_report.yml"
+        },
+        {
+          "hash": "7117929833423c3eaf6ae34ecf9ea43d94e94c8ea999a04c555ae11fe51bb7e4",
+          "path": ".github/ISSUE_TEMPLATE/feature_request.yml"
+        },
+        {
+          "hash": "da29f828b93b4b90cac870403a2ff3e3a9324abe3a58c2c5318c9544614bf71e",
+          "path": ".github/dependabot.yml"
+        },
+        {
+          "hash": "eb3887162a1075e83db7bee7c324adfb5809029978e5410623044ff3b49fc0ed",
+          "path": ".github/issue_bodies/001-p0-readme-positioning.md"
+        },
+        {
+          "hash": "17847ed1d6658bbfa3b2ae6cc277613a16bdd2e5d9e12ac239a0cad85689c2cb",
+          "path": ".github/issue_bodies/002-p0-quickstart-load-test.md"
+        },
+        {
+          "hash": "5dda9359b044f95add99eaed926587a01813689f7a48ac228ef2e0a9bc061d8a",
+          "path": ".github/issue_bodies/003-p1-scenarios-and-profiles.md"
+        },
+        {
+          "hash": "fca9656c5f7a72cd9bce7dc3351cad33ab184bfb0ef9814c95d3c88f8c723d6d",
+          "path": ".github/issue_bodies/004-p1-metrics-and-reporting.md"
+        },
+        {
+          "hash": "86b28daebaf3916e62ae7291098c2ff12e6736a8d03797ae89aa632f54662714",
+          "path": ".github/issue_bodies/005-p2-performance-regression-suite.md"
+        },
+        {
+          "hash": "118efd1ad71a96576155a22f6aed469d22543b9b0e08c8e10a6fed1b7825d908",
+          "path": ".github/workflows/ci.yml"
+        },
+        {
+          "hash": "cefc842d0f25d6d83e9ac7af3466f9458743c94d0d10902d4397807fb87dfafb",
+          "path": ".github/workflows/pages.yml"
+        },
+        {
+          "hash": "65eb6bbedde015f7f805a4975ec067660c1af698eb71d99363d62aff81233221",
+          "path": ".github/workflows/publish.yml"
+        }
+      ],
+      "globs": [
+        ".github/**"
+      ],
+      "importConfidence": "full",
+      "name": ".github",
+      "origin": "authored",
+      "role": "config",
+      "testedBy": 0,
+      "unresolvedSites": 0
+    },
+    {
+      "dynamicReads": 0,
+      "dynamicWrites": 0,
+      "entryPoints": [],
+      "externals": 0,
+      "files": [
+        {
+          "hash": "042d612a3cbe8a3f9bd05eb042a69d53eb692a75ba6b7c410ebcee890b66c4de",
+          "path": "docs/media/README.md"
+        }
+      ],
+      "globs": [
+        "docs/**"
+      ],
+      "importConfidence": "full",
+      "name": "docs",
+      "origin": "authored",
+      "role": "docs",
+      "testedBy": 0,
+      "unresolvedSites": 0
+    },
+    {
+      "dynamicReads": 0,
+      "dynamicWrites": 0,
+      "entryPoints": [],
+      "externals": 0,
+      "files": [
+        {
+          "hash": "e8d8ca420754a5e5a26b4f7e5a751fe24907de25f3ec7f0d9110064e0bb206e0",
+          "path": ".gitignore"
+        },
+        {
+          "hash": "0f2de34b8a1b70dace8c99383e53b00560cbe3e43c8f1cad7660eba3df37d323",
+          "path": "CHANGELOG.md"
+        },
+        {
+          "hash": "8dfff8e0d158387066d6f602d0f0dad35a49f823776985a14b198276b3a00554",
+          "path": "CLAUDE.md"
+        },
+        {
+          "hash": "0e1050fa0ac984969006cd098fee5fb212106580c355f63629940a04305ed638",
+          "path": "CONTRIBUTING.md"
+        },
+        {
+          "hash": "66ab7d2ea4b33856703e919bcd2d4ce984a609b6af91dd753655a0627c9aa5b4",
+          "path": "Dockerfile"
+        },
+        {
+          "hash": "5ae6b3c8f446f0a7cb95176e4dadb91b68aaffb16b3be09f64f5de248b6a973a",
+          "path": "LICENSE"
+        },
+        {
+          "hash": "dd34e562a486d35fc73f68eb8c8c2b4ecbbe85f0788a22ff26bc058c2f8afeec",
+          "path": "PRESS_RELEASE.md"
+        },
+        {
+          "hash": "b314dbb0bacda7535ba39486664c7a6f05db497a420f835d09b49ae6cb6bb58f",
+          "path": "PROPOSED_README.md"
+        },
+        {
+          "hash": "33dc520a2c9ab850d9f50d646221f7f4528c8cbc8d1c91330bb3d8fc4c197fe2",
+          "path": "README.es.md"
+        },
+        {
+          "hash": "40668afe90954d7b614b235ba29e046c0c978dd627bc6b6e82301cfe5769a34f",
+          "path": "README.fr.md"
+        },
+        {
+          "hash": "cc39dfc3522ce55e3ea0c631ff28b0aa945830120129393d0d49790be9b18216",
+          "path": "README.hi.md"
+        },
+        {
+          "hash": "2ef869bf3d7105445dab367fa0c897e43c29a397b2be2884a7daa88ec1e14d74",
+          "path": "README.it.md"
+        },
+        {
+          "hash": "f6cf22a958cd15d8b34ca54f6e4d07e04bd5702cbcdbbeafe4ef7ad83df66083",
+          "path": "README.ja.md"
+        },
+        {
+          "hash": "bf2738b63ff86abede04edcffce5ffd5da476108f6d99afd052d8f9019908762",
+          "path": "README.md"
+        },
+        {
+          "hash": "f5b713f8afa2de435b8e11650a7c2d7f3529d2ca54b3632e3dab38735adce013",
+          "path": "README.pt-BR.md"
+        },
+        {
+          "hash": "986ffd908dd695d766c88cd10b8775ef79aebae13ff17febe02253c6d07cc5cf",
+          "path": "README.zh.md"
+        },
+        {
+          "hash": "7779921075ff59e6e2e88423c8f3f415838cfdcfd6850a2a83e1247b74aad7c8",
+          "path": "README_TEMPLATE.md"
+        },
+        {
+          "hash": "f6c3c71c2ec1f0e631b0a1cdf12edf3d7bd05cc12c758d59940f5dba30142e97",
+          "path": "REPO_METADATA.md"
+        },
+        {
+          "hash": "a32068ac968572a94c27649166030c216a574b48622bb4beb9f964ce4ab4c857",
+          "path": "ROADMAP.md"
+        },
+        {
+          "hash": "c584cfd2074e19b060b38712781b558060e9dd85fdb57e9d180e333067a8f131",
+          "path": "SCORECARD.md"
+        },
+        {
+          "hash": "04b5165148b48d89970ed73e4dcc7b332952cdeb5d7e2104713238d581d2d008",
+          "path": "SECURITY.md"
+        },
+        {
+          "hash": "1e7093aa2d401afdca55415e903e3c849432e62be47fd7b3b24e824bd44fae89",
+          "path": "SHIP_GATE.md"
+        },
+        {
+          "hash": "c6100f2d1fa400ae9f87f19b3f12581c01dbe54f8712388d8a4e741949ff754c",
+          "path": "logo.png"
+        },
+        {
+          "hash": "0b7f8adea075d1467bbcf0b3bfc1a4f7ac41cb2dc0c5c6d9dea7c940ca9e56f1",
+          "path": "pyproject.toml"
+        }
+      ],
+      "globs": [
+        "*"
+      ],
+      "importConfidence": "full",
+      "name": "root",
+      "origin": "authored",
+      "role": "docs",
+      "testedBy": 0,
+      "unresolvedSites": 0
+    },
+    {
+      "dynamicReads": 0,
+      "dynamicWrites": 0,
+      "entryPoints": [],
+      "externals": 0,
+      "files": [
+        {
+          "hash": "ef173a28801b1e2b3ef594f5d457e32a1e38f688ae380c5dfda72d9372d66648",
+          "path": "site/astro.config.mjs"
+        },
+        {
+          "hash": "b5578baf42cab82e5e7b451b6992cb929aeb6ff8d02d8e11ab690e6f67fea144",
+          "path": "site/package-lock.json"
+        },
+        {
+          "hash": "cff923d88f356795747a843362ca300b43d09c5715e6356f904b4d5fa06a7fae",
+          "path": "site/package.json"
+        },
+        {
+          "hash": "ec030f2e4bf6dc57eaca075d390c228b3212cf29db267e32ef92e110de1acdcc",
+          "path": "site/src/content.config.ts"
+        },
+        {
+          "hash": "38ca8f955f9f0f1531227ea5fec3dae1bad276fbf7d4587cd849bd05c0ccaf4d",
+          "path": "site/src/content/docs/handbook/beginners.md"
+        },
+        {
+          "hash": "947a132336ac6ce80d695abbc17fecb7da1eb3b6621426fff96976738f12751f",
+          "path": "site/src/content/docs/handbook/configuration.md"
+        },
+        {
+          "hash": "6c0d36980087f801d86bc69cd4b74eef33dc38c4506ff9293dc851042e6de6c1",
+          "path": "site/src/content/docs/handbook/getting-started.md"
+        },
+        {
+          "hash": "d7a272080ec55a4885592214df5a0c0c3a5bd3d14de428cdeaa239d868e3db23",
+          "path": "site/src/content/docs/handbook/index.md"
+        },
+        {
+          "hash": "c1d1c956b1f79ae4bfaf16c1d46281c30cb829d3983911e3c62aa9049d0a5ff6",
+          "path": "site/src/content/docs/handbook/reference.md"
+        },
+        {
+          "hash": "06950f482fe34e0b3eb4078c870fcba912fca542a37bcb57dd7873e19741704b",
+          "path": "site/src/content/docs/handbook/usage.md"
+        },
+        {
+          "hash": "a699ad78a6d27d6864ccfe4c3a4a01993aca28ecb4a3d20893f37db9f9b1a522",
+          "path": "site/src/pages/index.astro"
+        },
+        {
+          "hash": "e0a44ae1ed7371c04112db1c62854c14483427d0c9041c72d4dff620c742332c",
+          "path": "site/src/site-config.ts"
+        },
+        {
+          "hash": "5995279a40a9a63426a93feec129006b261cc7200426a398914d0317722ef19b",
+          "path": "site/src/styles/global.css"
+        },
+        {
+          "hash": "9d8dddc46c99a1863e6980810ca6375e764db806f99696446751cbdc5be1a1d9",
+          "path": "site/src/styles/starlight-custom.css"
+        },
+        {
+          "hash": "61fc24492db9aef7ec38eb91cfeebaef96155014bb5f22648fd8ed2327c6cae2",
+          "path": "site/tsconfig.json"
+        }
+      ],
+      "globs": [
+        "site/**"
+      ],
+      "importConfidence": "full",
+      "name": "site",
+      "origin": "authored",
+      "role": "code",
+      "testedBy": 0,
+      "unresolvedSites": 0
+    },
+    {
+      "dynamicReads": 13,
+      "dynamicWrites": 13,
+      "entryPoints": [
+        "src/mcp_stress_test/cli/__init__.py"
+      ],
+      "externals": 0,
+      "files": [
+        {
+          "hash": "1a189eba53049664f9655e1b9f398ed5c54549676fc6d4d3e35546c84e1e786e",
+          "importsFiles": [
+            "src/mcp_stress_test/models.py"
+          ],
+          "path": "src/mcp_stress_test/__init__.py"
+        },
+        {
+          "hash": "8be0f1ec82064e19814180bb1ba8e6cc123e849db2042fd25c69648b61a7bb31",
+          "importsFiles": [
+            "src/mcp_stress_test/chains/base.py",
+            "src/mcp_stress_test/chains/executor.py",
+            "src/mcp_stress_test/chains/library.py",
+            "src/mcp_stress_test/chains/loader.py"
+          ],
+          "path": "src/mcp_stress_test/chains/__init__.py"
+        },
+        {
+          "hash": "accaf7c6c8ffb797d292a6a5a21c82670663cdc518f7eb9119541c5bff73b4a8",
+          "importsFiles": [
+            "src/mcp_stress_test/core/protocols.py",
+            "src/mcp_stress_test/models.py"
+          ],
+          "path": "src/mcp_stress_test/chains/base.py"
+        },
+        {
+          "exports": [
+            "execute_chains"
+          ],
+          "hash": "fe53cdc8f86b3a3ddaa7eaab12dc6c832a8ef9d45429b8f472f959eea74c028d",
+          "importsFiles": [
+            "src/mcp_stress_test/chains/base.py",
+            "src/mcp_stress_test/chains/library.py",
+            "src/mcp_stress_test/core/protocols.py",
+            "src/mcp_stress_test/models.py"
+          ],
+          "path": "src/mcp_stress_test/chains/executor.py"
+        },
+        {
+          "exports": [
+            "get_chain",
+            "list_chains"
+          ],
+          "hash": "3651a0b6256626e86822bb328e3c25bfa1e0f2b0e7eb24c39c3aaf20d4723a2e",
+          "importsFiles": [
+            "src/mcp_stress_test/chains/base.py",
+            "src/mcp_stress_test/chains/loader.py",
+            "src/mcp_stress_test/generator/protocol.py"
+          ],
+          "path": "src/mcp_stress_test/chains/library.py"
+        },
+        {
+          "exports": [
+            "chain_from_document",
+            "default_chains_path",
+            "load_bundled_chains",
+            "load_chains",
+            "register_chain",
+            "registered_chains"
+          ],
+          "hash": "e1c6da78d93328531485a0eeb50aaa47856a988d26853c7b660c2a770249e3ce",
+          "importsFiles": [
+            "src/mcp_stress_test/chains/base.py"
+          ],
+          "path": "src/mcp_stress_test/chains/loader.py"
+        },
+        {
+          "hash": "df7bcdf1b83d48946a4f7d85c42db8234bec62d16c69216f72203f1851f53edc",
+          "importsFiles": [
+            "src/mcp_stress_test/cli/main.py"
+          ],
+          "path": "src/mcp_stress_test/cli/__init__.py"
+        },
+        {
+          "hash": "e6b1c7cdcb04616a2c4065914dcc8c18a183cf279a114cbcf343797148a7abbe",
+          "path": "src/mcp_stress_test/cli/commands/__init__.py"
+        },
+        {
+          "exports": [
+            "chain_execute",
+            "chain_group",
+            "chain_list",
+            "chain_show"
+          ],
+          "hash": "c76edc095bbc0a3cb91340584e03a75218f657d74e29c0be3b272a61e4b786ea",
+          "importsFiles": [
+            "src/mcp_stress_test/chains/executor.py",
+            "src/mcp_stress_test/chains/library.py",
+            "src/mcp_stress_test/cli/quality_gate.py",
+            "src/mcp_stress_test/cli/scanner_resolve.py",
+            "src/mcp_stress_test/models.py"
+          ],
+          "path": "src/mcp_stress_test/cli/commands/chain.py"
+        },
+        {
+          "exports": [
+            "fuzz_evasion",
+            "fuzz_group",
+            "fuzz_mutate",
+            "fuzz_run"
+          ],
+          "hash": "c829709f38114d7a1957be790d40201fb170832ca932efe2d195fb1991c71ecf",
+          "importsFiles": [
+            "src/mcp_stress_test/cli/scanner_resolve.py",
+            "src/mcp_stress_test/core/config.py",
+            "src/mcp_stress_test/fuzzing/evasion.py",
+            "src/mcp_stress_test/fuzzing/llm_fuzzer.py",
+            "src/mcp_stress_test/fuzzing/mutations.py",
+            "src/mcp_stress_test/models.py"
+          ],
+          "path": "src/mcp_stress_test/cli/commands/fuzz.py"
+        },
+        {
+          "exports": [
+            "generate_cmd"
+          ],
+          "hash": "8db61eb8c9282512073d144e0ffe53fe40d97b6b014bbe7a056bab4abd00232f",
+          "importsFiles": [
+            "src/mcp_stress_test/models.py",
+            "src/mcp_stress_test/patterns/__init__.py"
+          ],
+          "path": "src/mcp_stress_test/cli/commands/generate.py"
+        },
+        {
+          "exports": [
+            "info_cmd"
+          ],
+          "hash": "2946b5ab7654713659d868af9d74e854613d8a71fb5c8715c4dac029f7a3bb0a",
+          "importsFiles": [
+            "src/mcp_stress_test/__init__.py"
+          ],
+          "path": "src/mcp_stress_test/cli/commands/info.py"
+        },
+        {
+          "exports": [
+            "patterns_group",
+            "patterns_list",
+            "patterns_stats"
+          ],
+          "hash": "8a12cd59faaace4bad37ead8cfcd0717435a76b6b27b7277f73b80741efb9bfe",
+          "importsFiles": [
+            "src/mcp_stress_test/models.py",
+            "src/mcp_stress_test/patterns/__init__.py"
+          ],
+          "path": "src/mcp_stress_test/cli/commands/patterns.py"
+        },
+        {
+          "exports": [
+            "payloads_group",
+            "payloads_list"
+          ],
+          "hash": "19f8d93bf3b8f1dacfc2f2198a8a30a39281168188afa869a18b5a4e4d7e2290",
+          "importsFiles": [
+            "src/mcp_stress_test/patterns/__init__.py"
+          ],
+          "path": "src/mcp_stress_test/cli/commands/payloads.py"
+        },
+        {
+          "exports": [
+            "compare_report_snapshots",
+            "load_report_json",
+            "parse_report_input",
+            "report_compare",
+            "report_formats",
+            "report_generate",
+            "report_group",
+            "report_preview"
+          ],
+          "hash": "16ed4bd52eb56b3cfbea3f9160483d2dce658efb6eb55fb491a838e2aa2dbac3",
+          "importsFiles": [
+            "src/mcp_stress_test/cli/quality_gate.py",
+            "src/mcp_stress_test/core/protocols.py",
+            "src/mcp_stress_test/reporters/__init__.py"
+          ],
+          "path": "src/mcp_stress_test/cli/commands/report.py"
+        },
+        {
+          "exports": [
+            "scan_batch",
+            "scan_compare",
+            "scan_group",
+            "scan_scanners"
+          ],
+          "hash": "6f6c7f596637898b559ac27de06081cbe5b52418cc1e4c22447f4674c426dcad",
+          "importsFiles": [
+            "src/mcp_stress_test/cli/quality_gate.py",
+            "src/mcp_stress_test/cli/scanner_resolve.py",
+            "src/mcp_stress_test/generator/mutator.py",
+            "src/mcp_stress_test/generator/strategies.py",
+            "src/mcp_stress_test/models.py",
+            "src/mcp_stress_test/scanners/tool_scan.py"
+          ],
+          "path": "src/mcp_stress_test/cli/commands/scan.py"
+        },
+        {
+          "exports": [
+            "server_group",
+            "server_list",
+            "server_serve"
+          ],
+          "hash": "d74ac8f57498e7159c8d8e194141e33959d111f0a1544643aabbe8de0e06a16b",
+          "importsFiles": [
+            "src/mcp_stress_test/models.py",
+            "src/mcp_stress_test/servers/__init__.py"
+          ],
+          "path": "src/mcp_stress_test/cli/commands/server.py"
+        },
+        {
+          "exports": [
+            "execute_stress_run",
+            "stress_group",
+            "stress_run"
+          ],
+          "hash": "42b9baee2c7f17583063547dd845a1ed0601c974bdc37b02990c58314eac35d3",
+          "importsFiles": [
+            "src/mcp_stress_test/core/data_paths.py",
+            "src/mcp_stress_test/patterns/__init__.py",
+            "src/mcp_stress_test/scanner/__init__.py",
+            "src/mcp_stress_test/scanner/checkpoint.py",
+            "src/mcp_stress_test/scanner/runner.py"
+          ],
+          "path": "src/mcp_stress_test/cli/commands/stress.py"
+        },
+        {
+          "exports": [
+            "tools_group",
+            "tools_list"
+          ],
+          "hash": "dc74a5b1b9e737f3e89882d52b4886d485623522f9482947a227b7d6367d009c",
+          "importsFiles": [
+            "src/mcp_stress_test/models.py",
+            "src/mcp_stress_test/patterns/__init__.py"
+          ],
+          "path": "src/mcp_stress_test/cli/commands/tools.py"
+        },
+        {
+          "exports": [
+            "app",
+            "main"
+          ],
+          "hash": "34f1a0730932bb2ac06db2a98ad91672293d8d39ae7f229db5ea1f947cf44eb6",
+          "importsFiles": [
+            "src/mcp_stress_test/__init__.py",
+            "src/mcp_stress_test/cli/commands/chain.py",
+            "src/mcp_stress_test/cli/commands/fuzz.py",
+            "src/mcp_stress_test/cli/commands/generate.py",
+            "src/mcp_stress_test/cli/commands/info.py",
+            "src/mcp_stress_test/cli/commands/patterns.py",
+            "src/mcp_stress_test/cli/commands/payloads.py",
+            "src/mcp_stress_test/cli/commands/report.py",
+            "src/mcp_stress_test/cli/commands/scan.py",
+            "src/mcp_stress_test/cli/commands/server.py",
+            "src/mcp_stress_test/cli/commands/stress.py",
+            "src/mcp_stress_test/cli/commands/tools.py"
+          ],
+          "path": "src/mcp_stress_test/cli/main.py"
+        },
+        {
+          "exports": [
+            "enforce_quality_gate",
+            "quality_gate_options"
+          ],
+          "hash": "d6f00812e92b19f6b3c4f57c0a01503adc4f4397f2b82aac97e78d6609a6e624",
+          "path": "src/mcp_stress_test/cli/quality_gate.py"
+        },
+        {
+          "exports": [
+            "raise_if_scan_error",
+            "require_scanner_available",
+            "resolve_scanner"
+          ],
+          "hash": "a2e9449ac3055962702677d01b088573fffd8b1cea1983588db3d5e745779f60",
+          "importsFiles": [
+            "src/mcp_stress_test/scanners/cli_adapter.py",
+            "src/mcp_stress_test/scanners/mock.py",
+            "src/mcp_stress_test/scanners/tool_scan.py"
+          ],
+          "path": "src/mcp_stress_test/cli/scanner_resolve.py"
+        },
+        {
+          "exports": [
+            "attack",
+            "attack_mutate",
+            "attack_simulate",
+            "attack_strategies",
+            "checkpoint",
+            "checkpoint_cleanup",
+            "checkpoint_list",
+            "checkpoint_restore",
+            "generate",
+            "info",
+            "main",
+            "patterns",
+            "patterns_list",
+            "patterns_stats",
+            "payloads",
+            "payloads_list",
+            "server",
+            "server_call",
+            "server_gradual_poison",
+            "server_list",
+            "server_poison",
+            "server_rug_pull",
+            "server_start",
+            "server_status",
+            "stress",
+            "stress_compare",
+            "stress_report",
+            "stress_run",
+            "tools",
+            "tools_list"
+          ],
+          "hash": "9fb39d5a24287a17e742b01059163f739b41587f0f4735f829c8f144c9b3b7db",
+          "importsFiles": [
+            "src/mcp_stress_test/__init__.py",
+            "src/mcp_stress_test/cli/commands/stress.py",
+            "src/mcp_stress_test/generator/__init__.py",
+            "src/mcp_stress_test/generator/strategies.py",
+            "src/mcp_stress_test/models.py",
+            "src/mcp_stress_test/patterns/__init__.py",
+            "src/mcp_stress_test/scanner/__init__.py",
+            "src/mcp_stress_test/scanner/checkpoint.py",
+            "src/mcp_stress_test/servers/__init__.py"
+          ],
+          "path": "src/mcp_stress_test/cli_legacy.py"
+        },
+        {
+          "hash": "3dc8b3add919c2ce2a6498f6c8d262d8e70f1d8ec1102f2c1ac116c00276f4bf",
+          "importsFiles": [
+            "src/mcp_stress_test/core/config.py",
+            "src/mcp_stress_test/core/protocols.py",
+            "src/mcp_stress_test/core/registry.py"
+          ],
+          "path": "src/mcp_stress_test/core/__init__.py"
+        },
+        {
+          "hash": "e0e4b6831a24f629bc3358ef7f869a0ba672b6592ef2e71c312dc7ec7ef3d212",
+          "importsFiles": [
+            "src/mcp_stress_test/core/data_paths.py"
+          ],
+          "path": "src/mcp_stress_test/core/config.py"
+        },
+        {
+          "exports": [
+            "apply_persistent_defaults",
+            "default_checkpoint_dir",
+            "persistent_root"
+          ],
+          "hash": "8d0ad868b1ff31f57880ff9f61119c5de826fb7a5d7aac9089c84cb0b59a1612",
+          "path": "src/mcp_stress_test/core/data_paths.py"
+        },
+        {
+          "hash": "bf4fe37ca1d2b9a1008aabe3f9f1f7ae2cedeb389494250b468d9b344705913a",
+          "importsFiles": [
+            "src/mcp_stress_test/models.py"
+          ],
+          "path": "src/mcp_stress_test/core/protocols.py"
+        },
+        {
+          "hash": "c0a77fd293af2e404b17e88471ba4aa2a0e812738667dec59569c015a0575457",
+          "importsFiles": [
+            "src/mcp_stress_test/core/protocols.py"
+          ],
+          "path": "src/mcp_stress_test/core/registry.py"
+        },
+        {
+          "hash": "70a8ca90ccdaefda3410a554f78fdd92dd3e89a139e76fa162b07e9444c3a864",
+          "importsFiles": [
+            "src/mcp_stress_test/fuzzing/evasion.py",
+            "src/mcp_stress_test/fuzzing/evolutionary.py",
+            "src/mcp_stress_test/fuzzing/llm_fuzzer.py",
+            "src/mcp_stress_test/fuzzing/mutations.py"
+          ],
+          "path": "src/mcp_stress_test/fuzzing/__init__.py"
+        },
+        {
+          "hash": "09601092328c4a0d3efeadf9cb2a25bf4a5c86a3b35ea487b1fb7e1ad15aa2fd",
+          "importsFiles": [
+            "src/mcp_stress_test/core/config.py",
+            "src/mcp_stress_test/core/protocols.py",
+            "src/mcp_stress_test/fuzzing/llm_fuzzer.py",
+            "src/mcp_stress_test/models.py"
+          ],
+          "path": "src/mcp_stress_test/fuzzing/evasion.py"
+        },
+        {
+          "hash": "a72403faa7a37ca6f60c74e71ac3b2b0fb4897c1e491cff37a56ababec745752",
+          "importsFiles": [
+            "src/mcp_stress_test/core/protocols.py",
+            "src/mcp_stress_test/fuzzing/llm_fuzzer.py",
+            "src/mcp_stress_test/fuzzing/mutations.py",
+            "src/mcp_stress_test/models.py"
+          ],
+          "path": "src/mcp_stress_test/fuzzing/evolutionary.py"
+        },
+        {
+          "exports": [
+            "create_fuzzer"
+          ],
+          "hash": "9dac8a33460e9c6a1ff5ecc0d790100822c183623110b673a8915a1e1f17b396",
+          "importsFiles": [
+            "src/mcp_stress_test/core/config.py",
+            "src/mcp_stress_test/core/protocols.py",
+            "src/mcp_stress_test/models.py"
+          ],
+          "path": "src/mcp_stress_test/fuzzing/llm_fuzzer.py"
+        },
+        {
+          "hash": "dae3e5bc14f4d85cdcd45229565a21d555ac673528ff06c2c94e80548965ee6e",
+          "importsFiles": [
+            "src/mcp_stress_test/core/protocols.py"
+          ],
+          "path": "src/mcp_stress_test/fuzzing/mutations.py"
+        },
+        {
+          "hash": "5f07703dc3bcc9c791f0ea3b422ffae6c0aa6f0fda00479142cf9173ce261b3c",
+          "importsFiles": [
+            "src/mcp_stress_test/generator/mutator.py",
+            "src/mcp_stress_test/generator/protocol.py",
+            "src/mcp_stress_test/generator/strategies.py",
+            "src/mcp_stress_test/generator/time_simulator.py"
+          ],
+          "path": "src/mcp_stress_test/generator/__init__.py"
+        },
+        {
+          "hash": "040380ec2f3a6a44980dd215b9225a5b1c4fac7072751f7dbd4824ca1510bd0a",
+          "importsFiles": [
+            "src/mcp_stress_test/generator/strategies.py",
+            "src/mcp_stress_test/models.py"
+          ],
+          "path": "src/mcp_stress_test/generator/mutator.py"
+        },
+        {
+          "exports": [
+            "create_sampling_loop",
+            "create_sampling_request",
+            "create_sampling_response",
+            "elicitation_create_request",
+            "mutate_elicitation",
+            "mutate_prompt",
+            "mutate_resource",
+            "mutate_sampling_message",
+            "prompts_list_result",
+            "resources_list_result"
+          ],
+          "hash": "6c2757a3a31d9be9f0af90f75c03a97408147e282e1cc2982e5ca6ea41c10dab",
+          "importsFiles": [
+            "src/mcp_stress_test/generator/strategies.py",
+            "src/mcp_stress_test/models.py"
+          ],
+          "path": "src/mcp_stress_test/generator/protocol.py"
+        },
+        {
+          "exports": [
+            "get_all_strategies",
+            "get_strategy"
+          ],
+          "hash": "7beb8fa41099005d8f783e1903022be6c1957d894b5616bc7d69a6d5bf2a377b",
+          "importsFiles": [
+            "src/mcp_stress_test/models.py"
+          ],
+          "path": "src/mcp_stress_test/generator/strategies.py"
+        },
+        {
+          "hash": "b386811dbdd24dde9f9426e53dd63d11adb59ea0b76c7839ccd8ffe16f5f8966",
+          "importsFiles": [
+            "src/mcp_stress_test/generator/mutator.py",
+            "src/mcp_stress_test/generator/strategies.py",
+            "src/mcp_stress_test/models.py"
+          ],
+          "path": "src/mcp_stress_test/generator/time_simulator.py"
+        },
+        {
+          "hash": "bf0c2d6ef6724c7161cc652275e4f276ac7b4f1e8d0db4b29979834fcfd2fe6f",
+          "path": "src/mcp_stress_test/models.py"
+        },
+        {
+          "hash": "8d26a0f65d46d01e8880b119cba854ac6435f6a7b1bfaee2bef38a6d56d673fc",
+          "importsFiles": [
+            "src/mcp_stress_test/patterns/library.py",
+            "src/mcp_stress_test/patterns/loader.py"
+          ],
+          "path": "src/mcp_stress_test/patterns/__init__.py"
+        },
+        {
+          "exports": [
+            "load_corpus"
+          ],
+          "hash": "c6eed5b352dc324b6a0d1145ebd00c70235760b251aa54141ad589f85d6b0f23",
+          "importsFiles": [
+            "src/mcp_stress_test/models.py"
+          ],
+          "path": "src/mcp_stress_test/patterns/corpus.py"
+        },
+        {
+          "hash": "2e053b94801e7135448d124e03529b6e67a194150cb18b515bff4ed8961e8ec8",
+          "path": "src/mcp_stress_test/patterns/data/cases.json"
+        },
+        {
+          "hash": "1f777174f4050ee0be0ac2cd1e047664270ce8e0e5fa29ec3ee4a97aee5f98b7",
+          "path": "src/mcp_stress_test/patterns/data/chains.yaml"
+        },
+        {
+          "hash": "79dc8b7c21e9816d04c65e11443fbf6b851bb9c0942017a08fa502418c62b869",
+          "path": "src/mcp_stress_test/patterns/data/manifest.json"
+        },
+        {
+          "hash": "6dfb7a042eb8a23b971f6a5fa3fd3aef81d24ab0f5e58de6f55ff60b1ae9db89",
+          "path": "src/mcp_stress_test/patterns/data/patterns.json"
+        },
+        {
+          "hash": "32b128a9a2a095d0c97367c85f747dc343cd2e9ea91612d2bdd3b5357efd5d8e",
+          "path": "src/mcp_stress_test/patterns/data/payloads.json"
+        },
+        {
+          "hash": "006e73eaa5f94ed35310edd3ab8b97dddf7ec5cc0afc26532325c8c2ae581552",
+          "path": "src/mcp_stress_test/patterns/data/profiles.json"
+        },
+        {
+          "hash": "62d5b6e04f6c650f7c26c35cbb7a839b922b9e1759d2d5564e564b3c483288df",
+          "path": "src/mcp_stress_test/patterns/data/tools.json"
+        },
+        {
+          "hash": "e1dfadc0c5201d658a5cc3fff9834446b49afe3d59709f342f3f579655e32317",
+          "importsFiles": [
+            "src/mcp_stress_test/models.py",
+            "src/mcp_stress_test/patterns/corpus.py",
+            "src/mcp_stress_test/patterns/payloads.py"
+          ],
+          "path": "src/mcp_stress_test/patterns/library.py"
+        },
+        {
+          "exports": [
+            "load_patterns",
+            "load_payloads"
+          ],
+          "hash": "79306870c287499c056524880c69bb4ea674d95ca4e904a403bf660a22bf5655",
+          "importsFiles": [
+            "src/mcp_stress_test/models.py",
+            "src/mcp_stress_test/patterns/library.py",
+            "src/mcp_stress_test/patterns/payloads.py"
+          ],
+          "path": "src/mcp_stress_test/patterns/loader.py"
+        },
+        {
+          "exports": [
+            "get_all_payloads",
+            "get_payloads_by_category",
+            "get_payloads_by_injection_point"
+          ],
+          "hash": "178ac16746343a30c0b3a41d4251a234d5746f5dcb5b94277fadee778768d084",
+          "importsFiles": [
+            "src/mcp_stress_test/models.py"
+          ],
+          "path": "src/mcp_stress_test/patterns/payloads.py"
+        },
+        {
+          "hash": "1faaa6670b23bfe41e91362bf8c546fc119a429cd79da7ce00665e1fd515e2a2",
+          "importsFiles": [
+            "src/mcp_stress_test/reporters/base.py",
+            "src/mcp_stress_test/reporters/html_reporter.py",
+            "src/mcp_stress_test/reporters/json_reporter.py",
+            "src/mcp_stress_test/reporters/markdown_reporter.py",
+            "src/mcp_stress_test/reporters/sarif_reporter.py"
+          ],
+          "path": "src/mcp_stress_test/reporters/__init__.py"
+        },
+        {
+          "hash": "b07d6da57743e2b3da2c9f7735b311cab6ef0c354547094ab24f37f41967d822",
+          "importsFiles": [
+            "src/mcp_stress_test/core/protocols.py"
+          ],
+          "path": "src/mcp_stress_test/reporters/base.py"
+        },
+        {
+          "hash": "eeab924ae5d2362baf77f030e14a5cef3bc06f0b272fd0fedd6117a98432ac30",
+          "importsFiles": [
+            "src/mcp_stress_test/core/protocols.py",
+            "src/mcp_stress_test/reporters/base.py"
+          ],
+          "path": "src/mcp_stress_test/reporters/html_reporter.py"
+        },
+        {
+          "hash": "3f3f3f5349f30828158ea965ba798178431777789fc31e770c7d4196481c39b6",
+          "importsFiles": [
+            "src/mcp_stress_test/__init__.py",
+            "src/mcp_stress_test/core/protocols.py",
+            "src/mcp_stress_test/reporters/base.py"
+          ],
+          "path": "src/mcp_stress_test/reporters/json_reporter.py"
+        },
+        {
+          "hash": "ca4776168c08d1a272fe74fd41ea72779d3951b80fa36b96285578e6321afe2f",
+          "importsFiles": [
+            "src/mcp_stress_test/core/protocols.py",
+            "src/mcp_stress_test/reporters/base.py"
+          ],
+          "path": "src/mcp_stress_test/reporters/markdown_reporter.py"
+        },
+        {
+          "hash": "b382e8243cfb2968aa8639071d10b4197bc70b5c562507d775255c1e1b2da1f7",
+          "importsFiles": [
+            "src/mcp_stress_test/__init__.py",
+            "src/mcp_stress_test/core/protocols.py",
+            "src/mcp_stress_test/reporters/base.py"
+          ],
+          "path": "src/mcp_stress_test/reporters/sarif_reporter.py"
+        },
+        {
+          "hash": "c6b772cf89dc9ee9eb6e19e1de4c4084996234734961bff1d1c160cb5f6dcb06",
+          "importsFiles": [
+            "src/mcp_stress_test/scanner/adapter.py",
+            "src/mcp_stress_test/scanner/checkpoint.py",
+            "src/mcp_stress_test/scanner/comparative.py",
+            "src/mcp_stress_test/scanner/mcp_client.py",
+            "src/mcp_stress_test/scanner/runner.py"
+          ],
+          "path": "src/mcp_stress_test/scanner/__init__.py"
+        },
+        {
+          "hash": "7f1fc8aa24a368fd1136c7a78a4f165f02abf39eef056f259c73c0fed99ab39d",
+          "importsFiles": [
+            "src/mcp_stress_test/models.py",
+            "src/mcp_stress_test/scanners/http.py"
+          ],
+          "path": "src/mcp_stress_test/scanner/adapter.py"
+        },
+        {
+          "hash": "2c1c464c8ee369e9fe897e73b65e89ca62c4f956792ed4cc6cd5f9f32ef7ddb2",
+          "importsFiles": [
+            "src/mcp_stress_test/core/data_paths.py",
+            "src/mcp_stress_test/models.py"
+          ],
+          "path": "src/mcp_stress_test/scanner/checkpoint.py"
+        },
+        {
+          "hash": "70cb9758ee9f7b1b4d71a2475d33b60457657d9a18fad4e285755f376a546a14",
+          "importsFiles": [
+            "src/mcp_stress_test/core/protocols.py",
+            "src/mcp_stress_test/core/registry.py",
+            "src/mcp_stress_test/models.py",
+            "src/mcp_stress_test/scanner/runner.py"
+          ],
+          "path": "src/mcp_stress_test/scanner/comparative.py"
+        },
+        {
+          "exports": [
+            "ingest_stdio_tools",
+            "ingest_tools",
+            "tool_schema_from_mcp"
+          ],
+          "hash": "f7df1a9d49b395f651347df4d1f84e4dd713c4d7f69087ce6dbadbc93effa358",
+          "importsFiles": [
+            "src/mcp_stress_test/models.py"
+          ],
+          "path": "src/mcp_stress_test/scanner/mcp_client.py"
+        },
+        {
+          "hash": "afd23c34ab4c222deb2c67530d87588ce8aded1a598d7aa5f09a68b1d9bb7c82",
+          "importsFiles": [
+            "src/mcp_stress_test/generator/__init__.py",
+            "src/mcp_stress_test/models.py",
+            "src/mcp_stress_test/scanner/adapter.py",
+            "src/mcp_stress_test/scanner/checkpoint.py",
+            "src/mcp_stress_test/scanner/comparative.py",
+            "src/mcp_stress_test/scanner/mcp_client.py"
+          ],
+          "path": "src/mcp_stress_test/scanner/runner.py"
+        },
+        {
+          "hash": "4fe07d3ef77cbf4c82e10ac1f16d3e7bfadc045b071eb474dfa82853f1dce856",
+          "importsFiles": [
+            "src/mcp_stress_test/scanners/cli_adapter.py",
+            "src/mcp_stress_test/scanners/http.py",
+            "src/mcp_stress_test/scanners/mock.py",
+            "src/mcp_stress_test/scanners/tool_scan.py"
+          ],
+          "path": "src/mcp_stress_test/scanners/__init__.py"
+        },
+        {
+          "hash": "130ac9315867900eae1446694028874489f4a02a9b95acd01308c2eb66f65397",
+          "importsFiles": [
+            "src/mcp_stress_test/core/protocols.py",
+            "src/mcp_stress_test/models.py"
+          ],
+          "path": "src/mcp_stress_test/scanners/cli_adapter.py"
+        },
+        {
+          "exports": [
+            "extract_json_path",
+            "normalize_threats",
+            "score_to_grade"
+          ],
+          "hash": "f929d7a0323a5fcf838baad6185a0dd6d3750feec5a0ceeb2e4b0668ce3bb6d7",
+          "importsFiles": [
+            "src/mcp_stress_test/core/protocols.py",
+            "src/mcp_stress_test/models.py"
+          ],
+          "path": "src/mcp_stress_test/scanners/http.py"
+        },
+        {
+          "hash": "a74e70b7ddc99ef08869c4eda5526ea109dc1c8789455ea5cf225d03e2268545",
+          "importsFiles": [
+            "src/mcp_stress_test/core/protocols.py",
+            "src/mcp_stress_test/models.py"
+          ],
+          "path": "src/mcp_stress_test/scanners/mock.py"
+        },
+        {
+          "hash": "6c2b6d0e683006714514ed3985187d0d752aaa38b7fc57229ddd55ea19474982",
+          "importsFiles": [
+            "src/mcp_stress_test/core/protocols.py",
+            "src/mcp_stress_test/models.py"
+          ],
+          "path": "src/mcp_stress_test/scanners/tool_scan.py"
+        },
+        {
+          "hash": "2a81bddc824975e87b0fde8fb0099fdea886052933c2f793be92a9e5c234ad93",
+          "importsFiles": [
+            "src/mcp_stress_test/servers/base.py",
+            "src/mcp_stress_test/servers/domains.py",
+            "src/mcp_stress_test/servers/farm.py"
+          ],
+          "path": "src/mcp_stress_test/servers/__init__.py"
+        },
+        {
+          "hash": "8822348af0ea9b158fe794e91c2ed5b485bb13f4f00a5136d0284b7157f5ebec",
+          "importsFiles": [
+            "src/mcp_stress_test/models.py"
+          ],
+          "path": "src/mcp_stress_test/servers/base.py"
+        },
+        {
+          "exports": [
+            "create_server"
+          ],
+          "hash": "f707e8a005514ea5f787c590a6e16754eb15f77d2a58dc593f637982dc1b878a",
+          "importsFiles": [
+            "src/mcp_stress_test/models.py",
+            "src/mcp_stress_test/servers/base.py"
+          ],
+          "path": "src/mcp_stress_test/servers/domains.py"
+        },
+        {
+          "exports": [
+            "create_farm"
+          ],
+          "hash": "4e205d9388aa5c072a26e2259d864b1515b73ce20b2e7fe6fc460e50cc28352c",
+          "importsFiles": [
+            "src/mcp_stress_test/models.py",
+            "src/mcp_stress_test/servers/base.py",
+            "src/mcp_stress_test/servers/domains.py"
+          ],
+          "path": "src/mcp_stress_test/servers/farm.py"
+        }
+      ],
+      "globs": [
+        "src/**"
+      ],
+      "importConfidence": "full",
+      "name": "src",
+      "origin": "authored",
+      "role": "code",
+      "testedBy": 9,
+      "unresolvedSites": 0
+    },
+    {
+      "dynamicReads": 0,
+      "dynamicWrites": 0,
+      "entryPoints": [],
+      "externals": 0,
+      "files": [
+        {
+          "hash": "83238f2092a4b308e0e4ccdc370118b6164c08121f7ffa3d69bdba5160963635",
+          "path": "tests/__init__.py"
+        },
+        {
+          "exports": [
+            "pytest_configure"
+          ],
+          "hash": "144885e382b0a7f120af44939c84cc8a668794538a770eba1052310de921de81",
+          "path": "tests/conftest.py"
+        },
+        {
+          "exports": [
+            "runner"
+          ],
+          "hash": "2b30be110b430560e1162d1f8cadc77df41a4973b0d823b68078da017bc7cf64",
+          "importsFiles": [
+            "src/mcp_stress_test/__init__.py",
+            "src/mcp_stress_test/cli_legacy.py"
+          ],
+          "path": "tests/test_cli.py"
+        },
+        {
+          "exports": [
+            "sample_payload",
+            "sample_tool"
+          ],
+          "hash": "c611530c3e21694a9959247528e517ff3852c25472b9d55bab2c79bc9062adfc",
+          "importsFiles": [
+            "src/mcp_stress_test/cli_legacy.py",
+            "src/mcp_stress_test/generator/__init__.py",
+            "src/mcp_stress_test/generator/mutator.py",
+            "src/mcp_stress_test/generator/strategies.py",
+            "src/mcp_stress_test/models.py"
+          ],
+          "path": "tests/test_generator.py"
+        },
+        {
+          "hash": "1d736fe07a4e64f1db3a65f52408c47c146a380c91e8cb89034e1cd2abb89cb1",
+          "importsFiles": [
+            "src/mcp_stress_test/models.py"
+          ],
+          "path": "tests/test_models.py"
+        },
+        {
+          "hash": "f925b2cd06286dce38198b4f19544b72a23bd1ee37b38406dcc7413ab31ee1d2",
+          "importsFiles": [
+            "src/mcp_stress_test/__init__.py",
+            "src/mcp_stress_test/chains/executor.py",
+            "src/mcp_stress_test/chains/library.py",
+            "src/mcp_stress_test/cli/main.py",
+            "src/mcp_stress_test/core/config.py",
+            "src/mcp_stress_test/core/protocols.py",
+            "src/mcp_stress_test/core/registry.py",
+            "src/mcp_stress_test/fuzzing/evasion.py",
+            "src/mcp_stress_test/fuzzing/llm_fuzzer.py",
+            "src/mcp_stress_test/fuzzing/mutations.py",
+            "src/mcp_stress_test/models.py",
+            "src/mcp_stress_test/reporters/html_reporter.py",
+            "src/mcp_stress_test/reporters/json_reporter.py",
+            "src/mcp_stress_test/reporters/markdown_reporter.py",
+            "src/mcp_stress_test/reporters/sarif_reporter.py",
+            "src/mcp_stress_test/scanners/mock.py"
+          ],
+          "path": "tests/test_new_features.py"
+        },
+        {
+          "exports": [
+            "ollama_absent"
+          ],
+          "hash": "ed49b53c9f7e2069ce27c5e14d17e2aee81f7d38b84c8ddb0d69e2827acafb1f",
+          "importsFiles": [
+            "src/mcp_stress_test/chains/__init__.py",
+            "src/mcp_stress_test/chains/library.py",
+            "src/mcp_stress_test/cli/__init__.py",
+            "src/mcp_stress_test/cli/commands/report.py",
+            "src/mcp_stress_test/cli/main.py",
+            "src/mcp_stress_test/cli_legacy.py",
+            "src/mcp_stress_test/core/protocols.py",
+            "src/mcp_stress_test/fuzzing/__init__.py",
+            "src/mcp_stress_test/generator/__init__.py",
+            "src/mcp_stress_test/models.py",
+            "src/mcp_stress_test/patterns/__init__.py",
+            "src/mcp_stress_test/reporters/json_reporter.py",
+            "src/mcp_stress_test/scanners/mock.py"
+          ],
+          "path": "tests/test_operator_contract.py"
+        },
+        {
+          "hash": "1a477bec59fd4e4be07cf41fe8510be8ce0c5b48b0bb6d4b39bf417f7b1309da",
+          "importsFiles": [
+            "src/mcp_stress_test/models.py",
+            "src/mcp_stress_test/patterns/__init__.py",
+            "src/mcp_stress_test/patterns/payloads.py"
+          ],
+          "path": "tests/test_patterns.py"
+        },
+        {
+          "exports": [
+            "poisoned_tool",
+            "sample_payload",
+            "sample_tool",
+            "temp_storage_dir"
+          ],
+          "hash": "3ba1b40a6ec3f88e1b3fc37ab879ea28e6a2b44c1a382b21f58d9facb947f3fd",
+          "importsFiles": [
+            "src/mcp_stress_test/cli_legacy.py",
+            "src/mcp_stress_test/core/config.py",
+            "src/mcp_stress_test/generator/__init__.py",
+            "src/mcp_stress_test/generator/strategies.py",
+            "src/mcp_stress_test/models.py",
+            "src/mcp_stress_test/scanner/__init__.py",
+            "src/mcp_stress_test/scanner/adapter.py",
+            "src/mcp_stress_test/scanner/checkpoint.py",
+            "src/mcp_stress_test/scanner/runner.py"
+          ],
+          "path": "tests/test_scanner.py"
+        },
+        {
+          "exports": [
+            "spaced_tempdir",
+            "tool"
+          ],
+          "hash": "0ec29aae3ed3a80b057b81bd11a750cc4e1f862787234465996612e84b0aec7c",
+          "importsFiles": [
+            "src/mcp_stress_test/core/protocols.py",
+            "src/mcp_stress_test/models.py",
+            "src/mcp_stress_test/scanners/__init__.py",
+            "src/mcp_stress_test/scanners/cli_adapter.py",
+            "src/mcp_stress_test/scanners/tool_scan.py"
+          ],
+          "path": "tests/test_scanner_adapters.py"
+        },
+        {
+          "hash": "2ca188ca5e66c22f549cc0b37033fc7e0c0cedd4ed6565b21b472ce696adbbdf",
+          "importsFiles": [
+            "src/mcp_stress_test/cli_legacy.py",
+            "src/mcp_stress_test/models.py",
+            "src/mcp_stress_test/servers/base.py",
+            "src/mcp_stress_test/servers/domains.py",
+            "src/mcp_stress_test/servers/farm.py"
+          ],
+          "path": "tests/test_servers.py"
+        }
+      ],
+      "globs": [
+        "tests/**"
+      ],
+      "importConfidence": "full",
+      "name": "tests",
+      "origin": "authored",
+      "role": "test",
+      "testedBy": 0,
+      "unresolvedSites": 2
+    }
+  ],
+  "doors": [
+    {
+      "commands": [
+        {
+          "job": "lint",
+          "step": "Install linters",
+          "text": "pip install ruff==0.16.6"
+        },
+        {
+          "job": "lint",
+          "step": "Check formatting",
+          "text": "ruff format --check ."
+        },
+        {
+          "job": "lint",
+          "step": "Check linting",
+          "text": "ruff check . --output-format=github"
+        },
+        {
+          "job": "test",
+          "step": "Atlas check",
+          "text": "npx --yes @dogfood-lab/atlas@1.14.0 check"
+        },
+        {
+          "job": "test",
+          "step": "Install package",
+          "text": "pip install --upgrade pip\npip install -e \".[dev]\"\n"
+        },
+        {
+          "job": "test",
+          "step": "Run tests",
+          "text": "pytest tests/ -v --tb=short --cov=mcp_stress_test --cov-report=term-missing"
+        },
+        {
+          "job": "test",
+          "step": "Test CLI",
+          "text": "mcp-stress --version\nmcp-stress info\nmcp-stress chain list\n"
+        },
+        {
+          "job": "typecheck",
+          "step": "Install dependencies",
+          "text": "pip install --upgrade pip\npip install -e \".[dev]\"\npip install pyright\n"
+        },
+        {
+          "job": "typecheck",
+          "step": "Run Pyright",
+          "text": "pyright src/"
+        },
+        {
+          "job": "pip-audit",
+          "step": "Install package",
+          "text": "pip install --upgrade pip\npip install -e \".[dev]\"\n"
+        },
+        {
+          "job": "pip-audit",
+          "step": "Audit installed graph",
+          "text": "pip install pip-audit==2.10.1\npip-audit\n"
+        }
+      ],
+      "file": ".github/workflows/ci.yml",
+      "landings": [],
+      "mentions": [],
+      "name": "CI",
+      "permissions": [],
+      "pushes": false,
+      "reach": [
+        {
+          "boundary": "src",
+          "depth": 0,
+          "files": 65
+        },
+        {
+          "boundary": "tests",
+          "depth": 0,
+          "files": 11
+        }
+      ],
+      "readers": [],
+      "runs": [
+        {
+          "directory": true,
+          "job": "lint",
+          "matched": true,
+          "path": "src/",
+          "via": "ruff"
+        },
+        {
+          "directory": true,
+          "job": "lint",
+          "matched": true,
+          "path": "tests/",
+          "via": "ruff"
+        },
+        {
+          "directory": true,
+          "job": "test",
+          "path": "tests/"
+        }
+      ],
+      "runsCount": 2,
+      "secrets": [],
+      "sends": {
+        "deploysPages": false,
+        "dispatchesTo": [],
+        "opensIssues": false,
+        "opensIssuesOnFailure": false,
+        "opensPullRequests": false,
+        "publishes": false,
+        "publishesTo": [],
+        "releases": false
+      },
+      "stages": [],
+      "triggers": [
+        {
+          "branches": [
+            "main"
+          ],
+          "event": "pull_request"
+        },
+        {
+          "branches": [
+            "main"
+          ],
+          "event": "push",
+          "paths": [
+            ".github/workflows/**",
+            "atlas/**",
+            "pyproject.toml",
+            "site/astro.config.mjs",
+            "site/package-lock.json",
+            "site/package.json",
+            "src/**",
+            "tests/**"
+          ]
+        },
+        {
+          "event": "workflow_dispatch"
+        }
+      ],
+      "uses": [
+        "actions/checkout",
+        "actions/setup-node",
+        "actions/setup-python"
+      ],
+      "usesWorkflowToken": false
+    },
+    {
+      "commands": [
+        {
+          "job": "build",
+          "step": "Install site dependencies",
+          "text": "npm ci"
+        },
+        {
+          "job": "build",
+          "step": "Build site",
+          "text": "npm run build"
+        }
+      ],
+      "file": ".github/workflows/pages.yml",
+      "landings": [],
+      "mentions": [],
+      "name": "Deploy site to GitHub Pages",
+      "permissions": [
+        "contents:read",
+        "id-token:write",
+        "pages:write"
+      ],
+      "pushes": false,
+      "reach": [],
+      "readers": [],
+      "runs": [],
+      "runsCount": 0,
+      "secrets": [],
+      "sends": {
+        "deploysPages": true,
+        "dispatchesTo": [],
+        "opensIssues": false,
+        "opensIssuesOnFailure": false,
+        "opensPullRequests": false,
+        "publishes": false,
+        "publishesTo": [],
+        "releases": false
+      },
+      "stages": [],
+      "triggers": [
+        {
+          "branches": [
+            "main"
+          ],
+          "event": "pull_request",
+          "paths": [
+            ".github/workflows/pages.yml",
+            "site/**"
+          ]
+        },
+        {
+          "branches": [
+            "main"
+          ],
+          "event": "push",
+          "paths": [
+            ".github/workflows/pages.yml",
+            "site/**"
+          ]
+        },
+        {
+          "event": "workflow_dispatch"
+        }
+      ],
+      "uses": [
+        "actions/checkout",
+        "actions/deploy-pages",
+        "actions/setup-node",
+        "actions/upload-pages-artifact"
+      ],
+      "usesWorkflowToken": false
+    },
+    {
+      "commands": [
+        {
+          "job": "build",
+          "step": "Install build tools",
+          "text": "python -m pip install --upgrade pip\npip install build twine\n"
+        },
+        {
+          "job": "build",
+          "step": "Build package",
+          "text": "python -m build"
+        },
+        {
+          "job": "build",
+          "step": "Check package",
+          "text": "twine check dist/*"
+        },
+        {
+          "job": "test",
+          "step": "Install package",
+          "text": "python -m pip install --upgrade pip\npip install -e \".[dev]\"\n"
+        },
+        {
+          "job": "test",
+          "step": "Run tests",
+          "text": "pytest tests/ -v --tb=short"
+        },
+        {
+          "job": "package-smoke",
+          "step": "Smoke-test wheel",
+          "text": "python -m venv .venv-wheel\n.venv-wheel/bin/pip install --upgrade pip\n.venv-wheel/bin/pip install dist/*.whl\nunset PYTHONPATH\n.venv-wheel/bin/mcp-stress --version\n.venv-wheel/bin/mcp-stress info\n.venv-wheel/bin/mcp-stress chain list\n"
+        },
+        {
+          "job": "package-smoke",
+          "step": "Smoke-test sdist",
+          "text": "python -m venv .venv-sdist\n.venv-sdist/bin/pip install --upgrade pip\n.venv-sdist/bin/pip install dist/*.tar.gz\nunset PYTHONPATH\n.venv-sdist/bin/mcp-stress --version\n.venv-sdist/bin/mcp-stress info\n.venv-sdist/bin/mcp-stress chain list\n"
+        },
+        {
+          "job": "release-assets",
+          "step": "Upload assets to release",
+          "text": "gh release upload \"${{ github.event.release.tag_name }}\" dist/*"
+        }
+      ],
+      "file": ".github/workflows/publish.yml",
+      "landings": [],
+      "mentions": [],
+      "name": "Publish",
+      "permissions": [
+        "contents:read",
+        "contents:write",
+        "id-token:write",
+        "packages:write"
+      ],
+      "pushes": false,
+      "reach": [
+        {
+          "boundary": "tests",
+          "depth": 0,
+          "files": 11
+        },
+        {
+          "boundary": "src",
+          "depth": 1,
+          "enters": {
+            "file": "src/mcp_stress_test/__init__.py",
+            "from": "tests/test_cli.py"
+          },
+          "files": 63
+        }
+      ],
+      "readers": [],
+      "runs": [
+        {
+          "directory": true,
+          "job": "test",
+          "path": "tests/"
+        }
+      ],
+      "runsCount": 1,
+      "secrets": [
+        "GITHUB_TOKEN"
+      ],
+      "sends": {
+        "deploysPages": false,
+        "dispatchesTo": [],
+        "opensIssues": false,
+        "opensIssuesOnFailure": false,
+        "opensPullRequests": false,
+        "publishes": true,
+        "publishesTo": [
+          "container image",
+          "pypi"
+        ],
+        "releases": false
+      },
+      "stages": [],
+      "triggers": [
+        {
+          "event": "release",
+          "types": [
+            "published"
+          ]
+        },
+        {
+          "event": "workflow_dispatch"
+        }
+      ],
+      "uses": [
+        "actions/checkout",
+        "actions/download-artifact",
+        "actions/setup-python",
+        "actions/upload-artifact",
+        "docker/build-push-action",
+        "docker/login-action",
+        "docker/metadata-action",
+        "docker/setup-buildx-action",
+        "pypa/gh-action-pypi-publish"
+      ],
+      "usesWorkflowToken": true
+    }
+  ],
+  "edges": [
+    {
+      "from": "tests",
+      "fromTests": true,
+      "kind": "file",
+      "to": "src"
+    }
+  ],
+  "generatedFrom": {
+    "commit": "be7da06fb4542fb3c6503e23280490179bb6bdde",
+    "tracked": 135
+  },
+  "landings": [
+    {
+      "readers": [
+        {
+          "by": "README.fr.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.hi.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.it.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.ja.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.pt-BR.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.zh.md",
+          "call": "literal",
+          "confidence": "text"
+        }
+      ],
+      "target": "README.es.md",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "README.es.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.hi.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.it.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.ja.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.pt-BR.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.zh.md",
+          "call": "literal",
+          "confidence": "text"
+        }
+      ],
+      "target": "README.fr.md",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "README.es.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.fr.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.it.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.ja.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.pt-BR.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.zh.md",
+          "call": "literal",
+          "confidence": "text"
+        }
+      ],
+      "target": "README.hi.md",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "README.es.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.fr.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.hi.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.ja.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.pt-BR.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.zh.md",
+          "call": "literal",
+          "confidence": "text"
+        }
+      ],
+      "target": "README.it.md",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "README.es.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.fr.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.hi.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.it.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.pt-BR.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.zh.md",
+          "call": "literal",
+          "confidence": "text"
+        }
+      ],
+      "target": "README.ja.md",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "README.es.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.fr.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.hi.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.it.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.ja.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.pt-BR.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.zh.md",
+          "call": "literal",
+          "confidence": "text"
+        }
+      ],
+      "target": "README.md",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "README.es.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.fr.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.hi.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.it.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.ja.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.zh.md",
+          "call": "literal",
+          "confidence": "text"
+        }
+      ],
+      "target": "README.pt-BR.md",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "README.es.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.fr.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.hi.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.it.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.ja.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.md",
+          "call": "literal",
+          "confidence": "text"
+        },
+        {
+          "by": "README.pt-BR.md",
+          "call": "literal",
+          "confidence": "text"
+        }
+      ],
+      "target": "README.zh.md",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "src/mcp_stress_test/chains/loader.py",
+          "call": "literal",
+          "confidence": "ast"
+        }
+      ],
+      "target": "src/mcp_stress_test/chains/loader.py",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "src/mcp_stress_test/patterns/library.py",
+          "call": "literal",
+          "confidence": "ast"
+        }
+      ],
+      "target": "src/mcp_stress_test/patterns/library.py",
+      "writers": []
+    }
+  ],
+  "overlaps": [],
+  "submodules": [],
+  "symlinks": [],
+  "testFiles": 11,
+  "unassigned": []
+}
