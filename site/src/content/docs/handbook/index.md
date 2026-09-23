@@ -49,8 +49,8 @@ The attack patterns are drawn from peer-reviewed and industry research:
 
 ### Attack paradigms at a glance
 
-| Paradigm | Name | Patterns | How it works |
+| Paradigm | Name | Labeled cases | How it works |
 |----------|------|----------|-------------|
-| **P1** | Explicit Hijacking | 224 | Decoy tools that mimic legitimate functions. The attacker registers a tool with a similar name/description that the LLM selects instead of the real one. |
-| **P2** | Implicit Hijacking | 548 | Background tools with hidden triggers. The tool description contains covert instructions that activate under specific conditions. |
-| **P3** | Parameter Tampering | 725 | Poisoned descriptions that alter *other* tools' behavior via global-rule injection ("before executing any tool, first do X"). |
+| **P1** | Explicit Hijacking | 3 | Decoy tools that mimic legitimate functions. The attacker registers a tool with a similar name/description that the LLM selects instead of the real one. |
+| **P2** | Implicit Hijacking | 8 | Background tools with hidden triggers. The tool description contains covert instructions that activate under specific conditions. |
+| **P3** | Parameter Tampering | 7 | Poisoned descriptions that alter *other* tools' behavior via global-rule injection ("before executing any tool, first do X"). |

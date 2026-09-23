@@ -337,12 +337,12 @@ DETECTION_MATRIX = {
 - **False Positive Rate**: 2.1% (7/333)
 - **ASR Reduction**: 87.4% (36.5% → 4.6%)
 
-## By Paradigm
+## By paradigm (labeled cases)
 | Paradigm | Attacks | Detected | Rate |
 |----------|---------|----------|------|
-| P1: Explicit Hijacking | 224 | 218 | 97.3% |
-| P2: Implicit Hijacking | 548 | 502 | 91.6% |
-| P3: Parameter Tampering | 540 | 516 | 95.6% |
+| P1: Explicit Hijacking | 3 | 3 | 100% |
+| P2: Implicit Hijacking | 8 | 7 | 87.5% |
+| P3: Parameter Tampering | 7 | 6 | 85.7% |
 
 ## Time-Based Attacks
 - **Rug Pulls Detected**: 48/50 (96%)
