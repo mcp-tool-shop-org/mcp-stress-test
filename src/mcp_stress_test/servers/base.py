@@ -647,6 +647,14 @@ class BaseMCPServer(ABC):
             arguments = params.get("arguments") or {}
             if not isinstance(arguments, dict):
                 arguments = {}
+            if not isinstance(tool_name, str) or not tool_name:
+                if msg_id is None:
+                    return None
+                return {
+                    "jsonrpc": "2.0",
+                    "id": msg_id,
+                    "error": {"code": -32602, "message": "tools/call requires a string name"},
+                }
             result = await self.handle_tool_call(tool_name, arguments)
         elif method == "ping":
             result = {}

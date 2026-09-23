@@ -132,7 +132,8 @@ class ToolScanAdapter:
 
         if not isinstance(data, dict) or not isinstance(data.get("threats", []), list):
             if exit_code != 0:
-                error = f"tool-scan exited {exit_code}: {(process.stderr or '').strip()[:500]}"
+                stderr = process.stderr if process is not None else ""
+                error = f"tool-scan exited {exit_code}: {(stderr or '').strip()[:500]}"
             else:
                 error = "invalid JSON output"
             return AttackResult.scanner_error(

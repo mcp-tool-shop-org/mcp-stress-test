@@ -216,7 +216,8 @@ class CwmCheckpointStore:
         if not callable(window_list):
             return names
         try:
-            extra = window_list() or []
+            extra_raw = window_list()
+            extra = extra_raw if isinstance(extra_raw, list) else []
         except Exception:
             return names
         seen = set(names)

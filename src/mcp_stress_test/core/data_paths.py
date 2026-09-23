@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import os
 from pathlib import Path
+from typing import Any
 
 
 def persistent_root() -> Path | None:
@@ -30,7 +31,7 @@ def default_checkpoint_dir() -> Path:
     return path
 
 
-def apply_persistent_defaults(config: object) -> None:
+def apply_persistent_defaults(config: Any) -> None:
     """Point report, cache, and evasion dirs at the volume when it is set.
 
     An explicit ``MCP_STRESS_REPORT_DIR`` still wins for reports.

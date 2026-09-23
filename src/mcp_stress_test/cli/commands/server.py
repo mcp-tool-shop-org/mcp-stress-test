@@ -52,10 +52,9 @@ def server_serve(domain: str) -> None:
         if server is None:
             await farm.stop()
             raise click.ClickException(f"No demo server registered for domain '{domain}'.")
-        console.print(
+        Console(stderr=True).print(
             f"[cyan]Serving {server.config.name} ({domain}) on stdio "
-            f"(MCP JSON-RPC, one message per line).[/cyan]",
-            err=True,
+            f"(MCP JSON-RPC, one message per line).[/cyan]"
         )
         try:
             await server.run_stdio()
