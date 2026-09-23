@@ -1,0 +1,151 @@
+{
+  "authored": [
+    ".github/",
+    "docs/",
+    "root"
+  ],
+  "breaks": [
+    {
+      "doors": 2,
+      "importedBy": [],
+      "importedByTests": [
+        "tests"
+      ],
+      "kind": "part",
+      "name": "src"
+    },
+    {
+      "doors": 2,
+      "importedBy": [],
+      "importedByTests": [],
+      "kind": "part",
+      "name": "tests"
+    }
+  ],
+  "changes": {
+    "first": true
+  },
+  "changesTogether": [],
+  "changesTogetherNote": [
+    "Window: 180 days; a pair counts from 3 shared commits."
+  ],
+  "changesTogetherWithTests": 0,
+  "commit": "be7da06fb4542fb3c6503e23280490179bb6bdde",
+  "doors": [
+    {
+      "file": ".github/workflows/ci.yml",
+      "landings": [],
+      "name": "CI",
+      "pushes": false,
+      "reach": [
+        {
+          "boundary": "src",
+          "depth": 0,
+          "files": 65
+        },
+        {
+          "boundary": "tests",
+          "depth": 0,
+          "files": 11
+        }
+      ],
+      "runs": [
+        "tests/",
+        "src/"
+      ],
+      "runsCount": 2,
+      "sends": [],
+      "stages": [],
+      "triggers": [
+        "on a pull request",
+        "on a push to main touching 8 paths",
+        "or by hand"
+      ]
+    },
+    {
+      "file": ".github/workflows/publish.yml",
+      "landings": [],
+      "name": "Publish",
+      "pushes": false,
+      "reach": [
+        {
+          "boundary": "tests",
+          "depth": 0,
+          "files": 11
+        },
+        {
+          "boundary": "src",
+          "depth": 1,
+          "files": 63
+        }
+      ],
+      "runs": [
+        "tests/"
+      ],
+      "runsCount": 1,
+      "sends": [
+        "publishes to PyPI and a container image"
+      ],
+      "stages": [],
+      "triggers": [
+        "when a release is published",
+        "or by hand"
+      ]
+    },
+    {
+      "file": ".github/workflows/pages.yml",
+      "landings": [],
+      "name": "Deploy site to GitHub Pages",
+      "pushes": false,
+      "reach": [],
+      "runs": [],
+      "runsCount": 0,
+      "sends": [
+        "deploys the site"
+      ],
+      "stages": [],
+      "triggers": [
+        "on a pull request touching 2 paths",
+        "on a push to main touching 2 paths",
+        "or by hand"
+      ]
+    }
+  ],
+  "duplicates": [],
+  "duplicatesLead": null,
+  "duplicatesNote": [],
+  "generated": [],
+  "generatedAt": "2026-09-23T17:48:06.369Z",
+  "limits": [
+    "2 import sites could not be resolved.",
+    "13 writes and 13 reads use paths built at run time and are not named here.",
+    "Statistics confidence is low: fewer than 30 qualifying commits in the window, and fewer than 20 source files reach 10 revisions."
+  ],
+  "mainDoor": ".github/workflows/ci.yml",
+  "parts": 6,
+  "readers": [],
+  "repo": "mcp-tool-shop-org/mcp-stress-test",
+  "sequences": [],
+  "startHere": [
+    ".github/workflows/ci.yml",
+    "src/"
+  ],
+  "summary": null,
+  "summaryFrom": null,
+  "testFiles": 11,
+  "testedBy": {
+    "site": 0,
+    "src": 9
+  },
+  "unread": [],
+  "unreadNote": [],
+  "untested": [
+    {
+      "part": "site",
+      "partLabel": "site",
+      "testedBy": 0
+    }
+  ],
+  "untestedNote": [],
+  "written": 0
+}
