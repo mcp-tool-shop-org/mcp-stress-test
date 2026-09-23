@@ -16,12 +16,16 @@ from mcp_stress_test.chains.library import (
     PersistenceChain,
     PrivilegeEscalationChain,
     SamplingLoopChain,
+    get_chain,
+    list_chains,
 )
+from mcp_stress_test.chains.loader import DeclaredChain, load_chains, register_chain
 
 __all__ = [
     # Base
     "BaseChain",
     "ChainStep",
+    "DeclaredChain",
     # Chains
     "DataExfilChain",
     "PrivilegeEscalationChain",
@@ -29,6 +33,11 @@ __all__ = [
     "LateralMovementChain",
     "PersistenceChain",
     "SamplingLoopChain",
+    # Loader
+    "load_chains",
+    "register_chain",
+    "get_chain",
+    "list_chains",
     # Executor
     "ChainExecutor",
 ]

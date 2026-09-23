@@ -23,10 +23,53 @@ class ReportMetrics:
     detection_rate: float = 0.0
     evasion_rate: float = 0.0
     avg_scan_time_ms: float = 0.0
+    false_positive_rate: float | None = None
+    time_to_detection: float | None = None
+    asr_reduction: float | None = None
 
     by_strategy: dict[str, dict] = field(default_factory=dict)
     by_tool: dict[str, dict] = field(default_factory=dict)
     by_chain: dict[str, dict] = field(default_factory=dict)
+
+    def extra_summary_dict(self) -> dict[str, float]:
+        """Optional snapshot fields that result objects already carried."""
+        extras: dict[str, float] = {}
+        if self.false_positive_rate is not None:
+            extras["false_positive_rate"] = self.false_positive_rate
+        if self.time_to_detection is not None:
+            extras["time_to_detection"] = self.time_to_detection
+        if self.asr_reduction is not None:
+            extras["asr_reduction"] = self.asr_reduction
+        return extras
+
+    def extra_summary_items(self) -> list[tuple[str, str]]:
+        """Human-readable optional snapshot fields (omit when absent)."""
+        items: list[tuple[str, str]] = []
+        if self.false_positive_rate is not None:
+            items.append(("False-Positive Rate", f"{self.false_positive_rate:.1f}%"))
+        if self.time_to_detection is not None:
+            items.append(("Time to Detection", f"{self.time_to_detection:.2f}"))
+        if self.asr_reduction is not None:
+            items.append(("ASR Reduction", f"{self.asr_reduction:.1f}%"))
+        return items
+
+
+def _first_present_float(sources: list[dict], keys: tuple[str, ...]) -> float | None:
+    """Return the first numeric value already present on a result object."""
+    for source in sources:
+        if not isinstance(source, dict):
+            continue
+        for key in keys:
+            if key not in source:
+                continue
+            value = source[key]
+            if value is None:
+                continue
+            try:
+                return float(value)
+            except (TypeError, ValueError):
+                continue
+    return None
 
 
 class BaseReporter(ABC):
@@ -102,6 +145,23 @@ class BaseReporter(ABC):
         """Compute metrics from results."""
         metrics = ReportMetrics()
         metrics.total_tests = len(results)
+
+        sources: list[dict] = []
+        for result in results:
+            if isinstance(result.metadata, dict):
+                sources.append(result.metadata)
+        if chain_results:
+            for chain in chain_results:
+                if isinstance(chain.metadata, dict):
+                    sources.append(chain.metadata)
+        metrics.false_positive_rate = _first_present_float(
+            sources, ("false_positive_rate", "falsePositiveRate")
+        )
+        metrics.time_to_detection = _first_present_float(
+            sources,
+            ("time_to_detection", "avg_time_to_detection", "timeToDetection"),
+        )
+        metrics.asr_reduction = _first_present_float(sources, ("asr_reduction", "asrReduction"))
 
         if not results:
             return metrics

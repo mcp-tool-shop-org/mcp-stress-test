@@ -16,7 +16,7 @@ Welcome to the **MCP Stress Test** handbook. This guide covers everything you ne
 
 ## What is MCP Stress Test?
 
-MCP Stress Test is an offensive security framework that generates adversarial MCP tool configurations based on cutting-edge 2025 research. It fires **1,312 attack patterns** from three paradigms -- explicit hijacking, implicit hijacking, and parameter tampering -- and measures your scanner's detection rate.
+MCP Stress Test is an offensive security framework that generates adversarial MCP tool configurations. The installed corpus loads **68 pattern templates** (plus 20 tools, 14 profiles, 51 payloads, and 18 labeled cases) across explicit hijacking, implicit hijacking, and parameter tampering, and measures your scanner's detection rate. The MCPTox paper describes a larger 1,312-pattern benchmark; this package loads the subset shipped under `patterns/data`.
 
 Unlike simple unit tests, this framework simulates **realistic multi-step attack scenarios** where coordinated tool poisoning, LLM-guided payload mutation, and obfuscation techniques combine to probe your scanner's blind spots.
 
@@ -24,7 +24,7 @@ Unlike simple unit tests, this framework simulates **realistic multi-step attack
 
 | Capability | What it does |
 |-----------|-------------|
-| **Attack Pattern Library** | 1,312 patterns from MCPTox across 3 paradigms (P1, P2, P3) |
+| **Attack Pattern Library** | 68 loaded templates. Labeled cases: P1 3, P2 8, P3 7 |
 | **LLM-Guided Fuzzing** | Uses local Ollama models to generate evasive payloads |
 | **Multi-Tool Attack Chains** | 6 built-in chains simulating credential theft, lateral movement, persistence, and more |
 | **Mutation Strategies** | 5 strategies from direct injection to fragmentation |
@@ -43,7 +43,7 @@ Unlike simple unit tests, this framework simulates **realistic multi-step attack
 
 The attack patterns are drawn from peer-reviewed and industry research:
 
-- **[MCPTox](https://arxiv.org/html/2508.14925v1)** -- 1,312 patterns across 3 paradigms (the largest public MCP poisoning dataset)
+- **[MCPTox](https://arxiv.org/html/2508.14925v1)** -- the paper's 1,312-pattern benchmark; the installed subset is 68 templates
 - **[Palo Alto Unit42](https://unit42.paloaltonetworks.com/model-context-protocol-attack-vectors/)** -- Sampling loop exploits and tool-shadowing attacks
 - **[CyberArk](https://www.cyberark.com/resources/threat-research-blog/poison-everywhere-no-output-from-your-mcp-server-is-safe)** -- Full-schema poisoning research showing every field in a tool definition is an injection surface
 

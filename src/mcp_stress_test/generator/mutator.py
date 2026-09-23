@@ -17,6 +17,7 @@ from mcp_stress_test.generator.strategies import (
     get_strategy,
 )
 from mcp_stress_test.models import (
+    AttackParadigm,
     PoisonPayload,
     PoisonProfile,
     ToolSchema,
@@ -98,6 +99,17 @@ class SchemaMutator:
         if injection_point is None:
             injection_point = self._select_injection_point(tool, payload)
 
+        if not self._can_inject(poisoned, injection_point):
+            # No-op: do not mark poisoned or replace prior locations.
+            return MutationResult(
+                original_tool=tool,
+                poisoned_tool=poisoned,
+                payload_used=payload,
+                strategy_used=self.strategy.name,
+                injection_points=list(poisoned.poison_locations),
+                detection_hints=self.strategy.detect_signature(),
+            )
+
         # Apply mutation based on injection point
         injection_points = []
         if injection_point == "description":
@@ -105,21 +117,17 @@ class SchemaMutator:
             injection_points.append("description")
 
         elif injection_point == "parameter_description":
-            if poisoned.parameters:
-                param = random.choice(poisoned.parameters)
-                param.poisoned_description = self.strategy.mutate(param.description or "", payload)
-                param.description = param.poisoned_description
-                injection_points.append(f"parameter:{param.name}:description")
+            param = random.choice(poisoned.parameters)
+            param.poisoned_description = self.strategy.mutate(param.description or "", payload)
+            param.description = param.poisoned_description
+            injection_points.append(f"parameter:{param.name}:description")
 
         elif injection_point == "parameter_default":
-            if poisoned.parameters:
-                # Find a string parameter to poison
-                string_params = [p for p in poisoned.parameters if p.type == "string"]
-                if string_params:
-                    param = random.choice(string_params)
-                    param.poisoned_default = payload.content
-                    param.default = param.poisoned_default
-                    injection_points.append(f"parameter:{param.name}:default")
+            string_params = [p for p in poisoned.parameters if p.type == "string"]
+            param = random.choice(string_params)
+            param.poisoned_default = payload.content
+            param.default = param.poisoned_default
+            injection_points.append(f"parameter:{param.name}:default")
 
         elif injection_point == "error_template":
             poisoned.error_template = self.strategy.mutate(
@@ -133,17 +141,22 @@ class SchemaMutator:
             )
             injection_points.append("return_description")
 
-        # Mark tool as poisoned
-        poisoned.is_poisoned = True
-        poisoned.poison_locations = injection_points
-        poisoned.original_description = tool.description
+        if injection_points:
+            poisoned.is_poisoned = True
+            accumulated = list(poisoned.poison_locations)
+            for loc in injection_points:
+                if loc not in accumulated:
+                    accumulated.append(loc)
+            poisoned.poison_locations = accumulated
+            if poisoned.original_description is None:
+                poisoned.original_description = tool.description
 
         return MutationResult(
             original_tool=tool,
             poisoned_tool=poisoned,
             payload_used=payload,
             strategy_used=self.strategy.name,
-            injection_points=injection_points,
+            injection_points=list(poisoned.poison_locations),
             detection_hints=self.strategy.detect_signature(),
         )
 
@@ -164,29 +177,28 @@ class SchemaMutator:
             MutationResult with all injections applied.
         """
         poisoned = tool.model_copy(deep=True)
-        injection_points = []
 
         if spread:
-            # Distribute payloads across different injection points
-            available_points = list(self.injection_weights.keys())
+            available_points = [
+                point for point in self.injection_weights if self._can_inject(poisoned, point)
+            ]
+            if not available_points:
+                available_points = ["description"]
             for i, payload in enumerate(payloads):
                 point = available_points[i % len(available_points)]
                 result = self.mutate(poisoned, payload, injection_point=point)
                 poisoned = result.poisoned_tool
-                injection_points.extend(result.injection_points)
         else:
-            # All payloads to description
             for payload in payloads:
                 result = self.mutate(poisoned, payload, injection_point="description")
                 poisoned = result.poisoned_tool
-                injection_points.extend(result.injection_points)
 
         return MutationResult(
             original_tool=tool,
             poisoned_tool=poisoned,
             payload_used=payloads[0] if payloads else None,
             strategy_used=self.strategy.name,
-            injection_points=injection_points,
+            injection_points=list(poisoned.poison_locations),
             detection_hints=self.strategy.detect_signature(),
         )
 
@@ -298,6 +310,59 @@ class SchemaMutator:
             detection_hints=frag_strategy.detect_signature(),
         )
 
+    def apply_full_schema(
+        self,
+        tool: ToolSchema,
+        payload: PoisonPayload,
+    ) -> MutationResult:
+        """Poison every injectable schema field (CyberArk 'poison everywhere')."""
+        poisoned = tool.model_copy(deep=True)
+        injection_points: list[str] = []
+
+        poisoned.description = self.strategy.mutate(tool.description, payload)
+        injection_points.append("description")
+
+        for param in poisoned.parameters:
+            param.description = self.strategy.mutate(param.description or "", payload)
+            injection_points.append(f"parameter:{param.name}:description")
+            if param.type == "string":
+                param.poisoned_default = payload.content
+                param.default = payload.content
+                injection_points.append(f"parameter:{param.name}:default")
+
+        poisoned.error_template = self.strategy.mutate(
+            tool.error_template or "Error: {error}", payload
+        )
+        injection_points.append("error_template")
+        poisoned.return_description = self.strategy.mutate(
+            tool.return_description or "Returns the result.", payload
+        )
+        injection_points.append("return_description")
+
+        poisoned.is_poisoned = True
+        poisoned.poison_locations = injection_points
+        if poisoned.original_description is None:
+            poisoned.original_description = tool.description
+
+        return MutationResult(
+            original_tool=tool,
+            poisoned_tool=poisoned,
+            payload_used=payload,
+            strategy_used="full_schema",
+            injection_points=injection_points,
+            detection_hints=self.strategy.detect_signature(),
+        )
+
+    def _can_inject(self, tool: ToolSchema, point: str) -> bool:
+        """Return True if this injection point can write poison into the tool."""
+        if point == "description":
+            return True
+        if point == "parameter_description":
+            return bool(tool.parameters)
+        if point == "parameter_default":
+            return any(p.type == "string" for p in tool.parameters)
+        return point in ("error_template", "return_description")
+
     def _select_injection_point(
         self,
         tool: ToolSchema,
@@ -307,23 +372,23 @@ class SchemaMutator:
         # Respect payload's preferred injection point if specified
         if payload.injection_point != "description":
             if payload.injection_point == "parameter":
-                return "parameter_description"
+                return (
+                    "parameter_description"
+                    if self._can_inject(tool, "parameter_description")
+                    else "description"
+                )
             elif payload.injection_point == "error":
                 return "error_template"
 
-        # Filter available points based on tool structure
-        available = {}
-        for point, weight in self.injection_weights.items():
-            if (
-                point == "description"
-                or point.startswith("parameter")
-                and tool.parameters
-                or point == "error_template"
-                or point == "return_description"
-            ):
-                available[point] = weight
+        available = {
+            point: weight
+            for point, weight in self.injection_weights.items()
+            if self._can_inject(tool, point)
+        }
 
-        # Weighted random selection
+        if not available:
+            return "description"
+
         total = sum(available.values())
         r = random.random() * total
         cumulative = 0
@@ -332,7 +397,7 @@ class SchemaMutator:
             if r <= cumulative:
                 return point
 
-        return "description"  # Fallback
+        return "description"
 
 
 class AttackGenerator:
@@ -366,9 +431,33 @@ class AttackGenerator:
         Returns:
             MutationResult with poisoned tool.
         """
+        mutator = SchemaMutator(random_seed=self.random_seed)
+        if strategy_name == "full_schema":
+            return mutator.apply_full_schema(tool, payload)
+        if strategy_name == "tool_shadowing":
+            suffix = str(strategy_kwargs.get("shadow_suffix", "_helper"))
+            return mutator.create_shadow_tool(tool, payload, shadow_suffix=suffix)
+        if strategy_name == "fragmentation":
+            return mutator.apply_fragmentation(tool, payload)
+
         strategy = get_strategy(strategy_name, **strategy_kwargs)
         mutator = SchemaMutator(strategy=strategy, random_seed=self.random_seed)
         return mutator.mutate(tool, payload)
+
+    def generate_from_profile(
+        self,
+        tool: ToolSchema,
+        profile: PoisonProfile,
+    ) -> MutationResult:
+        """Generate an attack from a poison profile.
+
+        P1 explicit-hijacking profiles emit a shadow tool (new name) rather
+        than poisoning the original in place.
+        """
+        mutator = SchemaMutator(random_seed=self.random_seed)
+        if profile.paradigm == AttackParadigm.P1_EXPLICIT_HIJACKING and profile.payloads:
+            return mutator.create_shadow_tool(tool, profile.payloads[0])
+        return mutator.mutate_with_profile(tool, profile)
 
     def generate_batch(
         self,
@@ -394,6 +483,9 @@ class AttackGenerator:
                 "semantic_blending",
                 "obfuscation",
                 "encoding",
+                "fragmentation",
+                "full_schema",
+                "tool_shadowing",
             ]
 
         results = []

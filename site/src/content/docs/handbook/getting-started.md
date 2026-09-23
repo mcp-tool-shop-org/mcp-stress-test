@@ -28,6 +28,17 @@ MCP Stress Test has optional dependency groups for specialized features:
 - Python 3.11 or later
 - For LLM fuzzing: a running [Ollama](https://ollama.com/) instance with a model pulled (e.g., `ollama pull llama3.2`)
 
+### Docker
+
+The image keeps checkpoints and stress reports on a volume:
+
+```bash
+docker build -t mcp-stress-test .
+docker run --rm -v mcp-stress-data:/var/lib/mcp-stress mcp-stress-test stress run
+```
+
+`MCP_STRESS_DATA` is `/var/lib/mcp-stress`. A named volume is what makes that memory persistent across `docker run --rm`.
+
 ### Verify installation
 
 ```bash

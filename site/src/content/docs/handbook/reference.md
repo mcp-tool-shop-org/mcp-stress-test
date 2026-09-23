@@ -83,13 +83,15 @@ mcp-stress report preview -i results.json
 
 ## Attack pattern paradigms
 
-The 1,312 patterns are organized into three paradigms from the MCPTox benchmark:
+The installed corpus is **68 templates**. Eighteen labeled cases are split across the MCPTox paradigms:
 
-| Paradigm | Name | Patterns | Description |
-|----------|------|----------|-------------|
-| **P1** | Explicit Hijacking | 224 | Decoy tools mimicking legitimate functions. The attacker registers a tool with a confusingly similar name or description. |
-| **P2** | Implicit Hijacking | 548 | Background tools with hidden triggers. The tool appears benign but activates malicious behavior under specific conditions. |
-| **P3** | Parameter Tampering | 725 | Poisoned descriptions that alter other tools' behavior through global-rule injection in the description field. |
+| Paradigm | Name | Labeled cases | Description |
+|----------|------|---------------|-------------|
+| **P1** | Explicit Hijacking | 3 | Decoy tools mimicking legitimate functions. |
+| **P2** | Implicit Hijacking | 8 | Background tools with hidden triggers. |
+| **P3** | Parameter Tampering | 7 | Poisoned descriptions that try to alter other tools. |
+
+The MCPTox paper's 1,312-pattern benchmark is not vendored here. `PatternLibrary.stats()["total_patterns"]` reports the records actually loaded.
 
 ## Mutation strategies
 
@@ -222,7 +224,7 @@ config.save("my-config.json")
 
 MCP Stress Test is structured around five subsystems:
 
-1. **Pattern Library** (`mcp_stress_test.patterns`) -- Loads and indexes the 1,312 attack patterns from bundled data files. Patterns are categorized by paradigm (P1/P2/P3), risk category (11 types from MCPTox), and server domain (8 domains).
+1. **Pattern Library** (`mcp_stress_test.patterns`) -- Loads the bundled corpus (68 templates in corpus `2026.09.1`). Records are categorized by paradigm (P1/P2/P3), OWASP MCP category, and server domain.
 
 2. **Mutation Engine** (`mcp_stress_test.generator`) -- Applies transformation strategies to tool schemas. The `SchemaMutator` takes a clean `ToolSchema` and a `PoisonPayload`, applies a `MutationStrategy`, and produces a poisoned tool.
 

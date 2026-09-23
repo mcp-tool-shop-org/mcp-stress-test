@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from enum import StrEnum
-from typing import TYPE_CHECKING, Protocol, runtime_checkable
+from typing import TYPE_CHECKING, Any, Protocol, runtime_checkable
 
 if TYPE_CHECKING:
     from collections.abc import AsyncIterator, Iterator
@@ -46,9 +46,39 @@ class AttackResult:
         return self.score_after - self.score_before
 
     @property
+    def errored(self) -> bool:
+        """Whether the scanner failed to produce a verdict."""
+        return bool(self.metadata.get("error"))
+
+    @property
     def evaded(self) -> bool:
-        """Whether attack evaded detection."""
-        return not self.detected
+        """Whether attack evaded detection (an errored scan is not an evasion)."""
+        return not self.detected and not self.errored
+
+    @classmethod
+    def scanner_error(
+        cls,
+        tool_name: str,
+        error: str,
+        scanner: str,
+        scan_time_ms: float = 0.0,
+        **metadata: object,
+    ) -> AttackResult:
+        """Build a result for a scan that produced no verdict.
+
+        Scores are 0.0 (not the clean 100.0) with a zero delta, so the result
+        reads as neither a clean pass nor a score-drop detection.
+        """
+        return cls(
+            tool_name=tool_name,
+            strategy="error",
+            detected=False,
+            score_before=0.0,
+            score_after=0.0,
+            threats_found=[],
+            scan_time_ms=scan_time_ms,
+            metadata={"error": error, "scanner": scanner, **metadata},
+        )
 
 
 @dataclass
@@ -289,4 +319,46 @@ class AsyncFuzzer(Protocol):
         max_attempts: int = 10,
     ) -> FuzzResult | None:
         """Fuzz until an evasion is found."""
+        ...
+
+
+@runtime_checkable
+class McpTarget(Protocol):
+    """Live MCP server that can initialize and enumerate tools.
+
+    Implementations speak MCP JSON-RPC. The engine stdio client is local
+    (argv subprocess) and does not open network scanners against hosts.
+    """
+
+    def initialize(self) -> dict[str, Any]:
+        """Send initialize and notifications/initialized. Return server result."""
+        ...
+
+    def list_tools(self) -> list[ToolDefinition]:
+        """Call tools/list and map entries onto ToolSchema (incl. inputSchema)."""
+        ...
+
+    def close(self) -> None:
+        """Release the transport (kill the stdio child, close pipes)."""
+        ...
+
+
+@runtime_checkable
+class CheckpointStore(Protocol):
+    """Freeze/thaw a named tool-window snapshot with an integrity hash."""
+
+    def freeze(self, name: str, payload: dict[str, Any]) -> str:
+        """Persist payload under name. Return the integrity hash."""
+        ...
+
+    def thaw(self, name: str) -> dict[str, Any]:
+        """Restore payload, verifying the stored integrity hash."""
+        ...
+
+    def list(self) -> list[str]:
+        """Names of frozen windows."""
+        ...
+
+    def integrity_hash(self, payload: dict[str, Any]) -> str:
+        """Stable hash of a payload (canonical JSON)."""
         ...

@@ -32,7 +32,7 @@ from mcp_stress_test.models import (
 class ScannerConfig:
     """Configuration for scanner adapter."""
 
-    scanner_type: str = "mock"  # mock, tool-scan, custom
+    scanner_type: str = "mock"  # mock, tool-scan, custom, http (http default-off)
     scanner_path: str | None = None  # Path to scanner CLI
     timeout_seconds: int = 30
     extra_args: list[str] = field(default_factory=list)
@@ -42,6 +42,13 @@ class ScannerConfig:
 
     # Custom scanner callback
     custom_scanner: Callable[[ToolSchema], ScanResult] | None = None
+
+    # HTTP backend (scanner_type='http'). Off unless url is set.
+    http_url: str | None = None
+    http_headers: dict[str, str] = field(default_factory=dict)
+    http_score_path: str = "$.score"
+    http_threats_path: str = "$.threats"
+    http_unix_socket: str | None = None
 
 
 class ScannerBackend(ABC):
@@ -266,42 +273,68 @@ class ToolScanBackend(ScannerBackend):
                 timeout=self.timeout,
             )
 
-            if result.returncode != 0:
-                # Scanner failed, return error result
-                return ScanResult(
-                    tool_name=tool.name,
-                    score=0.0,
-                    grade="F",
-                    threats_detected=["scanner_error"],
-                    scanner_version="tool-scan",
-                    scan_duration_ms=(datetime.now() - start_time).total_seconds() * 1000,
+            # Scanners commonly exit non-zero when findings exist, so a
+            # non-zero exit is only an error if stdout carries no report.
+            try:
+                scan_data = json.loads(result.stdout)
+            except (json.JSONDecodeError, TypeError):
+                scan_data = None
+
+            if not isinstance(scan_data, dict) or not isinstance(
+                scan_data.get("threats", []), list
+            ):
+                if result.returncode != 0:
+                    error = (
+                        f"tool-scan exited {result.returncode}: "
+                        f"{(result.stderr or '').strip()[:500]}"
+                    )
+                else:
+                    error = "tool-scan produced invalid JSON output"
+                return self._error_result(tool.name, error, start_time)
+
+            try:
+                return self._parse_tool_scan_output(tool.name, scan_data, start_time)
+            except ValueError as e:
+                return self._error_result(
+                    tool.name,
+                    f"tool-scan output did not match the expected schema: {e}",
+                    start_time,
                 )
 
-            # Parse JSON output
-            scan_data = json.loads(result.stdout)
-            return self._parse_tool_scan_output(tool.name, scan_data, start_time)
-
         except subprocess.TimeoutExpired:
-            return ScanResult(
-                tool_name=tool.name,
-                score=0.0,
-                grade="F",
-                threats_detected=["scanner_timeout"],
-                scanner_version="tool-scan",
-                scan_duration_ms=self.timeout * 1000,
+            return self._error_result(
+                tool.name, "tool-scan timed out", start_time, duration_ms=self.timeout * 1000
             )
-        except FileNotFoundError:
-            return ScanResult(
-                tool_name=tool.name,
-                score=0.0,
-                grade="F",
-                threats_detected=["scanner_not_found"],
-                scanner_version="tool-scan",
-                scan_duration_ms=0,
+        except OSError as e:
+            return self._error_result(
+                tool.name,
+                f"tool-scan could not be launched at {self.scanner_path}: {e}",
+                start_time,
             )
         finally:
             # Clean up temp file
             Path(temp_path).unlink(missing_ok=True)
+
+    def _error_result(
+        self,
+        tool_name: str,
+        error: str,
+        start_time: datetime,
+        duration_ms: float | None = None,
+    ) -> ScanResult:
+        """Build a ScanResult for a scan that produced no verdict."""
+        if duration_ms is None:
+            duration_ms = (datetime.now() - start_time).total_seconds() * 1000
+        return ScanResult(
+            tool_name=tool_name,
+            score=0.0,
+            grade="ERR",
+            threats_detected=[],
+            confidence=0.0,
+            scanner_version="tool-scan",
+            scan_duration_ms=duration_ms,
+            error=error,
+        )
 
     def _parse_tool_scan_output(
         self,
@@ -316,8 +349,14 @@ class ToolScanBackend(ScannerBackend):
 
         # Map threats to OWASP categories
         owasp_violations = []
+        threat_ids = []
         for threat in threats:
-            threat_type = threat.get("type", "")
+            if isinstance(threat, dict):
+                threat_type = str(threat.get("type", ""))
+                threat_ids.append(str(threat.get("id", threat)))
+            else:
+                threat_type = str(threat)
+                threat_ids.append(threat_type)
             if "poison" in threat_type.lower():
                 owasp_violations.append(OwaspMcpCategory.MCP01_TOOL_POISONING)
             elif "context" in threat_type.lower():
@@ -329,7 +368,7 @@ class ToolScanBackend(ScannerBackend):
             tool_name=tool_name,
             score=score,
             grade=grade,
-            threats_detected=[t.get("id", str(t)) for t in threats],
+            threats_detected=threat_ids,
             owasp_violations=list(set(owasp_violations)),
             confidence=data.get("confidence", 1.0),
             scanner_version=data.get("version", "tool-scan"),
@@ -354,6 +393,36 @@ class CustomScanner(ScannerBackend):
     def scan(self, tool: ToolSchema) -> ScanResult:
         """Scan using custom callback."""
         return self.callback(tool)
+
+
+class HttpScannerBackend(ScannerBackend):
+    """ScannerAdapter backend: POST tool JSON via httpx, map body onto ScanResult."""
+
+    def __init__(
+        self,
+        url: str,
+        headers: dict[str, str] | None = None,
+        timeout: int = 30,
+        score_path: str = "$.score",
+        threats_path: str = "$.threats",
+        unix_socket: str | None = None,
+    ):
+        from mcp_stress_test.scanners.http import HttpScanner
+
+        self._http = HttpScanner(
+            url=url,
+            headers=headers or {},
+            timeout_seconds=float(timeout),
+            score_path=score_path,
+            threats_path=threats_path,
+            unix_socket=unix_socket,
+        )
+
+    def name(self) -> str:
+        return self._http.name
+
+    def scan(self, tool: ToolSchema) -> ScanResult:
+        return self._http.scan_to_result(tool)
 
 
 class ScannerAdapter:
@@ -386,6 +455,17 @@ class ScannerAdapter:
             if not self.config.custom_scanner:
                 raise ValueError("Custom scanner requires custom_scanner callback")
             return CustomScanner(self.config.custom_scanner)
+        elif self.config.scanner_type == "http":
+            if not self.config.http_url:
+                raise ValueError("HTTP scanner requires http_url (default-off)")
+            return HttpScannerBackend(
+                url=self.config.http_url,
+                headers=self.config.http_headers,
+                timeout=self.config.timeout_seconds,
+                score_path=self.config.http_score_path,
+                threats_path=self.config.http_threats_path,
+                unix_socket=self.config.http_unix_socket,
+            )
         else:
             raise ValueError(f"Unknown scanner type: {self.config.scanner_type}")
 
@@ -439,7 +519,21 @@ class ScannerAdapter:
             t for t in pre_scan.threats_detected if t not in post_scan.threats_detected
         ]
 
-        # Determine if attack was detected
+        scan_error = pre_scan.error or post_scan.error
+        if scan_error:
+            return ScanComparison(
+                test_case_id=test_case_id,
+                pre_scan=pre_scan,
+                post_scan=post_scan,
+                score_delta=score_delta,
+                new_threats=[],
+                resolved_threats=[],
+                attack_detected=False,
+                error=scan_error,
+            )
+
+        # Determine if attack was detected (new threats vs baseline, not
+        # an absolute threats_detected check that would count baseline noise)
         attack_detected = (
             len(new_threats) > 0
             or score_delta < -20
@@ -455,6 +549,7 @@ class ScannerAdapter:
             new_threats=new_threats,
             resolved_threats=resolved_threats,
             attack_detected=attack_detected,
+            detection_latency_calls=1 if attack_detected else 0,
         )
 
     def get_history(self) -> list[ScanResult]:

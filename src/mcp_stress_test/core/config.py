@@ -12,6 +12,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+from mcp_stress_test.core.data_paths import apply_persistent_defaults
+
 
 @dataclass
 class LLMConfig:
@@ -33,6 +35,8 @@ class ScannerConfig:
     tool_scan_path: str | None = None
     timeout_ms: int = 5000
     retry_count: int = 3
+    http_url: str | None = None
+    http_headers: dict[str, str] = field(default_factory=dict)
 
 
 @dataclass
@@ -146,6 +150,7 @@ class StressConfig:
         if workers := os.getenv("MCP_STRESS_WORKERS"):
             config.parallel_workers = int(workers)
 
+        apply_persistent_defaults(config)
         return config
 
     @classmethod
@@ -188,6 +193,8 @@ class StressConfig:
                 "tool_scan_path": self.scanner.tool_scan_path,
                 "timeout_ms": self.scanner.timeout_ms,
                 "retry_count": self.scanner.retry_count,
+                "http_url": self.scanner.http_url,
+                "http_headers": self.scanner.http_headers,
             },
             "report": {
                 "default_format": self.report.default_format,

@@ -11,6 +11,10 @@ from typing import Any
 
 from pydantic import BaseModel, Field
 
+# Published MCPTox unprotected ASR (Liu et al.). This is a literature
+# constant used as the reduction denominator — never a measured engine result.
+MCPTOX_ASR_BASELINE = 0.365
+
 
 class AttackParadigm(StrEnum):
     """Attack paradigms from MCPTox research.
@@ -223,6 +227,20 @@ class AttackTestCase(BaseModel):
     created_at: datetime = Field(default_factory=datetime.now)
 
 
+class CaseVerdict(BaseModel):
+    """Labeled-scenario score: expected detection vs what the scanner actually flagged."""
+
+    case_id: str
+    detected: bool
+    expected_detection: str | None = None
+    expected_detection_matched: bool = False
+    expected_outcome: OutcomeType | None = None
+    outcome_aligned: bool = False
+    # true_positive | wrong_threat | miss | true_negative | false_positive | error
+    verdict: str
+    threats: list[str] = Field(default_factory=list)
+
+
 class ScanResult(BaseModel):
     """Pre/post scan comparison structure."""
 
@@ -243,6 +261,16 @@ class ScanResult(BaseModel):
     scanner_version: str = ""
     scan_duration_ms: float = 0.0
 
+    # Set when the scanner failed to produce a verdict (non-zero exit, timeout,
+    # missing binary, unparseable output). An errored result is neither a
+    # detection nor a clean pass and must be excluded from detection metrics.
+    error: str | None = None
+
+    @property
+    def errored(self) -> bool:
+        """Whether the scan failed to produce a verdict."""
+        return self.error is not None
+
 
 class ScanComparison(BaseModel):
     """Delta analysis between pre and post scans."""
@@ -261,6 +289,14 @@ class ScanComparison(BaseModel):
     detection_latency_calls: int = 0
     false_positive: bool = False
 
+    # Set when either scan errored; attack_detected is then meaningless
+    error: str | None = None
+
+    @property
+    def errored(self) -> bool:
+        """Whether either side of the comparison failed to scan."""
+        return self.error is not None
+
 
 class TestRunMetrics(BaseModel):
     """Aggregated metrics for a test run."""
@@ -275,11 +311,11 @@ class TestRunMetrics(BaseModel):
     failed: int = 0
     errors: int = 0
 
-    # Rates
-    detection_rate: float = 0.0  # detected / total
+    # Rates (0-1). asr_baseline is the published MCPTox constant, not measured.
+    detection_rate: float = 0.0  # detected / total attacks
     false_positive_rate: float = 0.0  # false_flags / clean_tools
-    asr_baseline: float = 0.365  # MCPTox baseline (36.5%)
-    asr_protected: float = 0.0  # ASR with scanner
+    asr_baseline: float = MCPTOX_ASR_BASELINE
+    asr_protected: float = 0.0  # measured miss rate on the attack phase
     asr_reduction: float = 0.0  # (baseline - protected) / baseline
 
     # Temporal metrics

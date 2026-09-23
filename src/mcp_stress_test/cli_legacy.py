@@ -95,7 +95,7 @@ def patterns_list(
 
     if json_output:
         output = [tc.model_dump(mode="json") for tc in test_cases]
-        console.print_json(json.dumps(output, indent=2, default=str))
+        click.echo(json.dumps(output, indent=2, default=str))
         return
 
     table = Table(title=f"Attack Patterns ({len(test_cases)} results)")
@@ -213,7 +213,7 @@ def payloads_list(category: str | None, json_output: bool) -> None:
 
     if json_output:
         output = [p.model_dump() for p in payloads]
-        console.print_json(json.dumps(output, indent=2))
+        click.echo(json.dumps(output, indent=2))
         return
 
     table = Table(title=f"Poison Payloads ({len(payloads)} results)")
@@ -264,7 +264,7 @@ def tools_list(domain: str | None, json_output: bool) -> None:
 
     if json_output:
         output = [t.model_dump() for t in tools]
-        console.print_json(json.dumps(output, indent=2))
+        click.echo(json.dumps(output, indent=2))
         return
 
     table = Table(title=f"Tool Definitions ({len(tools)} results)")
@@ -422,8 +422,7 @@ def attack_mutate(
     # Find the tool
     tools = [t for t in library.get_tools() if t.name == tool]
     if not tools:
-        console.print(f"[red]Tool '{tool}' not found[/red]")
-        return
+        raise click.ClickException(f"Tool '{tool}' not found")
 
     target_tool = tools[0]
 
@@ -448,7 +447,7 @@ def attack_mutate(
             "injection_points": result.injection_points,
             "detection_hints": result.detection_hints,
         }
-        console.print_json(json.dumps(output, indent=2))
+        click.echo(json.dumps(output, indent=2))
         return
 
     console.print("\n[bold cyan]Mutation Result[/bold cyan]\n")
@@ -464,10 +463,10 @@ def attack_mutate(
     console.print(table)
 
     console.print("\n[bold]Original Description:[/bold]")
-    console.print(f"  {result.original_tool.description[:100]}...")
+    console.print(f"  {result.original_tool.description[:100]}...", markup=False, highlight=False)
 
     console.print("\n[bold red]Poisoned Description:[/bold red]")
-    console.print(f"  {result.poisoned_tool.description[:200]}...")
+    console.print(f"  {result.poisoned_tool.description[:200]}...", markup=False, highlight=False)
 
     console.print("\n[bold]Detection Hints:[/bold]")
     for hint in result.detection_hints[:3]:
@@ -531,8 +530,7 @@ def attack_simulate(
     # Find the tool
     tools = [t for t in library.get_tools() if t.name == tool]
     if not tools:
-        console.print(f"[red]Tool '{tool}' not found[/red]")
-        return
+        raise click.ClickException(f"Tool '{tool}' not found")
 
     target_tool = tools[0]
 
@@ -579,7 +577,7 @@ def attack_simulate(
             "results": results,
             "mutation_schedule": sim.get_mutation_schedule(invocations),
         }
-        console.print_json(json.dumps(output, indent=2))
+        click.echo(json.dumps(output, indent=2))
         return
 
     console.print(f"\n[bold cyan]Time Simulation: {pattern}[/bold cyan]\n")
@@ -719,136 +717,19 @@ def stress_run(
     verbose: bool,
 ) -> None:
     """Run stress test suite against a scanner."""
+    from mcp_stress_test.cli.commands.stress import execute_stress_run
 
-    from mcp_stress_test.scanner import (
-        ScannerConfig,
-        StressTestConfig,
-        StressTestRunner,
-    )
-    from mcp_stress_test.scanner.runner import StressPhase
-
-    library = PatternLibrary()
-    library.load()
-
-    # Parse phases
-    phase_map = {
-        "baseline": StressPhase.BASELINE,
-        "mutation": StressPhase.MUTATION,
-        "temporal": StressPhase.TEMPORAL,
-        "progressive": StressPhase.PROGRESSIVE,
-    }
-    phase_list = [phase_map[p.strip()] for p in phases.split(",") if p.strip() in phase_map]
-
-    # Parse strategies
-    strategy_list = [s.strip() for s in strategies.split(",")]
-
-    # Get tools
-    if tools:
-        tool_names = [t.strip() for t in tools.split(",")]
-        tool_list = [t for t in library.get_tools() if t.name in tool_names]
-    else:
-        tool_list = library.get_tools()[:5]  # Default to first 5
-
-    # Get payloads
-    payload_list = load_payloads(payloads)[:3]  # Limit for sanity
-
-    if not tool_list:
-        console.print("[red]No tools found[/red]")
-        return
-
-    if not payload_list:
-        console.print("[red]No payloads found[/red]")
-        return
-
-    # Configure scanner
-    scanner_config = ScannerConfig(
-        scanner_type=scanner,
+    execute_stress_run(
+        phases=phases,
+        strategies=strategies,
+        tools=tools,
+        payloads=payloads,
+        scanner=scanner,
         scanner_path=scanner_path,
-    )
-
-    # Configure test
-    test_config = StressTestConfig(
-        scanner_config=scanner_config,
-        phases=phase_list,
-        strategies=strategy_list,
+        output=output,
+        format=format,
         verbose=verbose,
     )
-
-    # Create runner
-    runner = StressTestRunner(config=test_config)
-
-    console.print("\n[bold cyan]MCP Stress Test[/bold cyan]\n")
-    console.print(f"Scanner: {scanner}")
-    console.print(f"Phases: {', '.join(p.value for p in phase_list)}")
-    console.print(f"Strategies: {', '.join(strategy_list)}")
-    console.print(f"Tools: {len(tool_list)}")
-    console.print(f"Payloads: {len(payload_list)}")
-    console.print()
-
-    # Progress callback
-    def progress_callback(current: int, total: int, message: str) -> None:
-        if verbose:
-            console.print(f"  [{current}/{total}] {message}")
-
-    # Run tests (no spinner on Windows due to Unicode issues)
-    console.print("[cyan]Running stress tests...[/cyan]")
-
-    runner.run_full_suite(
-        tools=tool_list,
-        payloads=payload_list,
-        progress_callback=progress_callback if verbose else None,
-    )
-
-    console.print("[green]✓[/green] Stress tests complete")
-
-    # Show summary
-    summary = runner.get_summary()
-    metrics = runner.get_metrics()
-
-    console.print("\n[bold cyan]Results Summary[/bold cyan]\n")
-
-    summary_table = Table(show_header=False)
-    summary_table.add_column("Metric", style="white")
-    summary_table.add_column("Value", style="green", justify="right")
-
-    summary_table.add_row("Total Tests", str(summary["total_tests"]))
-    summary_table.add_row("Passed", str(summary["passed"]))
-    summary_table.add_row("Failed", str(summary["failed"]))
-    summary_table.add_row("Detection Rate", f"{summary['detection_rate']:.1f}%")
-    summary_table.add_row("Precision", f"{summary['precision']:.1f}%")
-    summary_table.add_row("F1 Score", f"{summary['f1_score']:.1f}")
-    summary_table.add_row("Avg Scan Time", f"{summary['avg_scan_time_ms']:.2f}ms")
-
-    console.print(summary_table)
-
-    # Show strategy breakdown
-    if metrics.by_strategy:
-        console.print("\n[bold]Detection by Strategy:[/bold]")
-        strat_table = Table()
-        strat_table.add_column("Strategy", style="cyan")
-        strat_table.add_column("Detected", justify="right")
-        strat_table.add_column("Missed", justify="right")
-        strat_table.add_column("Rate", justify="right")
-
-        for strat, stats in metrics.by_strategy.items():
-            total = stats["detected"] + stats["missed"]
-            rate = (stats["detected"] / total * 100) if total > 0 else 0
-            color = "green" if rate >= 80 else "yellow" if rate >= 50 else "red"
-            strat_table.add_row(
-                strat,
-                str(stats["detected"]),
-                str(stats["missed"]),
-                f"[{color}]{rate:.1f}%[/{color}]",
-            )
-
-        console.print(strat_table)
-
-    # Output results
-    if output:
-        output_path = Path(output)
-        output_data = runner.export_results(format)
-        output_path.write_text(output_data)
-        console.print(f"\n[green]Results saved to {output_path}[/green]")
 
 
 @stress.command("compare")
@@ -890,8 +771,7 @@ def stress_compare(tool: str, strategy: str, scanner: str) -> None:
     # Find tool
     tools = [t for t in library.get_tools() if t.name == tool]
     if not tools:
-        console.print(f"[red]Tool '{tool}' not found[/red]")
-        return
+        raise click.ClickException(f"Tool '{tool}' not found")
 
     target_tool = tools[0]
 
@@ -1372,7 +1252,7 @@ def server_list(domain: str | None, json_output: bool) -> None:
 
         if json_output:
             output = [t.model_dump() for t in tools]
-            console.print_json(json.dumps(output, indent=2))
+            click.echo(json.dumps(output, indent=2))
             return
 
         console.print(f"\n[bold cyan]Server Farm Tools ({len(tools)} total)[/bold cyan]\n")
@@ -1459,9 +1339,8 @@ def server_poison(
         # Find the tool
         result = farm.get_tool(tool)
         if not result:
-            console.print(f"[red]Tool '{tool}' not found[/red]")
             await farm.stop()
-            return
+            raise click.ClickException(f"Tool '{tool}' not found")
 
         server, tool_schema = result
         original_desc = tool_schema.description
@@ -1478,10 +1357,10 @@ def server_poison(
                 _, updated = poisoned_tool
 
                 console.print("\n[bold]Original Description:[/bold]")
-                console.print(f"  {original_desc[:100]}...")
+                console.print(f"  {original_desc[:100]}...", markup=False, highlight=False)
 
                 console.print("\n[bold red]Poisoned Description:[/bold red]")
-                console.print(f"  {updated.description[:200]}...")
+                console.print(f"  {updated.description[:200]}...", markup=False, highlight=False)
         else:
             console.print(f"[red]Failed to poison tool: {tool}[/red]")
 
@@ -1530,9 +1409,8 @@ def server_call(tool: str, args: str, repeat: int) -> None:
         # Find the tool
         result = farm.get_tool(tool)
         if not result:
-            console.print(f"[red]Tool '{tool}' not found[/red]")
             await farm.stop()
-            return
+            raise click.ClickException(f"Tool '{tool}' not found")
 
         console.print(f"\n[bold cyan]Calling: {tool}[/bold cyan]")
         console.print(f"Arguments: {arguments}")
@@ -1548,7 +1426,7 @@ def server_call(tool: str, args: str, repeat: int) -> None:
 
         # Show last result
         console.print("\n[bold]Result:[/bold]")
-        console.print_json(json.dumps(results[-1], indent=2, default=str))
+        click.echo(json.dumps(results[-1], indent=2, default=str))
 
         # Show metrics
         status = farm.get_status()
@@ -1589,7 +1467,7 @@ def server_status(json_output: bool) -> None:
                 "status": status,
                 "health": health,
             }
-            console.print_json(json.dumps(output, indent=2, default=str))
+            click.echo(json.dumps(output, indent=2, default=str))
             return
 
         console.print("\n[bold cyan]Server Farm Status[/bold cyan]\n")
@@ -1792,7 +1670,7 @@ def server_gradual_poison(tool: str, stages: int, calls_between: int) -> None:
 def info() -> None:
     """Show framework information."""
     console.print("\n[bold cyan]MCP Stress Test Framework[/bold cyan]")
-    console.print("Version: 0.5.0\n")
+    console.print(f"Version: {__version__}\n")
 
     console.print("[bold]Purpose:[/bold]")
     console.print("  Stress test MCP security tools using attack patterns from:")

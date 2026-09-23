@@ -449,8 +449,13 @@ class TestTimeSimulator:
         assert mutations >= 1
 
 
+@pytest.mark.legacy
 class TestCLIAttackCommands:
-    """Tests for attack CLI commands."""
+    """Tests for attack CLI commands.
+
+    Invokes mcp_stress_test.cli_legacy, not the installed console script
+    mcp-stress = mcp_stress_test.cli:main.
+    """
 
     def test_attack_mutate_command(self):
         """Test attack mutate CLI command."""

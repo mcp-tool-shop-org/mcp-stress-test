@@ -41,6 +41,7 @@ class JSONReporter(BaseReporter):
                 "detection_rate": metrics.detection_rate,
                 "evasion_rate": metrics.evasion_rate,
                 "avg_scan_time_ms": metrics.avg_scan_time_ms,
+                **metrics.extra_summary_dict(),
             },
             "by_strategy": metrics.by_strategy,
             "by_tool": metrics.by_tool,

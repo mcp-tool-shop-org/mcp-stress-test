@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.2] - 2026-09-23
+
+### Added
+- `mcp-stress stress`, pattern/payload/tool discovery, `generate`, and `server serve` on the installed console script
+- `report compare` and `--fail-under-detection` on scan batch, chain execute, and report generate
+- Loadable pattern corpus under `patterns/data` (68 templates; the count matches the files)
+- Docker volume `/var/lib/mcp-stress` (`MCP_STRESS_DATA`) so checkpoints and stress reports survive container removal
+- CI: dependency audit, a Pages pull-request build that does not deploy, and a wheel/sdist install smoke before publish
+
+### Changed
+- Docs no longer treat the MCPTox paper's 1,312 patterns as the installed library size
+
 ## [1.0.1] - 2026-03-25
 
 ### Fixed

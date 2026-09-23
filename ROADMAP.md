@@ -4,7 +4,7 @@
 
 ## Executive Summary
 
-This framework stress-tests MCP security scanners (primarily tool-scan) by generating adversarial tool configurations based on the latest 2026 research, including the MCPTox benchmark (1,312 attack patterns), Palo Alto's sampling exploits, and CyberArk's full-schema poisoning discoveries.
+This framework stress-tests MCP security scanners by generating adversarial tool configurations. The installed corpus is 68 templates transcribed from MCPTox, Unit42, and CyberArk research. The MCPTox paper's 1,312-pattern benchmark is not vendored.
 
 **Key Innovation**: Integration with Context-Window-Manager (CWM) enables checkpoint-based testing, rollback verification, and context exhaustion attack simulation.
 
@@ -332,8 +332,8 @@ DETECTION_MATRIX = {
 # MCP Stress Test Report
 
 ## Summary
-- **Total Attacks**: 1,312
-- **Detection Rate**: 94.2% (1,236/1,312)
+- **Total Attacks**: 68
+- **Detection Rate**: 94.1% (64/68)
 - **False Positive Rate**: 2.1% (7/333)
 - **ASR Reduction**: 87.4% (36.5% → 4.6%)
 

@@ -7,6 +7,10 @@ import json
 import click
 from rich.console import Console
 from rich.table import Table
+from rich.text import Text
+
+from mcp_stress_test.cli.quality_gate import enforce_quality_gate, quality_gate_options
+from mcp_stress_test.cli.scanner_resolve import raise_if_scan_error, resolve_scanner
 
 console = Console()
 
@@ -32,7 +36,12 @@ def scan_group() -> None:
     ),
     help="Attack strategy to apply",
 )
-@click.option("--scanner", default="mock", help="Scanner to use")
+@click.option(
+    "--scanner",
+    default="mock",
+    type=click.Choice(["mock", "tool-scan", "cli"], case_sensitive=False),
+    help="Scanner to use",
+)
 @click.option("--json-output", is_flag=True, help="Output as JSON")
 def scan_compare(
     tool: str,
@@ -49,7 +58,6 @@ def scan_compare(
     from mcp_stress_test.generator.strategies import get_strategy
     from mcp_stress_test.models import PoisonPayload, RiskCategory, ServerDomain
     from mcp_stress_test.models import ToolSchema as ToolDefinition
-    from mcp_stress_test.scanners.mock import MockScanner
 
     # Create tool
     original_tool = ToolDefinition(
@@ -60,11 +68,11 @@ def scan_compare(
         risk_level="high",
     )
 
-    # Create scanner
-    scan = MockScanner()
+    scan = resolve_scanner(scanner)
 
     # Pre-scan
     pre_result = scan.scan(original_tool)
+    raise_if_scan_error(pre_result, context="pre-scan")
 
     # Create payload and apply mutation strategy
     payload = PoisonPayload(
@@ -81,6 +89,7 @@ def scan_compare(
 
     # Post-scan
     post_result = scan.scan(poisoned_tool)
+    raise_if_scan_error(post_result, context="post-scan")
 
     if json_output:
         data = {
@@ -102,7 +111,7 @@ def scan_compare(
                 ],
             },
         }
-        console.print(json.dumps(data, indent=2))
+        click.echo(json.dumps(data, indent=2))
         return
 
     console.print("[bold]Scan Comparison[/bold]\n")
@@ -139,7 +148,10 @@ def scan_compare(
     delta_table.add_row(
         "Attack Detected", "[green]YES[/green]" if post_result.detected else "[red]NO[/red]"
     )
-    delta_table.add_row("New Threats", ", ".join(new_threats) if new_threats else "None")
+    delta_table.add_row(
+        "New Threats",
+        Text(", ".join(new_threats) if new_threats else "None"),
+    )
     console.print(delta_table)
 
 
@@ -149,22 +161,46 @@ def scan_compare(
     "--strategies", "-s", default="direct_injection,obfuscation", help="Comma-separated strategies"
 )
 @click.option("--output", "-o", type=click.Path(), help="Output JSON file")
-def scan_batch(tools: str, strategies: str, output: str | None) -> None:
+@click.option(
+    "--scanner",
+    default="mock",
+    type=click.Choice(["mock", "tool-scan", "cli"], case_sensitive=False),
+    help="Scanner to use",
+)
+@quality_gate_options
+def scan_batch(
+    tools: str,
+    strategies: str,
+    output: str | None,
+    scanner: str,
+    fail_under_detection: float | None,
+    fail_on_evasion: bool,
+) -> None:
     """Run batch comparison across multiple tools and strategies.
 
     Example:
         mcp-stress scan batch -t read_file,write_file -s direct_injection,obfuscation
     """
     from mcp_stress_test.generator.mutator import SchemaMutator
-    from mcp_stress_test.generator.strategies import get_strategy
+    from mcp_stress_test.generator.strategies import STRATEGY_REGISTRY, get_strategy
     from mcp_stress_test.models import PoisonPayload, RiskCategory, ServerDomain
     from mcp_stress_test.models import ToolSchema as ToolDefinition
-    from mcp_stress_test.scanners.mock import MockScanner
 
-    tool_list = [t.strip() for t in tools.split(",")]
-    strategy_list = [s.strip() for s in strategies.split(",")]
+    tool_list = [t.strip() for t in tools.split(",") if t.strip()]
+    strategy_list = [s.strip() for s in strategies.split(",") if s.strip()]
+    unknown = [s for s in strategy_list if s not in STRATEGY_REGISTRY]
+    if unknown:
+        available = ", ".join(STRATEGY_REGISTRY)
+        raise click.UsageError(
+            f"Unknown strateg{'y' if len(unknown) == 1 else 'ies'}: {', '.join(unknown)}. "
+            f"Available: {available}"
+        )
+    if not tool_list:
+        raise click.UsageError("Provide at least one tool name.")
+    if not strategy_list:
+        raise click.UsageError("Provide at least one strategy.")
 
-    scan = MockScanner()
+    scan = resolve_scanner(scanner)
 
     # Test payload
     payload = PoisonPayload(
@@ -189,6 +225,7 @@ def scan_batch(tools: str, strategies: str, output: str | None) -> None:
         )
 
         pre_result = scan.scan(tool)
+        raise_if_scan_error(pre_result, context=f"pre-scan {tool_name}")
 
         for strategy in strategy_list:
             try:
@@ -197,14 +234,19 @@ def scan_batch(tools: str, strategies: str, output: str | None) -> None:
                 mutation_result = mutator.mutate(tool, payload)
                 poisoned = mutation_result.poisoned_tool
                 post_result = scan.scan(poisoned)
+                raise_if_scan_error(post_result, context=f"{tool_name}/{strategy}")
 
                 results.append(
                     {
                         "tool": tool_name,
+                        "tool_name": tool_name,
                         "strategy": strategy,
                         "detected": post_result.detected,
                         "score_delta": post_result.score_after - pre_result.score_after,
+                        "score_before": pre_result.score_after,
+                        "score_after": post_result.score_after,
                         "threats": post_result.threats_found,
+                        "threats_found": post_result.threats_found,
                     }
                 )
             except ValueError:
@@ -226,7 +268,7 @@ def scan_batch(tools: str, strategies: str, output: str | None) -> None:
             r["strategy"],
             detected,
             f"{r['score_delta']:+.1f}",
-            threats or "-",
+            Text(threats or "-"),
         )
 
     console.print(table)
@@ -234,6 +276,9 @@ def scan_batch(tools: str, strategies: str, output: str | None) -> None:
     # Summary
     total = len(results)
     detected = sum(1 for r in results if r["detected"])
+    if total == 0:
+        console.print("\n[bold]Summary:[/bold] 0/0 attacks detected (no results)")
+        raise click.ClickException("No scan results to summarize.")
     console.print(
         f"\n[bold]Summary:[/bold] {detected}/{total} attacks detected ({detected / total * 100:.1f}%)"
     )
@@ -242,6 +287,12 @@ def scan_batch(tools: str, strategies: str, output: str | None) -> None:
         with open(output, "w") as f:
             json.dump({"results": results}, f, indent=2)
         console.print(f"[green]Results saved to {output}[/green]")
+
+    enforce_quality_gate(
+        detected / total * 100,
+        fail_under_detection=fail_under_detection,
+        fail_on_evasion=fail_on_evasion,
+    )
 
 
 @scan_group.command("scanners")

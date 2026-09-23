@@ -41,6 +41,7 @@ class MarkdownReporter(BaseReporter):
             f"- **Detection Rate**: {metrics.detection_rate:.1f}%",
             f"- **Evasion Rate**: {metrics.evasion_rate:.1f}%",
             f"- **Avg Scan Time**: {metrics.avg_scan_time_ms:.2f}ms",
+            *[f"- **{label}**: {value}" for label, value in metrics.extra_summary_items()],
             "",
             "## Results by Strategy",
             "",

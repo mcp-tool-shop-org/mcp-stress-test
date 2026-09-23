@@ -8,6 +8,8 @@ import click
 from rich.console import Console
 from rich.table import Table
 
+from mcp_stress_test.cli.quality_gate import enforce_quality_gate, quality_gate_options
+
 console = Console()
 
 
@@ -37,7 +39,7 @@ def chain_list(json_output: bool) -> None:
             }
             for c in BUILTIN_CHAINS
         ]
-        console.print(json.dumps(data, indent=2))
+        click.echo(json.dumps(data, indent=2))
         return
 
     table = Table(title="Attack Chains")
@@ -65,8 +67,7 @@ def chain_show(chain_name: str) -> None:
 
     chain = get_chain(chain_name)
     if not chain:
-        console.print(f"[red]Chain '{chain_name}' not found[/red]")
-        return
+        raise click.ClickException(f"Chain '{chain_name}' not found")
 
     console.print(f"\n[bold cyan]{chain.name}[/bold cyan]")
     console.print(f"[dim]{chain.description}[/dim]\n")
@@ -98,21 +99,30 @@ def chain_show(chain_name: str) -> None:
     console.print("\n[bold]Payloads:[/bold]")
     for i, step in enumerate(chain.steps):
         console.print(f"\n[dim]Step {i + 1} ({step.name}):[/dim]")
-        console.print(f"  {step.payload[:100]}...")
+        console.print(f"  {step.payload[:100]}...", markup=False, highlight=False)
 
 
 @chain_group.command("execute")
 @click.option(
     "--chain", "-c", "chain_names", multiple=True, help="Chains to execute (default: all)"
 )
-@click.option("--scanner", "-s", default="mock", help="Scanner to test against")
+@click.option(
+    "--scanner",
+    "-s",
+    default="mock",
+    type=click.Choice(["mock", "tool-scan", "cli"], case_sensitive=False),
+    help="Scanner to test against",
+)
 @click.option("--output", "-o", type=click.Path(), help="Output file for results")
 @click.option("--json-output", is_flag=True, help="Output as JSON")
+@quality_gate_options
 def chain_execute(
     chain_names: tuple[str, ...],
     scanner: str,
     output: str | None,
     json_output: bool,
+    fail_under_detection: float | None,
+    fail_on_evasion: bool,
 ) -> None:
     """Execute attack chains against a scanner.
 
@@ -121,12 +131,31 @@ def chain_execute(
     """
     from mcp_stress_test.chains.executor import ChainExecutor
     from mcp_stress_test.chains.library import BUILTIN_CHAINS, get_chain
+    from mcp_stress_test.cli.scanner_resolve import raise_if_scan_error, resolve_scanner
     from mcp_stress_test.models import ServerDomain
     from mcp_stress_test.models import ToolSchema as ToolDefinition
-    from mcp_stress_test.scanners.mock import MockScanner
 
-    # Create scanner
-    scan = MockScanner()
+    status = Console(stderr=True) if json_output else console
+
+    # Select chains before resolving the scanner so unknown names fail first.
+    if chain_names:
+        chains = []
+        unknown = []
+        for name in chain_names:
+            chain = get_chain(name)
+            if chain is None:
+                unknown.append(name)
+            else:
+                chains.append(chain)
+        if unknown:
+            label = "chain" if len(unknown) == 1 else "chains"
+            raise click.ClickException(f"Unknown {label}: {', '.join(unknown)}")
+        if not chains:
+            raise click.ClickException("No valid chains specified")
+    else:
+        chains = list(BUILTIN_CHAINS)
+
+    scan = resolve_scanner(scanner)
 
     # Create tool definitions for all required tools
     all_tools: set[str] = set()
@@ -144,21 +173,18 @@ def chain_execute(
         for name in all_tools
     }
 
-    # Select chains
-    if chain_names:
-        chains = [get_chain(name) for name in chain_names]
-        chains = [c for c in chains if c is not None]
-        if not chains:
-            console.print("[red]No valid chains specified[/red]")
-            return
-    else:
-        chains = BUILTIN_CHAINS
-
-    console.print(f"[cyan]Executing {len(chains)} chains against {scanner} scanner...[/cyan]\n")
+    status.print(f"[cyan]Executing {len(chains)} chains against {scanner} scanner...[/cyan]\n")
 
     # Execute
     executor = ChainExecutor(scanner=scan, tools=tools)
     results = executor.execute_all(chains)
+
+    for r in results:
+        raise_if_scan_error(r, context=r.chain_name)
+        for step in r.steps:
+            raise_if_scan_error(step, context=f"{r.chain_name}/{step.tool_name}")
+
+    stats = executor.get_stats()
 
     # Display results
     if json_output:
@@ -172,7 +198,7 @@ def chain_execute(
             }
             for r in results
         ]
-        console.print(json.dumps(data, indent=2))
+        click.echo(json.dumps(data, indent=2))
     else:
         table = Table(title="Chain Execution Results")
         table.add_column("Chain", style="cyan")
@@ -182,19 +208,18 @@ def chain_execute(
         table.add_column("Status")
 
         for r in results:
-            status = "[green]BLOCKED[/green]" if r.chain_detected else "[red]EVADED[/red]"
+            cell_status = "[green]BLOCKED[/green]" if r.chain_detected else "[red]EVADED[/red]"
             table.add_row(
                 r.chain_name,
                 str(len(r.steps)),
                 str(r.steps_detected),
                 f"{r.detection_rate:.1f}%",
-                status,
+                cell_status,
             )
 
         console.print(table)
 
         # Summary
-        stats = executor.get_stats()
         console.print("\n[bold]Summary:[/bold]")
         console.print(f"  Chains executed: {stats.chains_executed}")
         console.print(f"  Chains detected: {stats.chains_detected}")
@@ -215,4 +240,10 @@ def chain_execute(
                 f,
                 indent=2,
             )
-        console.print(f"\n[green]Results saved to {output}[/green]")
+        status.print(f"\n[green]Results saved to {output}[/green]")
+
+    enforce_quality_gate(
+        stats.chain_detection_rate,
+        fail_under_detection=fail_under_detection,
+        fail_on_evasion=fail_on_evasion,
+    )

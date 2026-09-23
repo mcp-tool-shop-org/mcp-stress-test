@@ -22,10 +22,10 @@ Security scanners are emerging to detect these attacks. But how do you know your
 
 ### Key Capabilities
 
-**1,312 Attack Patterns from Cutting-Edge Research**
+**68 loaded attack templates from published research**
 - Three attack paradigms: explicit hijacking, implicit triggers, parameter tampering
-- 11 risk categories aligned with OWASP MCP Top 10
-- Patterns derived from peer-reviewed security research
+- OWASP MCP categories MCP01–MCP10 have a generation path
+- The MCPTox paper describes 1,312 patterns; this package loads the 68 templates it ships
 
 **LLM-Guided Fuzzing**
 - Use local LLMs (Ollama) to generate novel evasive payloads
@@ -73,7 +73,7 @@ Security scanners are essential—but scanners that haven't been stress-tested a
 
 | Feature | Description |
 |---------|-------------|
-| **Pattern Library** | 1,312 patterns from MCPTox, Unit42, CyberArk research |
+| **Pattern Library** | 68 loaded templates, 20 tools, 51 payloads (corpus 2026.09.1) |
 | **Mutation Engine** | 5 strategies: direct, semantic, obfuscation, encoding, fragmentation |
 | **LLM Fuzzing** | Ollama integration for AI-powered payload mutation |
 | **Attack Chains** | 6 multi-tool attack sequences |
@@ -85,7 +85,7 @@ Security scanners are essential—but scanners that haven't been stress-tested a
 
 MCP Stress Test implements attacks documented in:
 
-- **MCPTox: A Benchmark for Tool Poisoning Attack** (arXiv 2508.14925) — Comprehensive taxonomy of MCP attacks with 1,312 test cases
+- **MCPTox: A Benchmark for Tool Poisoning Attack** (arXiv 2508.14925) — taxonomy of MCP attacks; the paper reports 1,312 cases, and this package loads a transcribed subset
 - **MCP Sampling Attack Vectors** (Palo Alto Unit42) — Novel sampling loop exploits
 - **Poison Everywhere** (CyberArk) — Full-schema poisoning techniques
 

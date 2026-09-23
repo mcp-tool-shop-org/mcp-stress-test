@@ -7,6 +7,7 @@ meaningful attack payload mutations.
 from __future__ import annotations
 
 import json
+import os
 import time
 from collections.abc import Iterator
 from dataclasses import dataclass
@@ -273,6 +274,71 @@ class OllamaFuzzer(LLMFuzzer):
 
         data = response.json()
         return data.get("response", "")
+
+
+class OpenAICompatFuzzer(LLMFuzzer):
+    """Fuzzer for OpenAI-compatible chat-completions endpoints.
+
+    Posts to {base_url}/v1/chat/completions (or {base_url}/chat/completions
+    when base_url already ends in /v1). Works with llama.cpp, vLLM, LM Studio,
+    and cloud OpenAI-compatible APIs. Authorization: Bearer from config.api_key
+    or MCP_STRESS_LLM_API_KEY / OPENAI_API_KEY.
+    """
+
+    def _auth_headers(self) -> dict[str, str]:
+        key = getattr(self.config, "api_key", None)
+        if not key:
+            key = os.environ.get("MCP_STRESS_LLM_API_KEY") or os.environ.get("OPENAI_API_KEY")
+        if not key:
+            return {}
+        return {"Authorization": f"Bearer {key}"}
+
+    def _completions_url(self) -> str:
+        base = (self.config.base_url or "http://localhost:8080").rstrip("/")
+        if base.endswith("/v1"):
+            return f"{base}/chat/completions"
+        return f"{base}/v1/chat/completions"
+
+    def _call_llm(self, prompt: str) -> str:
+        """Call an OpenAI-compatible chat completions API."""
+        client = self._get_client()
+        response = client.post(
+            self._completions_url(),
+            headers=self._auth_headers(),
+            json={
+                "model": self.config.model,
+                "messages": [{"role": "user", "content": prompt}],
+                "temperature": self.config.temperature,
+                "max_tokens": self.config.max_tokens,
+            },
+        )
+        response.raise_for_status()
+        data = response.json()
+        choices = data.get("choices") or []
+        if not choices:
+            return ""
+        message = choices[0].get("message") or {}
+        return message.get("content") or ""
+
+
+def create_fuzzer(config: LLMConfig | None = None) -> LLMFuzzer:
+    """Select an LLM fuzzer from LLMConfig.provider. Keep Ollama as default."""
+    cfg = config or LLMConfig()
+    provider = (cfg.provider or "ollama").strip().lower().replace("_", "-")
+    if provider in {
+        "openai",
+        "openai-compat",
+        "openai-compatible",
+        "vllm",
+        "llamacpp",
+        "llama.cpp",
+        "lmstudio",
+        "lm-studio",
+    }:
+        return OpenAICompatFuzzer(config=cfg)
+    if provider in {"mock", "none"}:
+        return MockFuzzer(config=cfg)
+    return OllamaFuzzer(config=cfg)
 
 
 class MockFuzzer(LLMFuzzer):

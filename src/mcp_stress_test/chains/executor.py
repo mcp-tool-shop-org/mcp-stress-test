@@ -149,8 +149,16 @@ class ChainExecutor:
         return self._results.copy()
 
     def get_undetected_chains(self) -> list[ChainResult]:
-        """Get chains that were not detected."""
-        return [r for r in self._results if not r.chain_detected]
+        """Get executed chains that were not detected.
+
+        Chains that never ran because required tools were missing
+        (metadata.error == missing_tools) are not scanner evasions.
+        """
+        return [
+            r
+            for r in self._results
+            if not r.chain_detected and r.metadata.get("error") != "missing_tools"
+        ]
 
     def get_partial_detections(self) -> list[ChainResult]:
         """Get chains where some but not all steps were detected."""

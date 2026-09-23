@@ -10,9 +10,15 @@ from rich.console import Console
 from mcp_stress_test import __version__
 from mcp_stress_test.cli.commands.chain import chain_group
 from mcp_stress_test.cli.commands.fuzz import fuzz_group
+from mcp_stress_test.cli.commands.generate import generate_cmd
 from mcp_stress_test.cli.commands.info import info_cmd
+from mcp_stress_test.cli.commands.patterns import patterns_group
+from mcp_stress_test.cli.commands.payloads import payloads_group
 from mcp_stress_test.cli.commands.report import report_group
 from mcp_stress_test.cli.commands.scan import scan_group
+from mcp_stress_test.cli.commands.server import server_group
+from mcp_stress_test.cli.commands.stress import stress_group
+from mcp_stress_test.cli.commands.tools import tools_group
 
 # Fix Windows Unicode issues
 if sys.platform == "win32":
@@ -40,9 +46,11 @@ def app(ctx: click.Context, verbose: bool, config: str | None) -> None:
     \b
     Quick Start:
       mcp-stress info              Show framework capabilities
-      mcp-stress fuzz run          Run LLM-guided fuzzing
-      mcp-stress chain execute     Run attack chains
+      mcp-stress stress run        Run baseline/mutation/temporal suites
+      mcp-stress patterns list     Inspect the pattern library
+      mcp-stress server serve      Start a demo MCP server on stdio
       mcp-stress report generate   Generate reports
+      mcp-stress report compare    Diff two result snapshots
     """
     ctx.ensure_object(dict)
     ctx.obj["verbose"] = verbose
@@ -54,6 +62,12 @@ app.add_command(fuzz_group, name="fuzz")
 app.add_command(chain_group, name="chain")
 app.add_command(report_group, name="report")
 app.add_command(scan_group, name="scan")
+app.add_command(stress_group, name="stress")
+app.add_command(patterns_group, name="patterns")
+app.add_command(payloads_group, name="payloads")
+app.add_command(tools_group, name="tools")
+app.add_command(generate_cmd, name="generate")
+app.add_command(server_group, name="server")
 
 
 def main() -> None:

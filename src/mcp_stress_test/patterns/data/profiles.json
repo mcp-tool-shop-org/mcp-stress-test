@@ -1,0 +1,220 @@
+{
+  "version": "2026.09.1",
+  "profiles": [
+    {
+      "id": "p1_tool_shadow_email",
+      "name": "Email Tool Shadowing",
+      "paradigm": "p1_explicit_hijacking",
+      "payload_ids": [
+        "hijack-email",
+        "param-cc"
+      ],
+      "trigger_tool": "send_email",
+      "owasp_categories": [
+        "MCP01"
+      ],
+      "source": "mcptox",
+      "severity": "high"
+    },
+    {
+      "id": "p1_credential_steal",
+      "name": "Credential Stealing via Decoy Tool",
+      "paradigm": "p1_explicit_hijacking",
+      "payload_ids": [
+        "cred-aws",
+        "cred-envkeys"
+      ],
+      "trigger_tool": "get_token",
+      "owasp_categories": [
+        "MCP01",
+        "MCP05"
+      ],
+      "source": "mcptox",
+      "severity": "critical"
+    },
+    {
+      "id": "p2_background_exfil",
+      "name": "Background Data Exfiltration",
+      "paradigm": "p2_implicit_hijacking",
+      "payload_ids": [
+        "exfil-ssh",
+        "exfil-env"
+      ],
+      "trigger_condition": "when user requests file operations",
+      "owasp_categories": [
+        "MCP01",
+        "MCP03"
+      ],
+      "source": "mcptox",
+      "severity": "high"
+    },
+    {
+      "id": "p2_context_poison",
+      "name": "Context Manipulation Attack",
+      "paradigm": "p2_implicit_hijacking",
+      "payload_ids": [
+        "ctx-system",
+        "ctx-admin"
+      ],
+      "trigger_condition": "on first tool invocation",
+      "owasp_categories": [
+        "MCP03"
+      ],
+      "source": "paloalto",
+      "severity": "high"
+    },
+    {
+      "id": "p3_sql_injection",
+      "name": "Cross-Tool SQL Injection",
+      "paradigm": "p3_parameter_tampering",
+      "payload_ids": [
+        "sqli-or1",
+        "param-drop"
+      ],
+      "trigger_condition": "when any database tool is called",
+      "owasp_categories": [
+        "MCP04"
+      ],
+      "source": "mcptox",
+      "severity": "critical"
+    },
+    {
+      "id": "p3_path_traversal",
+      "name": "Path Traversal via Parameter Poisoning",
+      "paradigm": "p3_parameter_tampering",
+      "payload_ids": [
+        "cmd-traversal",
+        "param-env"
+      ],
+      "trigger_condition": "when file path parameter is used",
+      "owasp_categories": [
+        "MCP04"
+      ],
+      "source": "cyberark",
+      "severity": "high"
+    },
+    {
+      "id": "ssrf_web_api",
+      "name": "SSRF via Web API Tools",
+      "paradigm": "p2_implicit_hijacking",
+      "payload_ids": [
+        "ssrf-imds-desc",
+        "ssrf-file-param",
+        "ssrf-error"
+      ],
+      "trigger_tool": "http_request",
+      "owasp_categories": [
+        "MCP04"
+      ],
+      "source": "custom",
+      "severity": "high"
+    },
+    {
+      "id": "xss_communication",
+      "name": "XSS via Communication Tools",
+      "paradigm": "p3_parameter_tampering",
+      "payload_ids": [
+        "xss-script-desc",
+        "xss-img-param",
+        "xss-error"
+      ],
+      "trigger_tool": "post_slack",
+      "owasp_categories": [
+        "MCP04"
+      ],
+      "source": "custom",
+      "severity": "medium"
+    },
+    {
+      "id": "mcp02_unconstrained_agency",
+      "name": "Unconstrained Tool Grant",
+      "paradigm": "p2_implicit_hijacking",
+      "payload_ids": [
+        "mcp02-grant",
+        "mcp02-auto"
+      ],
+      "trigger_condition": "any tool invocation",
+      "owasp_categories": [
+        "MCP02"
+      ],
+      "source": "owasp",
+      "severity": "critical"
+    },
+    {
+      "id": "mcp06_sandbox_escape",
+      "name": "Sandbox Escape via Code Execution",
+      "paradigm": "p3_parameter_tampering",
+      "payload_ids": [
+        "mcp06-sandbox",
+        "mcp06-escape"
+      ],
+      "trigger_tool": "run_python",
+      "owasp_categories": [
+        "MCP06"
+      ],
+      "source": "owasp",
+      "severity": "critical"
+    },
+    {
+      "id": "mcp07_context_flood",
+      "name": "Context Flood Resource Exhaustion",
+      "paradigm": "p2_implicit_hijacking",
+      "payload_ids": [
+        "mcp07-flood",
+        "mcp07-huge"
+      ],
+      "trigger_condition": "on sampling or resource list",
+      "owasp_categories": [
+        "MCP07"
+      ],
+      "source": "owasp",
+      "severity": "high"
+    },
+    {
+      "id": "mcp08_log_injection",
+      "name": "Log Injection and Audit Gaps",
+      "paradigm": "p3_parameter_tampering",
+      "payload_ids": [
+        "mcp08-crlf",
+        "mcp08-skip"
+      ],
+      "trigger_condition": "when an error_template is returned",
+      "owasp_categories": [
+        "MCP08"
+      ],
+      "source": "owasp",
+      "severity": "medium"
+    },
+    {
+      "id": "mcp09_supply_chain",
+      "name": "Malicious Server Install and Registry Swap",
+      "paradigm": "p1_explicit_hijacking",
+      "payload_ids": [
+        "mcp09-install",
+        "mcp09-swap"
+      ],
+      "trigger_tool": "install_mcp_server",
+      "owasp_categories": [
+        "MCP09"
+      ],
+      "source": "owasp",
+      "severity": "critical"
+    },
+    {
+      "id": "mcp10_transport_injection",
+      "name": "stdio/SSE Transport Injection",
+      "paradigm": "p2_implicit_hijacking",
+      "payload_ids": [
+        "mcp10-stdio",
+        "mcp10-sse",
+        "mcp10-header"
+      ],
+      "trigger_tool": "http_request",
+      "owasp_categories": [
+        "MCP10"
+      ],
+      "source": "owasp",
+      "severity": "high"
+    }
+  ]
+}

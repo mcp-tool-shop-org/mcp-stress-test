@@ -8,14 +8,21 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from dataclasses import dataclass, field
+from datetime import datetime
 from enum import StrEnum
 from typing import Any
+from uuid import uuid4
 
 from mcp_stress_test.generator import AttackGenerator, TimeSimulator
 from mcp_stress_test.models import (
+    MCPTOX_ASR_BASELINE,
     AttackParadigm,
+    AttackTestCase,
+    CaseVerdict,
+    OutcomeType,
     PoisonPayload,
     TemporalPattern,
+    TestRunMetrics,
     ToolSchema,
 )
 from mcp_stress_test.scanner.adapter import ScannerAdapter, ScannerConfig
@@ -30,6 +37,7 @@ class StressPhase(StrEnum):
     TEMPORAL = "temporal"
     PROGRESSIVE = "progressive"
     ADVERSARIAL = "adversarial"
+    LABELED = "labeled"
 
 
 @dataclass
@@ -76,6 +84,7 @@ class StressMetrics:
     total_tests: int = 0
     passed: int = 0
     failed: int = 0
+    errors: int = 0  # Scanner failures; excluded from TP/FP/TN/FN
 
     # Detection metrics
     true_positives: int = 0  # Attack detected correctly
@@ -102,6 +111,10 @@ class StressMetrics:
         self.total_scan_time_ms += duration_ms
         self.min_scan_time_ms = min(self.min_scan_time_ms, duration_ms)
         self.max_scan_time_ms = max(self.max_scan_time_ms, duration_ms)
+
+    def record_error(self) -> None:
+        """Record a scanner failure that produced no verdict."""
+        self.errors += 1
 
     def record_result(
         self,
@@ -188,12 +201,37 @@ class StressMetrics:
             return 0.0
         return self.total_scan_time_ms / self.total_tests
 
+    @property
+    def asr_protected(self) -> float:
+        """Measured attack success rate under the scanner (misses / attacks). 0-1."""
+        attacks = self.true_positives + self.false_negatives
+        if attacks == 0:
+            return 0.0
+        return self.false_negatives / attacks
+
+    @property
+    def false_positive_rate(self) -> float:
+        """False flags on the clean phase (FP / clean tools). 0-1."""
+        clean = self.false_positives + self.true_negatives
+        if clean == 0:
+            return 0.0
+        return self.false_positives / clean
+
+    @property
+    def asr_reduction(self) -> float:
+        """(published MCPTox baseline - measured protected ASR) / baseline."""
+        baseline = MCPTOX_ASR_BASELINE
+        if baseline == 0:
+            return 0.0
+        return (baseline - self.asr_protected) / baseline
+
     def to_dict(self) -> dict[str, Any]:
         """Convert metrics to dictionary."""
         return {
             "total_tests": self.total_tests,
             "passed": self.passed,
             "failed": self.failed,
+            "errors": self.errors,
             "true_positives": self.true_positives,
             "false_positives": self.false_positives,
             "true_negatives": self.true_negatives,
@@ -209,6 +247,10 @@ class StressMetrics:
             "by_strategy": self.by_strategy,
             "by_paradigm": self.by_paradigm,
             "by_risk": self.by_risk,
+            "asr_baseline": MCPTOX_ASR_BASELINE,
+            "asr_protected": round(self.asr_protected, 4),
+            "asr_reduction": round(self.asr_reduction, 4),
+            "false_positive_rate": round(self.false_positive_rate, 4),
         }
 
 
@@ -259,6 +301,9 @@ class StressTestRunner:
         self.metrics = StressMetrics()
         self._results: list[StressResult] = []
         self._test_counter = 0
+        self._started_at = datetime.now()
+        self._run_id = uuid4().hex[:12]
+        self._case_verdicts: list[CaseVerdict] = []
 
     def run_baseline(
         self,
@@ -282,6 +327,7 @@ class StressTestRunner:
 
             self._test_counter += 1
             test_id = f"baseline_{self._test_counter}"
+            self._note_tool_tested(tool.name)
 
             # Scan clean tool
             scan_result = self.scanner.scan(tool)
@@ -289,14 +335,18 @@ class StressTestRunner:
             # Record metrics
             self.metrics.record_scan(scan_result.scan_duration_ms)
 
-            # A clean tool with threats is a false positive
+            # A clean tool with threats is a false positive. A scanner
+            # failure is neither a detection nor a clean pass.
             is_attack = False
-            detected = len(scan_result.threats_detected) > 0
-
-            self.metrics.record_result(
-                detected=detected,
-                is_attack=is_attack,
-            )
+            if scan_result.errored:
+                self.metrics.record_error()
+                detected = False
+            else:
+                detected = len(scan_result.threats_detected) > 0
+                self.metrics.record_result(
+                    detected=detected,
+                    is_attack=is_attack,
+                )
 
             result = StressResult(
                 test_id=test_id,
@@ -308,23 +358,19 @@ class StressTestRunner:
                 score_before=100.0,
                 score_after=scan_result.score,
                 score_delta=scan_result.score - 100.0,
-                new_threats=scan_result.threats_detected,
+                new_threats=[] if scan_result.errored else scan_result.threats_detected,
                 scan_duration_ms=scan_result.scan_duration_ms,
+                metadata={"error": scan_result.error} if scan_result.errored else {},
             )
 
             results.append(result)
             self._results.append(result)
 
-            # Checkpoint if needed
-            if (
-                self.checkpoint_manager
-                and self._test_counter % self.config.checkpoint_interval == 0
-            ):
-                self.checkpoint_manager.create_checkpoint(
-                    tool=tool,
-                    scan_results=[scan_result],
-                    metadata={"phase": StressPhase.BASELINE.value, "test_id": test_id},
-                )
+            self._maybe_checkpoint(
+                tool=tool,
+                scan_results=[scan_result],
+                metadata={"phase": StressPhase.BASELINE.value, "test_id": test_id},
+            )
 
         return results
 
@@ -349,6 +395,7 @@ class StressTestRunner:
         current = 0
 
         for tool in tools:
+            self._note_tool_tested(tool.name)
             # Get baseline scan first
             self.scanner.scan(tool)
 
@@ -379,17 +426,22 @@ class StressTestRunner:
                         test_case_id=test_id,
                     )
 
-                    # Record metrics
+                    # Record metrics. Errored scans are not detections or misses.
                     self.metrics.record_scan(comparison.post_scan.scan_duration_ms)
-                    self.metrics.record_result(
-                        detected=comparison.attack_detected,
-                        is_attack=True,
-                        strategy=strategy_name,
-                        risk=payload.category.value,
-                    )
-
-                    if self.checkpoint_manager:
-                        self.checkpoint_manager.record_mutation(comparison.attack_detected)
+                    if comparison.errored:
+                        self.metrics.record_error()
+                        detected = False
+                    else:
+                        detected = comparison.attack_detected
+                        self.metrics.record_result(
+                            detected=detected,
+                            is_attack=True,
+                            strategy=strategy_name,
+                            paradigm=self._default_paradigm(),
+                            risk=payload.category.value,
+                        )
+                        if self.checkpoint_manager:
+                            self.checkpoint_manager.record_mutation(detected)
 
                     result = StressResult(
                         test_id=test_id,
@@ -397,7 +449,7 @@ class StressTestRunner:
                         tool_name=tool.name,
                         strategy=strategy_name,
                         is_attack=True,
-                        attack_detected=comparison.attack_detected,
+                        attack_detected=detected,
                         score_before=comparison.pre_scan.score,
                         score_after=comparison.post_scan.score,
                         score_delta=comparison.score_delta,
@@ -406,11 +458,18 @@ class StressTestRunner:
                         metadata={
                             "payload_category": payload.category.value,
                             "injection_points": mutation.injection_points,
+                            **({"error": comparison.error} if comparison.errored else {}),
                         },
                     )
 
                     results.append(result)
                     self._results.append(result)
+
+                    self._maybe_checkpoint(
+                        tool=mutation.poisoned_tool,
+                        scan_results=[comparison.post_scan],
+                        metadata={"phase": StressPhase.MUTATION.value, "test_id": test_id},
+                    )
 
         return results
 
@@ -435,6 +494,7 @@ class StressTestRunner:
         current = 0
 
         for tool in tools:
+            self._note_tool_tested(tool.name)
             for payload in payloads:
                 for pattern in self.config.temporal_patterns:
                     current += 1
@@ -452,9 +512,11 @@ class StressTestRunner:
                         activation_threshold=self.config.temporal_threshold,
                     )
 
-                    # Run simulation
+                    # Run simulation. Detection is delta vs the pre-attack
+                    # baseline (ScannerAdapter.compare), not an absolute
+                    # threats_detected check that would count baseline noise
+                    # or scanner-error sentinels as attacks.
                     attack_invocation = None
-                    pre_attack_scan = None
 
                     for inv, current_tool, _state, mutated in simulator.simulate_session(
                         tool, self.config.temporal_invocations
@@ -465,19 +527,31 @@ class StressTestRunner:
                             self._test_counter += 1
                             test_id = f"temporal_{self._test_counter}"
 
-                            # Compare pre and post attack
-                            post_scan = self.scanner.scan(current_tool)
+                            comparison = self.scanner.compare(
+                                original=tool,
+                                modified=current_tool,
+                                test_case_id=test_id,
+                            )
 
-                            # Record metrics
-                            self.metrics.record_scan(post_scan.scan_duration_ms)
+                            self.metrics.record_scan(comparison.post_scan.scan_duration_ms)
+                            if comparison.errored:
+                                self.metrics.record_error()
+                                detected = False
+                            else:
+                                detected = comparison.attack_detected
+                                self.metrics.record_result(
+                                    detected=detected,
+                                    is_attack=True,
+                                    strategy=pattern.value,
+                                    paradigm=self._default_paradigm(),
+                                    risk=payload.category.value,
+                                )
 
-                            detected = len(post_scan.threats_detected) > 0
-
-                            self.metrics.record_result(
-                                detected=detected,
-                                is_attack=True,
-                                strategy=pattern.value,
-                                risk=payload.category.value,
+                            latency = (
+                                int(attack_invocation) if detected and attack_invocation else 0
+                            )
+                            comparison = comparison.model_copy(
+                                update={"detection_latency_calls": latency}
                             )
 
                             result = StressResult(
@@ -487,24 +561,28 @@ class StressTestRunner:
                                 strategy=pattern.value,
                                 is_attack=True,
                                 attack_detected=detected,
-                                score_before=pre_attack_scan.score if pre_attack_scan else 100.0,
-                                score_after=post_scan.score,
-                                score_delta=post_scan.score
-                                - (pre_attack_scan.score if pre_attack_scan else 100.0),
-                                new_threats=post_scan.threats_detected,
-                                scan_duration_ms=post_scan.scan_duration_ms,
+                                score_before=comparison.pre_scan.score,
+                                score_after=comparison.post_scan.score,
+                                score_delta=comparison.score_delta,
+                                new_threats=comparison.new_threats,
+                                scan_duration_ms=comparison.post_scan.scan_duration_ms,
                                 metadata={
                                     "pattern": pattern.value,
                                     "activation_invocation": attack_invocation,
+                                    "detection_latency_calls": latency,
                                     "total_invocations": self.config.temporal_invocations,
+                                    **({"error": comparison.error} if comparison.errored else {}),
                                 },
                             )
 
                             results.append(result)
                             self._results.append(result)
-                        elif not mutated and pre_attack_scan is None:
-                            # Capture pre-attack baseline
-                            pre_attack_scan = self.scanner.scan(current_tool)
+
+                            self._maybe_checkpoint(
+                                tool=current_tool,
+                                scan_results=[comparison.post_scan],
+                                metadata={"phase": StressPhase.TEMPORAL.value, "test_id": test_id},
+                            )
 
         return results
 
@@ -531,7 +609,7 @@ class StressTestRunner:
         current = 0
 
         for tool in tools:
-            baseline = self.scanner.scan(tool)
+            self._note_tool_tested(tool.name)
 
             for payload in payloads:
                 # Generate progressive attacks
@@ -553,18 +631,25 @@ class StressTestRunner:
                     self._test_counter += 1
                     test_id = f"progressive_{self._test_counter}"
 
-                    # Scan poisoned tool
-                    scan_result = self.scanner.scan(mutation.poisoned_tool)
-
-                    detected = len(scan_result.threats_detected) > 0
-
-                    self.metrics.record_scan(scan_result.scan_duration_ms)
-                    self.metrics.record_result(
-                        detected=detected,
-                        is_attack=True,
-                        strategy=mutation.strategy_used,
-                        risk=payload.category.value,
+                    comparison = self.scanner.compare(
+                        original=tool,
+                        modified=mutation.poisoned_tool,
+                        test_case_id=test_id,
                     )
+
+                    self.metrics.record_scan(comparison.post_scan.scan_duration_ms)
+                    if comparison.errored:
+                        self.metrics.record_error()
+                        detected = False
+                    else:
+                        detected = comparison.attack_detected
+                        self.metrics.record_result(
+                            detected=detected,
+                            is_attack=True,
+                            strategy=mutation.strategy_used,
+                            paradigm=self._default_paradigm(),
+                            risk=payload.category.value,
+                        )
 
                     result = StressResult(
                         test_id=test_id,
@@ -573,20 +658,27 @@ class StressTestRunner:
                         strategy=mutation.strategy_used,
                         is_attack=True,
                         attack_detected=detected,
-                        score_before=baseline.score,
-                        score_after=scan_result.score,
-                        score_delta=scan_result.score - baseline.score,
-                        new_threats=scan_result.threats_detected,
-                        scan_duration_ms=scan_result.scan_duration_ms,
+                        score_before=comparison.pre_scan.score,
+                        score_after=comparison.post_scan.score,
+                        score_delta=comparison.score_delta,
+                        new_threats=comparison.new_threats,
+                        scan_duration_ms=comparison.post_scan.scan_duration_ms,
                         metadata={
                             "stage": stage,
                             "total_stages": self.config.progressive_stages,
                             "injection_points": mutation.injection_points,
+                            **({"error": comparison.error} if comparison.errored else {}),
                         },
                     )
 
                     results.append(result)
                     self._results.append(result)
+
+                    self._maybe_checkpoint(
+                        tool=mutation.poisoned_tool,
+                        scan_results=[comparison.post_scan],
+                        metadata={"phase": StressPhase.PROGRESSIVE.value, "test_id": test_id},
+                    )
 
         return results
 
@@ -618,10 +710,216 @@ class StressTestRunner:
             elif phase == StressPhase.PROGRESSIVE:
                 results[phase] = self.run_progressive_tests(tools, payloads, progress_callback)
 
-            if self.checkpoint_manager:
-                self.checkpoint_manager.record_tool_tested(phase.value)
-
         return results
+
+    def run_test_cases(
+        self,
+        cases: list[AttackTestCase],
+        progress_callback: Callable[[int, int, str], None] | None = None,
+    ) -> list[StressResult]:
+        """Score a scanner against labeled AttackTestCase expected_detection / expected_outcome.
+
+        Consumes already-built cases (PatternLibrary stays out of this domain).
+        Applies each case's PoisonProfile, scans, and records a verdict
+        (true-positive vs wrong-threat vs miss) including FAILURE_REFUSED vs SUCCESS.
+        """
+        from mcp_stress_test.generator import SchemaMutator
+
+        results: list[StressResult] = []
+        mutator = SchemaMutator()
+        for i, case in enumerate(cases):
+            if progress_callback:
+                progress_callback(i + 1, len(cases), case.name)
+            self._note_tool_tested(case.target_tool.name)
+            self._test_counter += 1
+            test_id = case.id or f"labeled_{self._test_counter}"
+
+            if case.poison_profile.payloads:
+                mutation = mutator.mutate_with_profile(case.target_tool, case.poison_profile)
+                poisoned = mutation.poisoned_tool
+                injection_points = mutation.injection_points
+            else:
+                poisoned = case.target_tool
+                injection_points = list(case.target_tool.poison_locations)
+
+            comparison = self.scanner.compare(
+                original=case.target_tool,
+                modified=poisoned,
+                test_case_id=test_id,
+            )
+            self.metrics.record_scan(comparison.post_scan.scan_duration_ms)
+
+            if comparison.errored:
+                self.metrics.record_error()
+                detected = False
+                threats: list[str] = []
+                verdict_name = "error"
+                matched = False
+                aligned = False
+            else:
+                detected = comparison.attack_detected
+                threats = list(comparison.new_threats) or list(
+                    comparison.post_scan.threats_detected
+                )
+                matched, verdict_name, aligned = _score_case_labels(case, detected, threats)
+                self.metrics.record_result(
+                    detected=detected,
+                    is_attack=True,
+                    strategy=(
+                        case.poison_profile.payloads[0].obfuscation.value
+                        if case.poison_profile.payloads
+                        and case.poison_profile.payloads[0].obfuscation
+                        else None
+                    ),
+                    paradigm=case.paradigm.value,
+                    risk=case.risk_categories[0].value if case.risk_categories else None,
+                )
+                if self.checkpoint_manager:
+                    self.checkpoint_manager.record_mutation(detected)
+
+            verdict = CaseVerdict(
+                case_id=case.id,
+                detected=detected,
+                expected_detection=case.expected_detection,
+                expected_detection_matched=matched,
+                expected_outcome=case.expected_outcome,
+                outcome_aligned=aligned,
+                verdict=verdict_name,
+                threats=threats,
+            )
+            self._case_verdicts.append(verdict)
+
+            result = StressResult(
+                test_id=test_id,
+                phase=StressPhase.LABELED,
+                tool_name=case.target_tool.name,
+                strategy=case.paradigm.value,
+                is_attack=True,
+                attack_detected=detected,
+                score_before=comparison.pre_scan.score,
+                score_after=comparison.post_scan.score,
+                score_delta=comparison.score_delta,
+                new_threats=comparison.new_threats,
+                scan_duration_ms=comparison.post_scan.scan_duration_ms,
+                metadata={
+                    "case_id": case.id,
+                    "expected_detection": case.expected_detection,
+                    "expected_outcome": case.expected_outcome.value,
+                    "verdict": verdict.verdict,
+                    "expected_detection_matched": matched,
+                    "outcome_aligned": aligned,
+                    "injection_points": injection_points,
+                    "owasp_categories": [c.value for c in case.owasp_categories],
+                    **({"error": comparison.error} if comparison.errored else {}),
+                },
+            )
+            results.append(result)
+            self._results.append(result)
+            self._maybe_checkpoint(
+                tool=poisoned,
+                scan_results=[comparison.post_scan],
+                metadata={"phase": StressPhase.LABELED.value, "test_id": test_id},
+            )
+        return results
+
+    def run_full_suite_from_target(
+        self,
+        target: Any,
+        payloads: list[PoisonPayload],
+        progress_callback: Callable[[int, int, str], None] | None = None,
+    ) -> dict[StressPhase, list[StressResult]]:
+        """Initialize + tools/list on an McpTarget, then run_full_suite."""
+        from mcp_stress_test.scanner.mcp_client import ingest_tools
+
+        tools = ingest_tools(target)
+        return self.run_full_suite(tools, payloads, progress_callback)
+
+    def run_comparative(
+        self,
+        tools: list[ToolSchema],
+        payloads: list[PoisonPayload],
+        scanners: list[Any] | None = None,
+        registry: Any | None = None,
+    ) -> dict[str, Any]:
+        """Fan each tool out to N scanners; return per-scanner metrics + side-by-side summary."""
+        from mcp_stress_test.scanner.comparative import ComparativeScanner
+
+        adapters = [self.scanner] if not scanners and registry is None else None
+        comparative = ComparativeScanner(registry=registry, scanners=scanners, adapters=adapters)
+        for tool in tools:
+            comparative.evaluate_tool(tool, is_attack=False)
+            if not payloads:
+                continue
+            for payload in payloads:
+                mutation = self.generator.generate_attack(tool, payload)
+                comparative.compare_fan_out(
+                    tool,
+                    mutation.poisoned_tool,
+                    test_case_id=f"cmp_{tool.name}_{payload.category.value}",
+                    is_attack=True,
+                )
+        return {
+            "scanners": comparative.scanner_names,
+            "side_by_side": comparative.side_by_side(),
+            "metrics": {
+                name: comparative.metrics_for(name).to_dict() for name in comparative.scanner_names
+            },
+        }
+
+    def get_run_metrics(self) -> TestRunMetrics:
+        """Build TestRunMetrics from this run (ASR, FPR, TTD, paradigm rates)."""
+        latencies: list[float] = []
+        rug_total = 0
+        rug_detected = 0
+        for result in self._results:
+            if result.phase != StressPhase.TEMPORAL:
+                continue
+            pattern = result.metadata.get("pattern")
+            if pattern == TemporalPattern.RUG_PULL.value:
+                rug_total += 1
+                if result.attack_detected:
+                    rug_detected += 1
+            if result.attack_detected:
+                raw = result.metadata.get("detection_latency_calls")
+                if raw is None:
+                    raw = result.metadata.get("activation_invocation")
+                if raw is not None:
+                    latencies.append(float(raw))
+
+        attacks = self.metrics.true_positives + self.metrics.false_negatives
+        asr_protected = (self.metrics.false_negatives / attacks) if attacks else 0.0
+        asr_reduction = (
+            (MCPTOX_ASR_BASELINE - asr_protected) / MCPTOX_ASR_BASELINE
+            if MCPTOX_ASR_BASELINE
+            else 0.0
+        )
+        clean = self.metrics.false_positives + self.metrics.true_negatives
+        fpr = (self.metrics.false_positives / clean) if clean else 0.0
+        cp = self.checkpoint_manager.checkpoint_stats() if self.checkpoint_manager else {}
+
+        return TestRunMetrics(
+            run_id=self._run_id,
+            started_at=self._started_at,
+            completed_at=datetime.now(),
+            total_cases=self.metrics.total_tests,
+            passed=self.metrics.passed,
+            failed=self.metrics.failed,
+            errors=self.metrics.errors,
+            detection_rate=(self.metrics.true_positives / attacks) if attacks else 0.0,
+            false_positive_rate=fpr,
+            asr_baseline=MCPTOX_ASR_BASELINE,
+            asr_protected=asr_protected,
+            asr_reduction=asr_reduction,
+            avg_time_to_detection=(sum(latencies) / len(latencies)) if latencies else 0.0,
+            rug_pulls_detected=rug_detected,
+            rug_pulls_total=rug_total,
+            p1_detection_rate=self._paradigm_rate(AttackParadigm.P1_EXPLICIT_HIJACKING.value),
+            p2_detection_rate=self._paradigm_rate(AttackParadigm.P2_IMPLICIT_HIJACKING.value),
+            p3_detection_rate=self._paradigm_rate(AttackParadigm.P3_PARAMETER_TAMPERING.value),
+            checkpoint_integrity=float(cp.get("checkpoint_integrity") or 0.0),
+            successful_rollbacks=int(cp.get("successful_rollbacks") or 0),
+            context_exhaustion_resistance=float(cp.get("context_exhaustion_resistance") or 0.0),
+        )
 
     def get_results(self) -> list[StressResult]:
         """Get all test results."""
@@ -637,6 +935,7 @@ class StressTestRunner:
             "total_tests": self.metrics.total_tests,
             "passed": self.metrics.passed,
             "failed": self.metrics.failed,
+            "errors": self.metrics.errors,
             "detection_rate": round(self.metrics.detection_rate, 2),
             "precision": round(self.metrics.precision, 2),
             "f1_score": round(self.metrics.f1_score, 2),
@@ -644,6 +943,8 @@ class StressTestRunner:
             "phases_run": [p.value for p in self.config.phases],
             "strategies_tested": self.config.strategies,
             "metrics": self.metrics.to_dict(),
+            "run_metrics": self.get_run_metrics().model_dump(mode="json"),
+            "case_verdicts": [v.model_dump(mode="json") for v in self._case_verdicts],
         }
 
     def export_results(self, format: str = "json") -> str:
@@ -660,6 +961,7 @@ class StressTestRunner:
         if format == "json":
             data = {
                 "summary": self.get_summary(),
+                "run_metrics": self.get_run_metrics().model_dump(mode="json"),
                 "results": [
                     {
                         "test_id": r.test_id,
@@ -719,3 +1021,71 @@ class StressTestRunner:
 
         else:
             raise ValueError(f"Unknown format: {format}")
+
+    def get_case_verdicts(self) -> list[CaseVerdict]:
+        """Labeled AttackTestCase scores from run_test_cases."""
+        return list(self._case_verdicts)
+
+    def _default_paradigm(self) -> str | None:
+        if self.config.paradigms:
+            return self.config.paradigms[0].value
+        return None
+
+    def _paradigm_rate(self, key: str) -> float:
+        stats = self.metrics.by_paradigm.get(key)
+        if not stats:
+            return 0.0
+        total = stats["detected"] + stats["missed"]
+        if total == 0:
+            return 0.0
+        return stats["detected"] / total
+
+    def _note_tool_tested(self, tool_name: str) -> None:
+        """Record the tool name on the checkpoint manager, never a phase value."""
+        if self.checkpoint_manager:
+            self.checkpoint_manager.record_tool_tested(tool_name)
+
+    def _maybe_checkpoint(
+        self,
+        tool: ToolSchema,
+        scan_results: list,
+        metadata: dict[str, Any],
+    ) -> None:
+        """Create a checkpoint when enabled, a manager is attached, and the interval hits."""
+        if not self.checkpoint_manager or not self.config.enable_checkpoints:
+            return
+        interval = self.config.checkpoint_interval
+        if interval <= 0 or self._test_counter % interval != 0:
+            return
+        self.checkpoint_manager.create_checkpoint(
+            tool=tool,
+            scan_results=scan_results,
+            metadata=metadata,
+        )
+
+
+def _score_case_labels(
+    case: AttackTestCase,
+    detected: bool,
+    threats: list[str],
+) -> tuple[bool, str, bool]:
+    """Return (expected_detection_matched, verdict, outcome_aligned)."""
+    expected = case.expected_detection
+    matched = False
+    if expected:
+        needle = expected.lower()
+        blob = " ".join(threats).lower()
+        matched = any(needle in item.lower() for item in threats) or needle in blob
+
+    if detected:
+        verdict = "wrong_threat" if expected and not matched else "true_positive"
+    else:
+        verdict = "miss"
+
+    if case.expected_outcome == OutcomeType.FAILURE_REFUSED:
+        aligned = detected
+    elif case.expected_outcome == OutcomeType.SUCCESS:
+        aligned = not detected
+    else:
+        aligned = detected
+    return matched, verdict, aligned

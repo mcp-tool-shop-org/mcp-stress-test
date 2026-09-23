@@ -146,6 +146,7 @@ Every config field has a corresponding environment variable prefixed with `MCP_S
 | `MCP_STRESS_REPORT_DIR` | `report.output_dir` |
 | `MCP_STRESS_VERBOSE` | `verbose` (accepts `true`, `1`, `yes`) |
 | `MCP_STRESS_WORKERS` | `parallel_workers` |
+| `MCP_STRESS_DATA` | Persistent root for checkpoints (`checkpoints/`), stress reports (`reports/`), cache, and evasions. The Docker image sets this to `/var/lib/mcp-stress` |
 
 Example:
 
@@ -177,3 +178,13 @@ config = StressConfig.from_env()
 # Save current config
 config.save("my-config.json")
 ```
+
+## Docker persistent memory
+
+The image sets `MCP_STRESS_DATA=/var/lib/mcp-stress` and declares that path as a volume. Mount a named volume so checkpoints and stress reports survive `docker run --rm`:
+
+```bash
+docker run --rm -v mcp-stress-data:/var/lib/mcp-stress mcp-stress-test stress run
+```
+
+`stress run` writes `reports/stress-<session>.json` and stores freeze/thaw checkpoints under `checkpoints/`. An explicit `--output` still wins for that one file. `MCP_STRESS_REPORT_DIR` still wins over the volume's `reports/` directory for config-driven report output.

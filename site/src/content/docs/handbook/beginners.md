@@ -12,7 +12,7 @@ The Model Context Protocol (MCP) lets AI assistants call external tools -- read 
 
 Think of it like a fire drill for your security scanner. You don't wait for a real fire to find out if your alarm works.
 
-The framework ships with **1,312 attack patterns** drawn from published security research (MCPTox, Palo Alto Unit42, CyberArk). It also includes an LLM-powered fuzzer that generates novel attack payloads your scanner has never seen before.
+The framework ships with **68 attack-pattern templates** drawn from published security research (MCPTox, Palo Alto Unit42, CyberArk), plus 20 tools, 51 payloads, and 18 labeled cases. It also includes an LLM-powered fuzzer that generates novel attack payloads your scanner has never seen before.
 
 ## Who is this for?
 
@@ -181,7 +181,7 @@ After your first 5 minutes:
 | **Fuzzing** | Automatically generating many variations of an input to find edge cases. In this context, generating payload variations to find scanner blind spots. |
 | **Evasion** | A payload that successfully bypasses a scanner's detection. |
 | **SARIF** | Static Analysis Results Interchange Format -- a standard for representing static analysis results, supported by VS Code and GitHub. |
-| **MCPTox** | A benchmark dataset of 1,312 MCP tool poisoning patterns across 3 paradigms, published in 2025. |
+| **MCPTox** | A 2025 paper describing 1,312 MCP tool-poisoning patterns. This package loads a 68-template subset of that research, not the full paper set. |
 | **Homoglyph** | A character that looks identical to another character but has a different Unicode code point (e.g., Cyrillic "a" vs Latin "a"). |
 | **Zero-width character** | An invisible Unicode character that occupies no visible space but can break pattern matching. |
 | **Sampling loop** | An attack that exploits MCP's sampling feature to create a feedback loop between the AI and malicious tool responses. |

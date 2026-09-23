@@ -1,0 +1,13 @@
+{
+  "version": "2026.09.1",
+  "format": "mcp-stress-pattern-corpus",
+  "source": "transcribed MCPTox/Unit42/CyberArk/OWASP-MCP category templates",
+  "files": [
+    "patterns.json",
+    "tools.json",
+    "profiles.json",
+    "payloads.json",
+    "cases.json",
+    "chains.yaml"
+  ]
+}

@@ -72,51 +72,19 @@ class ToolScanAdapter:
 
             duration = (time.perf_counter() - start) * 1000
 
-            if result.returncode != 0:
-                return AttackResult(
-                    tool_name=tool.name,
-                    strategy="unknown",
-                    detected=False,
-                    score_before=100.0,
-                    score_after=100.0,
-                    threats_found=[],
-                    scan_time_ms=duration,
-                    metadata={
-                        "error": result.stderr,
-                        "scanner": self.name,
-                    },
-                )
-
-            # Parse tool-scan output
-            return self._parse_output(tool, result.stdout, duration)
+            # Scanners commonly exit non-zero when findings exist, so a
+            # non-zero exit is only an error if stdout carries no report.
+            return self._parse_output(tool, result.stdout, duration, result)
 
         except subprocess.TimeoutExpired:
-            return AttackResult(
-                tool_name=tool.name,
-                strategy="unknown",
-                detected=False,
-                score_before=100.0,
-                score_after=100.0,
-                threats_found=[],
-                scan_time_ms=self.timeout_seconds * 1000,
-                metadata={
-                    "error": "timeout",
-                    "scanner": self.name,
-                },
+            return AttackResult.scanner_error(
+                tool.name, "timeout", self.name, scan_time_ms=self.timeout_seconds * 1000
             )
-        except FileNotFoundError:
-            return AttackResult(
-                tool_name=tool.name,
-                strategy="unknown",
-                detected=False,
-                score_before=100.0,
-                score_after=100.0,
-                threats_found=[],
-                scan_time_ms=0,
-                metadata={
-                    "error": f"tool-scan not found at {self.tool_scan_path}",
-                    "scanner": self.name,
-                },
+        except OSError as e:
+            return AttackResult.scanner_error(
+                tool.name,
+                f"tool-scan could not be launched at {self.tool_scan_path}: {e}",
+                self.name,
             )
         finally:
             # Clean up temp file
@@ -148,31 +116,41 @@ class ToolScanAdapter:
             },
         }
 
-    def _parse_output(self, tool: ToolDefinition, output: str, duration: float) -> AttackResult:
+    def _parse_output(
+        self,
+        tool: ToolDefinition,
+        output: str,
+        duration: float,
+        process: subprocess.CompletedProcess[str] | None = None,
+    ) -> AttackResult:
         """Parse tool-scan JSON output."""
+        exit_code = process.returncode if process is not None else 0
         try:
             data = json.loads(output)
-        except json.JSONDecodeError:
-            return AttackResult(
-                tool_name=tool.name,
-                strategy="unknown",
-                detected=False,
-                score_before=100.0,
-                score_after=100.0,
-                threats_found=[],
+        except (json.JSONDecodeError, TypeError):
+            data = None
+
+        if not isinstance(data, dict) or not isinstance(data.get("threats", []), list):
+            if exit_code != 0:
+                error = f"tool-scan exited {exit_code}: {(process.stderr or '').strip()[:500]}"
+            else:
+                error = "invalid JSON output"
+            return AttackResult.scanner_error(
+                tool.name,
+                error,
+                self.name,
                 scan_time_ms=duration,
-                metadata={
-                    "error": "invalid JSON output",
-                    "raw_output": output[:500],
-                    "scanner": self.name,
-                },
+                exit_code=exit_code,
+                raw_output=(output or "")[:500],
             )
 
         # Extract results from tool-scan format
         # Adjust this based on actual tool-scan output format
         score = data.get("score", 100.0)
         threats = data.get("threats", [])
-        threat_names = [t.get("type", "unknown") for t in threats]
+        threat_names = [
+            str(t.get("type", "unknown")) if isinstance(t, dict) else str(t) for t in threats
+        ]
 
         return AttackResult(
             tool_name=tool.name,
@@ -189,12 +167,14 @@ class ToolScanAdapter:
             },
         )
 
-    def _detect_strategy(self, threats: list[dict]) -> str:
+    def _detect_strategy(self, threats: list) -> str:
         """Detect attack strategy from threats."""
         if not threats:
             return "none"
 
-        threat_types = {t.get("type", "").lower() for t in threats}
+        threat_types = {
+            str(t.get("type", "") if isinstance(t, dict) else t).lower() for t in threats
+        }
 
         if "unicode_obfuscation" in threat_types or "homoglyph" in threat_types:
             return "obfuscation"

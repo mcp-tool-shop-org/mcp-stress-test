@@ -5,7 +5,12 @@ import json
 import pytest
 from click.testing import CliRunner
 
+from mcp_stress_test import __version__
 from mcp_stress_test.cli_legacy import main
+
+# These tests invoke mcp_stress_test.cli_legacy, not the installed
+# console script mcp-stress = mcp_stress_test.cli:main.
+pytestmark = pytest.mark.legacy
 
 
 @pytest.fixture
@@ -21,7 +26,7 @@ class TestMainCommands:
         """Test version command."""
         result = runner.invoke(main, ["--version"])
         assert result.exit_code == 0
-        assert "1.0.1" in result.output
+        assert __version__ in result.output
 
     def test_info(self, runner):
         """Test info command."""
@@ -29,6 +34,9 @@ class TestMainCommands:
         assert result.exit_code == 0
         assert "MCP Stress Test Framework" in result.output
         assert "MCPTox" in result.output
+        assert __version__ in result.output
+        assert "0.5.0" not in result.output
+        assert "0.6.0" not in result.output
 
 
 class TestPatternsCommands:

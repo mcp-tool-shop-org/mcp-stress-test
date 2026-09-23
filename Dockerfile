@@ -10,6 +10,9 @@
 # With Ollama for LLM fuzzing:
 #   docker run --rm --network host mcp-stress-test fuzz evasion -p "payload" --use-llm
 #
+# Persistent memory (checkpoints, stress reports, cache) across restarts:
+#   docker run --rm -v mcp-stress-data:/var/lib/mcp-stress mcp-stress-test stress run
+#
 # =============================================================================
 
 # -----------------------------------------------------------------------------
@@ -54,15 +57,20 @@ COPY --from=builder /build/dist/*.whl /tmp/
 RUN pip install --no-cache-dir /tmp/*.whl && \
     rm /tmp/*.whl
 
-# Create output directory
-RUN mkdir -p /app/output && chown mcp:mcp /app/output
+# Persistent memory. A named volume mounted here keeps freeze/thaw
+# checkpoints and stress reports after the container exits.
+ENV MCP_STRESS_DATA=/var/lib/mcp-stress
+RUN mkdir -p /var/lib/mcp-stress/checkpoints \
+        /var/lib/mcp-stress/reports \
+        /var/lib/mcp-stress/cache \
+    && chown -R mcp:mcp /var/lib/mcp-stress
+VOLUME ["/var/lib/mcp-stress"]
 
 # Switch to non-root user
 USER mcp
 
 # Set environment
 ENV PYTHONUNBUFFERED=1
-ENV MCP_STRESS_OUTPUT=/app/output
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \

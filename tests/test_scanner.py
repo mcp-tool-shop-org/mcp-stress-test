@@ -1,6 +1,7 @@
 """Tests for scanner module."""
 
 import json
+import subprocess
 import tempfile
 from pathlib import Path
 
@@ -14,10 +15,12 @@ from mcp_stress_test.models import (
     ToolParameter,
     ToolSchema,
 )
+from mcp_stress_test.scanner import adapter as scanner_adapter
 from mcp_stress_test.scanner.adapter import (
     MockScanner,
     ScannerAdapter,
     ScannerConfig,
+    ToolScanBackend,
 )
 from mcp_stress_test.scanner.checkpoint import (
     CheckpointManager,
@@ -241,6 +244,139 @@ class TestScannerAdapter:
 
 
 # =============================================================================
+# ToolScanBackend Tests
+# =============================================================================
+
+
+def _assert_tool_scan_error(result) -> None:
+    """Scanner failures must not be recorded as attack detections."""
+    assert result.threats_detected == []
+    assert result.error
+    assert result.errored
+    assert result.score == 0
+    assert result.grade == "ERR"
+
+
+class TestToolScanBackend:
+    """Monkeypatched subprocess.run coverage for scanner.adapter.ToolScanBackend.
+
+    StressTestRunner builds ScannerAdapter(scanner_type='tool-scan'), which
+    instantiates this backend. Failures (timeout, OSError, non-zero with no
+    report, invalid JSON) must surface as ScanResult.error with an empty
+    threats_detected list — not as scanner_error/scanner_timeout/scanner_not_found
+    threat ids.
+    """
+
+    @staticmethod
+    def _patch_run(monkeypatch, *, returncode=0, stdout="", stderr="", raises=None):
+        def fake_run(*args, **kwargs):
+            if raises is not None:
+                raise raises
+            cmd = args[0] if args else kwargs.get("args")
+            return subprocess.CompletedProcess(
+                args=cmd, returncode=returncode, stdout=stdout, stderr=stderr
+            )
+
+        monkeypatch.setattr(scanner_adapter.subprocess, "run", fake_run)
+
+    def test_adapter_constructs_tool_scan_backend(self):
+        adapter = ScannerAdapter(ScannerConfig(scanner_type="tool-scan"))
+        assert isinstance(adapter.backend, ToolScanBackend)
+
+    def test_timeout_is_error_not_detection(self, monkeypatch, sample_tool):
+        self._patch_run(monkeypatch, raises=subprocess.TimeoutExpired(cmd="tool-scan", timeout=30))
+        result = ScannerAdapter(ScannerConfig(scanner_type="tool-scan")).scan(sample_tool)
+        _assert_tool_scan_error(result)
+
+    def test_launch_failure_oserror_is_error_not_detection(self, monkeypatch, sample_tool):
+        self._patch_run(monkeypatch, raises=OSError(2, "No such file or directory"))
+        result = ScannerAdapter(ScannerConfig(scanner_type="tool-scan")).scan(sample_tool)
+        _assert_tool_scan_error(result)
+
+    def test_nonzero_exit_empty_stdout_is_error_not_detection(self, monkeypatch, sample_tool):
+        self._patch_run(monkeypatch, returncode=2, stdout="", stderr="boom")
+        result = ScannerAdapter(ScannerConfig(scanner_type="tool-scan")).scan(sample_tool)
+        _assert_tool_scan_error(result)
+
+    def test_invalid_json_is_error_not_detection(self, monkeypatch, sample_tool):
+        self._patch_run(monkeypatch, stdout="not json {")
+        result = ScannerAdapter(ScannerConfig(scanner_type="tool-scan")).scan(sample_tool)
+        _assert_tool_scan_error(result)
+
+    def test_string_threat_is_recorded(self, monkeypatch, sample_tool):
+        out = '{"score": 40, "grade": "D", "threats": ["encoded_payload"]}'
+        self._patch_run(monkeypatch, stdout=out)
+        result = ScannerAdapter(ScannerConfig(scanner_type="tool-scan")).scan(sample_tool)
+
+        assert result.threats_detected == ["encoded_payload"]
+        assert result.error is None
+
+    def test_non_dict_threat_is_stringified(self, monkeypatch, sample_tool):
+        out = '{"score": 40, "grade": "D", "threats": [123]}'
+        self._patch_run(monkeypatch, stdout=out)
+        result = ScannerAdapter(ScannerConfig(scanner_type="tool-scan")).scan(sample_tool)
+
+        assert result.threats_detected == ["123"]
+        assert result.error is None
+
+    def test_nonzero_exit_with_parseable_report_is_detection(self, monkeypatch, sample_tool):
+        out = '{"score": 40, "threats": [{"type": "encoded_payload", "id": "enc-1"}]}'
+        self._patch_run(monkeypatch, returncode=1, stdout=out)
+        result = ScannerAdapter(ScannerConfig(scanner_type="tool-scan")).scan(sample_tool)
+
+        assert result.threats_detected == ["enc-1"]
+        assert result.error is None
+        assert not result.errored
+
+    def test_clean_json_is_not_an_error(self, monkeypatch, sample_tool):
+        out = '{"score": 100, "threats": []}'
+        self._patch_run(monkeypatch, stdout=out)
+        result = ScannerAdapter(ScannerConfig(scanner_type="tool-scan")).scan(sample_tool)
+
+        assert result.score == 100
+        assert result.threats_detected == []
+        assert result.error is None
+        assert result.grade != "ERR"
+
+    def test_dict_threat_without_id_uses_id_fallback_not_type(self, monkeypatch, sample_tool):
+        threat = {"type": "encoded_payload"}
+        out = json.dumps({"score": 40, "threats": [threat]})
+        self._patch_run(monkeypatch, stdout=out)
+        result = ScannerAdapter(ScannerConfig(scanner_type="tool-scan")).scan(sample_tool)
+
+        # ToolScanBackend._parse_tool_scan_output uses threat.get("id", threat),
+        # not "type". A dict with no id is stringified as the whole mapping.
+        assert result.threats_detected == [str(threat)]
+        assert result.threats_detected != ["encoded_payload"]
+        assert result.error is None
+
+    def test_runner_tool_scan_failure_is_error_not_detection(
+        self, monkeypatch, sample_tool, sample_payload
+    ):
+        self._patch_run(monkeypatch, raises=subprocess.TimeoutExpired(cmd="tool-scan", timeout=30))
+        config = StressTestConfig(
+            scanner_config=ScannerConfig(scanner_type="tool-scan"),
+            strategies=["direct_injection"],
+        )
+        runner = StressTestRunner(config=config)
+        assert isinstance(runner.scanner.backend, ToolScanBackend)
+
+        baseline = runner.run_baseline([sample_tool])
+        assert runner.metrics.errors == 1
+        assert runner.metrics.true_positives == 0
+        assert runner.metrics.true_negatives == 0
+        assert baseline[0].attack_detected is False
+        assert baseline[0].metadata.get("error")
+
+        mutations = runner.run_mutation_tests([sample_tool], [sample_payload])
+        assert runner.metrics.errors == 2
+        assert runner.metrics.true_positives == 0
+        assert runner.metrics.true_negatives == 0
+        assert mutations[0].attack_detected is False
+        assert mutations[0].metadata.get("error")
+
+
+# =============================================================================
 # CheckpointManager Tests
 # =============================================================================
 
@@ -384,6 +520,31 @@ class TestCheckpointManager:
 
         assert deleted == 3
         assert len(manager.list_checkpoints()) == 2
+
+
+class TestPersistentDataDir:
+    """MCP_STRESS_DATA is the Docker volume root."""
+
+    def test_checkpoint_dir_follows_env(self, tmp_path, monkeypatch):
+        monkeypatch.setenv("MCP_STRESS_DATA", str(tmp_path))
+        manager = CheckpointManager()
+        assert manager.storage_dir == tmp_path / "checkpoints"
+        assert manager.storage_dir.is_dir()
+
+    def test_explicit_dir_ignores_env(self, tmp_path, monkeypatch):
+        monkeypatch.setenv("MCP_STRESS_DATA", str(tmp_path / "from-env"))
+        explicit = tmp_path / "explicit"
+        manager = CheckpointManager(storage_dir=explicit)
+        assert manager.storage_dir == explicit
+
+    def test_config_from_env_uses_volume(self, tmp_path, monkeypatch):
+        from mcp_stress_test.core.config import StressConfig
+
+        monkeypatch.setenv("MCP_STRESS_DATA", str(tmp_path))
+        config = StressConfig.from_env()
+        assert config.report.output_dir == str(tmp_path / "reports")
+        assert config.cache_dir == str(tmp_path / "cache")
+        assert config.fuzz.evasion_output_dir == str(tmp_path / "evasions")
 
 
 # =============================================================================
@@ -610,21 +771,81 @@ class TestStressTestRunner:
         assert "# Stress Test Results" in md_output
         assert "## Summary" in md_output
 
-    def test_with_checkpoint_manager(self, temp_storage_dir, sample_tool, sample_payload):
-        """Test runner with checkpoint manager."""
+    @staticmethod
+    def _three_tools() -> list[ToolSchema]:
+        return [
+            ToolSchema(
+                name=name,
+                description=f"{name} does a benign thing.",
+                parameters=[
+                    ToolParameter(name="arg", type="string", description="Argument", required=True)
+                ],
+            )
+            for name in ("tool_alpha", "tool_beta", "tool_gamma")
+        ]
+
+    def test_with_checkpoint_manager(self, temp_storage_dir, sample_payload):
+        """Every test at interval=1 records a distinct, persisted checkpoint."""
         checkpoint_manager = CheckpointManager(storage_dir=temp_storage_dir)
+        tools = self._three_tools()
 
         config = StressTestConfig(
-            phases=[StressPhase.MUTATION],
+            phases=[StressPhase.BASELINE, StressPhase.MUTATION],
             strategies=["direct_injection"],
             checkpoint_interval=1,
         )
         runner = StressTestRunner(config=config, checkpoint_manager=checkpoint_manager)
 
-        runner.run_mutation_tests([sample_tool], [sample_payload])
+        runner.run_baseline(tools)
+        after_baseline = checkpoint_manager.list_checkpoints()
+        assert len(after_baseline) == len(tools)
 
-        # Check checkpoint was recorded
-        assert checkpoint_manager.state.mutations_applied >= 1
+        runner.run_mutation_tests(tools, [sample_payload])
+        checkpoints = checkpoint_manager.list_checkpoints()
+        assert len(checkpoints) > len(after_baseline), "mutation phase created no checkpoints"
+
+        ids = [cp.checkpoint_id for cp in checkpoints]
+        assert len(ids) == len(set(ids)), f"checkpoint ids collide: {ids}"
+        assert len(set(checkpoint_manager.state.checkpoints)) == len(
+            checkpoint_manager.state.checkpoints
+        )
+        assert checkpoint_manager.state.mutations_applied == len(tools)
+
+    def test_checkpoint_tools_tested_records_tool_names(self, temp_storage_dir, sample_payload):
+        """tools_tested holds tool names, never phase values."""
+        checkpoint_manager = CheckpointManager(storage_dir=temp_storage_dir)
+        tools = self._three_tools()
+
+        config = StressTestConfig(
+            phases=[StressPhase.BASELINE, StressPhase.MUTATION],
+            strategies=["direct_injection"],
+            checkpoint_interval=1,
+        )
+        runner = StressTestRunner(config=config, checkpoint_manager=checkpoint_manager)
+        runner.run_full_suite(tools, [sample_payload])
+
+        tested = set(checkpoint_manager.state.tools_tested)
+        assert tested == {t.name for t in tools}
+        assert not tested & {p.value for p in StressPhase}
+
+    def test_enable_checkpoints_false_suppresses_checkpoints(
+        self, temp_storage_dir, sample_payload
+    ):
+        """enable_checkpoints=False creates no checkpoints even with a manager attached."""
+        checkpoint_manager = CheckpointManager(storage_dir=temp_storage_dir)
+        tools = self._three_tools()
+
+        config = StressTestConfig(
+            phases=[StressPhase.BASELINE, StressPhase.MUTATION],
+            strategies=["direct_injection"],
+            checkpoint_interval=1,
+            enable_checkpoints=False,
+        )
+        runner = StressTestRunner(config=config, checkpoint_manager=checkpoint_manager)
+        runner.run_full_suite(tools, [sample_payload])
+
+        assert checkpoint_manager.list_checkpoints() == []
+        assert checkpoint_manager.state.checkpoints == []
 
     def test_progress_callback(self, sample_tool, sample_payload):
         """Test progress callback."""
@@ -651,8 +872,13 @@ class TestStressTestRunner:
 # =============================================================================
 
 
+@pytest.mark.legacy
 class TestStressCLICommands:
-    """Tests for stress CLI commands."""
+    """Tests for stress CLI commands.
+
+    Invokes mcp_stress_test.cli_legacy, not the installed console script
+    mcp-stress = mcp_stress_test.cli:main.
+    """
 
     def test_stress_run_command(self):
         """Test stress run CLI command."""

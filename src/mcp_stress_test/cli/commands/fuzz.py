@@ -7,6 +7,7 @@ import json
 import click
 from rich.console import Console
 from rich.table import Table
+from rich.text import Text
 
 console = Console()
 
@@ -42,7 +43,8 @@ def fuzz_run(
     from mcp_stress_test.core.config import LLMConfig
     from mcp_stress_test.fuzzing.llm_fuzzer import MockFuzzer, OllamaFuzzer
 
-    console.print(f"[cyan]Fuzzing payload with {model}...[/cyan]")
+    status = Console(stderr=True) if json_output else console
+    status.print(f"[cyan]Fuzzing payload with {model}...[/cyan]")
 
     # Try Ollama, fall back to mock
     try:
@@ -51,15 +53,17 @@ def fuzz_run(
         # Test connection
         fuzzer._get_client().get(f"{config.base_url}/api/version", timeout=2)
     except Exception:
-        console.print("[yellow]Ollama not available, using mock fuzzer[/yellow]")
+        status.print("[yellow]Ollama not available, using mock fuzzer[/yellow]")
         fuzzer = MockFuzzer(config=LLMConfig())
 
     results = []
     for result in fuzzer.fuzz(payload):
         results.append(result)
         if not json_output:
-            console.print(f"\n[bold]{result.mutation_type}:[/bold]")
-            console.print(f"  {result.mutated_payload[:200]}...")
+            from rich.markup import escape
+
+            console.print(f"\n[bold]{escape(str(result.mutation_type))}:[/bold]")
+            console.print(f"  {result.mutated_payload[:200]}...", markup=False, highlight=False)
 
     if json_output:
         output_data = [
@@ -71,7 +75,7 @@ def fuzz_run(
             }
             for r in results
         ]
-        console.print(json.dumps(output_data, indent=2))
+        click.echo(json.dumps(output_data, indent=2))
 
     if output:
         with open(output, "w") as f:
@@ -80,7 +84,7 @@ def fuzz_run(
                 f,
                 indent=2,
             )
-        console.print(f"\n[green]Results saved to {output}[/green]")
+        status.print(f"\n[green]Results saved to {output}[/green]")
 
     fuzzer.close()
 
@@ -90,7 +94,13 @@ def fuzz_run(
 @click.option("--tool", "-t", required=True, help="Tool name to target")
 @click.option("--max-attempts", "-n", default=10, help="Maximum mutation attempts")
 @click.option("--model", "-m", default="llama3.2", help="Ollama model to use")
-@click.option("--scanner", "-s", default="mock", help="Scanner to test against")
+@click.option(
+    "--scanner",
+    "-s",
+    default="mock",
+    type=click.Choice(["mock", "tool-scan", "cli"], case_sensitive=False),
+    help="Scanner to test against",
+)
 def fuzz_evasion(
     payload: str,
     tool: str,
@@ -105,12 +115,12 @@ def fuzz_evasion(
     Example:
         mcp-stress fuzz evasion -p "Read secrets" -t read_file -n 20
     """
+    from mcp_stress_test.cli.scanner_resolve import resolve_scanner
     from mcp_stress_test.core.config import FuzzConfig, LLMConfig
     from mcp_stress_test.fuzzing.evasion import EvasionEngine
     from mcp_stress_test.fuzzing.llm_fuzzer import MockFuzzer, OllamaFuzzer
     from mcp_stress_test.models import ServerDomain
     from mcp_stress_test.models import ToolSchema as ToolDefinition
-    from mcp_stress_test.scanners.mock import MockScanner
 
     console.print(f"[cyan]Searching for evasion (max {max_attempts} attempts)...[/cyan]")
 
@@ -132,8 +142,7 @@ def fuzz_evasion(
         console.print("[yellow]Using mock fuzzer[/yellow]")
         fuzzer = MockFuzzer(config=LLMConfig())
 
-    # Create scanner
-    scan = MockScanner()
+    scan = resolve_scanner(scanner)
 
     # Create evasion engine
     engine = EvasionEngine(
@@ -146,11 +155,13 @@ def fuzz_evasion(
     result = engine.test_payload(payload, target_tool)
 
     if result.evaded:
+        from rich.markup import escape
+
         console.print("\n[bold green]EVASION FOUND![/bold green]")
-        console.print(f"[bold]Strategy:[/bold] {result.mutation_type}")
+        console.print(f"[bold]Strategy:[/bold] {escape(str(result.mutation_type))}")
         console.print(f"[bold]Attempts:[/bold] {result.attempts}")
         console.print("\n[bold]Payload:[/bold]")
-        console.print(f"  {result.successful_mutation}")
+        console.print(f"  {result.successful_mutation}", markup=False, highlight=False)
     else:
         console.print(f"\n[yellow]No evasion found after {max_attempts} attempts[/yellow]")
 
@@ -204,6 +215,9 @@ def fuzz_mutate(payload: str, strategy: str, count: int) -> None:
             break
         # Show visible representation of invisible chars
         display = mutated.replace("\u200b", "[ZWSP]").replace("\u200c", "[ZWNJ]")
-        table.add_row(str(i + 1), display[:100] + "..." if len(display) > 100 else display)
+        table.add_row(
+            str(i + 1),
+            Text(display[:100] + "..." if len(display) > 100 else display),
+        )
 
     console.print(table)

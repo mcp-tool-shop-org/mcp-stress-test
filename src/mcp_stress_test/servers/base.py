@@ -550,51 +550,75 @@ class BaseMCPServer(ABC):
     async def run_stdio(self) -> None:
         """Run server using stdio transport.
 
-        Reads JSON-RPC messages from stdin, processes them,
-        and writes responses to stdout.
+        Speaks the MCP stdio transport: one JSON-RPC message per line on
+        stdin, one JSON-RPC message per line on stdout. A message that starts
+        with an LSP-style ``Content-Length:`` header is still accepted for
+        legacy callers and answered with the same framing.
         """
         await self.start()
 
-        reader = asyncio.StreamReader()
-        protocol = asyncio.StreamReaderProtocol(reader)
+        loop = asyncio.get_running_loop()
+        stdin = sys.stdin.buffer
+        stdout = sys.stdout.buffer
 
-        loop = asyncio.get_event_loop()
-        await loop.connect_read_pipe(lambda: protocol, sys.stdin)
+        def write_message(payload: dict[str, Any], framed: bool) -> None:
+            body = json.dumps(payload).encode("utf-8")
+            if framed:
+                stdout.write(f"Content-Length: {len(body)}\r\n\r\n".encode("ascii") + body)
+            else:
+                stdout.write(body + b"\n")
+            stdout.flush()
 
         try:
             while self.state in (ServerState.RUNNING, ServerState.POISONED):
+                line = await loop.run_in_executor(None, stdin.readline)
+                if not line:
+                    break
+
+                text = line.decode("utf-8").strip()
+                if not text:
+                    continue
+
+                framed = text.lower().startswith("content-length:")
                 try:
-                    # Read Content-Length header
-                    header = await reader.readline()
-                    if not header:
-                        break
+                    if framed:
+                        length = int(text.split(":", 1)[1].strip())
+                        while (await loop.run_in_executor(None, stdin.readline)).strip():
+                            pass
+                        body = await loop.run_in_executor(None, stdin.read, length)
+                        text = body.decode("utf-8")
+                    message = json.loads(text)
+                except (ValueError, UnicodeDecodeError) as e:
+                    if self.config.enable_logging:
+                        sys.stderr.write(f"Invalid JSON-RPC message: {e}\n")
+                        sys.stderr.flush()
+                    write_message(
+                        {
+                            "jsonrpc": "2.0",
+                            "id": None,
+                            "error": {"code": -32700, "message": "Parse error"},
+                        },
+                        framed,
+                    )
+                    continue
 
-                    header_str = header.decode("utf-8").strip()
-                    if header_str.startswith("Content-Length:"):
-                        length = int(header_str.split(":")[1].strip())
-
-                        # Read blank line
-                        await reader.readline()
-
-                        # Read body
-                        body = await reader.read(length)
-                        message = json.loads(body.decode("utf-8"))
-
-                        # Process message
-                        response = await self._handle_message(message)
-
-                        # Write response
-                        if response:
-                            response_body = json.dumps(response)
-                            response_bytes = response_body.encode("utf-8")
-                            sys.stdout.write(f"Content-Length: {len(response_bytes)}\r\n\r\n")
-                            sys.stdout.write(response_body)
-                            sys.stdout.flush()
-
+                try:
+                    response = await self._handle_message(message)
                 except Exception as e:
                     if self.config.enable_logging:
                         sys.stderr.write(f"Error processing message: {e}\n")
                         sys.stderr.flush()
+                    msg_id = message.get("id") if isinstance(message, dict) else None
+                    if msg_id is None:
+                        continue
+                    response = {
+                        "jsonrpc": "2.0",
+                        "id": msg_id,
+                        "error": {"code": -32603, "message": str(e)},
+                    }
+
+                if response:
+                    write_message(response, framed)
 
         finally:
             await self.stop()
@@ -609,10 +633,10 @@ class BaseMCPServer(ABC):
             JSON-RPC response or None.
         """
         method = message.get("method")
-        params = message.get("params", {})
+        params = message.get("params") or {}
+        if not isinstance(params, dict):
+            params = {}
         msg_id = message.get("id")
-
-        result = None
 
         if method == "initialize":
             result = self.get_server_info()
@@ -620,11 +644,26 @@ class BaseMCPServer(ABC):
             result = self.get_tools_list()
         elif method == "tools/call":
             tool_name = params.get("name")
-            arguments = params.get("arguments", {})
+            arguments = params.get("arguments") or {}
+            if not isinstance(arguments, dict):
+                arguments = {}
             result = await self.handle_tool_call(tool_name, arguments)
+        elif method == "ping":
+            result = {}
         elif method == "notifications/initialized":
             # Client notification, no response needed
             return None
+        else:
+            if msg_id is None:
+                return None
+            return {
+                "jsonrpc": "2.0",
+                "id": msg_id,
+                "error": {
+                    "code": -32601,
+                    "message": f"Method not found: {method}",
+                },
+            }
 
         if msg_id is not None:
             return {

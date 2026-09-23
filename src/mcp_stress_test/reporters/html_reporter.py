@@ -5,6 +5,8 @@ Generates an interactive HTML dashboard with charts and detailed results.
 
 from __future__ import annotations
 
+import html
+import json
 from datetime import datetime
 from typing import TYPE_CHECKING
 
@@ -13,6 +15,18 @@ from mcp_stress_test.reporters.base import BaseReporter, ReportMetrics
 
 if TYPE_CHECKING:
     pass
+
+
+def _script_json(value: object) -> str:
+    """Serialize a value for embedding inside an inline <script> block."""
+    return (
+        json.dumps(value)
+        .replace("<", "\\u003c")
+        .replace(">", "\\u003e")
+        .replace("&", "\\u0026")
+        .replace("\u2028", "\\u2028")
+        .replace("\u2029", "\\u2029")
+    )
 
 
 HTML_TEMPLATE = """<!DOCTYPE html>
@@ -155,6 +169,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 <div class="value">{avg_scan_time:.2f}ms</div>
                 <div class="label">Avg Scan Time</div>
             </div>
+            {extra_metric_cards}
         </div>
 
         <div class="charts-grid">
@@ -305,10 +320,10 @@ class HTMLReporter(BaseReporter):
 
             result_rows.append(f"""
                 <tr>
-                    <td>{r.tool_name}</td>
-                    <td><span class="badge badge-info">{r.strategy}</span></td>
+                    <td>{html.escape(str(r.tool_name))}</td>
+                    <td><span class="badge badge-info">{html.escape(str(r.strategy))}</span></td>
                     <td>{r.score_delta:+.1f}</td>
-                    <td>{threats}</td>
+                    <td>{html.escape(threats)}</td>
                     <td>{status_badge}</td>
                     <td>{r.scan_time_ms:.2f}ms</td>
                 </tr>
@@ -326,7 +341,7 @@ class HTMLReporter(BaseReporter):
                 )
                 chain_rows.append(f"""
                     <tr>
-                        <td>{cr.chain_name}</td>
+                        <td>{html.escape(str(cr.chain_name))}</td>
                         <td>{len(cr.steps)}</td>
                         <td>{cr.steps_detected}</td>
                         <td>{cr.detection_rate:.1f}%</td>
@@ -345,17 +360,41 @@ class HTMLReporter(BaseReporter):
             metrics.by_tool[t]["detected"] + metrics.by_tool[t]["missed"] for t in tool_labels
         ]
 
+        extra_metric_cards = []
+        if metrics.false_positive_rate is not None:
+            extra_metric_cards.append(
+                '<div class="metric-card warning">'
+                f'<div class="value">{metrics.false_positive_rate:.1f}%</div>'
+                '<div class="label">False-Positive Rate</div>'
+                "</div>"
+            )
+        if metrics.time_to_detection is not None:
+            extra_metric_cards.append(
+                '<div class="metric-card">'
+                f'<div class="value">{metrics.time_to_detection:.2f}</div>'
+                '<div class="label">Time to Detection</div>'
+                "</div>"
+            )
+        if metrics.asr_reduction is not None:
+            extra_metric_cards.append(
+                '<div class="metric-card">'
+                f'<div class="value">{metrics.asr_reduction:.1f}%</div>'
+                '<div class="label">ASR Reduction</div>'
+                "</div>"
+            )
+
         return HTML_TEMPLATE.format(
             timestamp=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             total_tests=metrics.total_tests,
             detection_rate=metrics.detection_rate,
             evasion_rate=metrics.evasion_rate,
             avg_scan_time=metrics.avg_scan_time_ms,
+            extra_metric_cards="\n            ".join(extra_metric_cards),
             result_rows="\n".join(result_rows),
             chains_section=chains_section,
-            strategy_labels=strategy_labels,
-            strategy_detected=strategy_detected,
-            strategy_missed=strategy_missed,
-            tool_labels=tool_labels,
-            tool_data=tool_data,
+            strategy_labels=_script_json([str(s) for s in strategy_labels]),
+            strategy_detected=_script_json(strategy_detected),
+            strategy_missed=_script_json(strategy_missed),
+            tool_labels=_script_json([str(t) for t in tool_labels]),
+            tool_data=_script_json(tool_data),
         )

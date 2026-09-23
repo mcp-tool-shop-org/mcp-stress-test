@@ -6,7 +6,65 @@ import json
 
 import pytest
 
+from mcp_stress_test import __version__
 from mcp_stress_test.models import ToolSchema as ToolDefinition
+
+
+def _cli_output(result) -> str:
+    """Stdout plus stderr when Click keeps them separate."""
+    text = result.output or ""
+    try:
+        stderr = result.stderr
+    except (ValueError, AttributeError, RuntimeError):
+        stderr = ""
+    if stderr:
+        text += stderr
+    return text
+
+
+def _strip_cli_paths(text: str, *paths: object) -> str:
+    """Remove input/output paths so a title line cannot masquerade as a body."""
+    body = text
+    for path in paths:
+        if path is None:
+            continue
+        rendered = str(path)
+        body = body.replace(rendered, "")
+        name = rendered.replace("\\", "/").rsplit("/", 1)[-1]
+        if name:
+            body = body.replace(name, "")
+    return body
+
+
+def _assert_truncated_json_is_click_error(result) -> None:
+    """Invalid JSON must be a Click error, not a traceback or AttributeError."""
+    text = _cli_output(result)
+    assert result.exit_code in (1, 2)
+    assert "Error:" in text or "Usage:" in text
+    assert "Traceback" not in text
+    assert "AttributeError" not in text
+
+
+def _assert_report_cli_rendered(result, *paths: object) -> None:
+    """Valid chain JSON must render a body, not a title-only (or AttributeError) path."""
+    text = _cli_output(result)
+    assert result.exit_code == 0
+    assert result.exception is None
+    assert "AttributeError" not in text
+    body = _strip_cli_paths(text, *paths)
+    lowered = body.lower()
+    has_stat = (
+        "results:" in lowered
+        or "chains:" in lowered
+        or "executed" in lowered
+        or "detection" in lowered
+        or "total tests" in lowered
+        or "total_tests" in lowered
+    )
+    assert "data_exfil_chain" in body or "detected" in lowered or has_stat, (
+        f"report CLI output was title-only; path in the title is not a body signal: {text!r}"
+    )
+
 
 # =============================================================================
 # Core Protocol Tests
@@ -368,6 +426,8 @@ class TestReporters:
 
     def test_html_reporter(self, sample_results):
         """Test HTML reporter."""
+        import re
+
         from mcp_stress_test.reporters.html_reporter import HTMLReporter
 
         reporter = HTMLReporter()
@@ -376,6 +436,41 @@ class TestReporters:
         assert "<html" in content
         assert "MCP Stress Test Report" in content
         assert "chart.js" in content
+
+        assert '<div class="label">Total Tests</div>' in content
+        assert '<div class="label">Detection Rate</div>' in content
+        assert '<div class="label">Evasion Rate</div>' in content
+        assert '<div class="label">Avg Scan Time</div>' in content
+        assert '<div class="value">3</div>' in content
+        assert '<div class="value">66.7%</div>' in content
+        assert '<div class="value">33.3%</div>' in content
+        assert '<div class="value">0.33ms</div>' in content
+
+        assert 'id="strategyChart"' in content
+        assert 'id="toolChart"' in content
+
+        assert "<h2>Detailed Results</h2>" in content
+        assert "<th>Tool</th>" in content
+        assert "<th>Strategy</th>" in content
+        assert "<th>Score \u0394</th>" in content
+        assert "<th>Threats</th>" in content
+        assert "<th>Status</th>" in content
+        assert "<th>Time</th>" in content
+
+        tbody = re.search(r"<tbody>(.*?)</tbody>", content, re.DOTALL)
+        assert tbody is not None
+        rows = re.findall(r"<tr>(.*?)</tr>", tbody.group(1), re.DOTALL)
+
+        def _row_for(tool: str, strategy: str) -> str:
+            for row in rows:
+                if f">{tool}<" in row and f">{strategy}<" in row:
+                    return row
+            raise AssertionError(f"missing Detailed Results row for {tool}/{strategy}")
+
+        tool1_row = _row_for("tool1", "direct_injection")
+        assert '<span class="badge badge-success">Detected</span>' in tool1_row
+        tool3_row = _row_for("tool3", "encoding")
+        assert '<span class="badge badge-danger">Missed</span>' in tool3_row
 
 
 # =============================================================================
@@ -455,8 +550,12 @@ class TestNewCLI:
         from mcp_stress_test.cli.main import app
 
         result = runner.invoke(app, ["info"])
+        text = _cli_output(result)
         assert result.exit_code == 0
-        assert "MCP Stress Test Framework" in result.output
+        assert "MCP Stress Test Framework" in text
+        assert __version__ in text
+        assert "0.5.0" not in text
+        assert "0.6.0" not in text
 
     def test_cli_chain_list(self, runner):
         """Test chain list command."""
@@ -466,12 +565,102 @@ class TestNewCLI:
         assert result.exit_code == 0
         assert "data_exfil_chain" in result.output
 
+    def test_cli_chain_execute_unknown_name(self, runner):
+        """Unknown chain names must fail with the name in the operator message."""
+        from mcp_stress_test.cli.main import app
+
+        unknown = "no_such_chain"
+        result = runner.invoke(app, ["chain", "execute", "-c", unknown])
+        text = _cli_output(result)
+        assert result.exit_code in (1, 2)
+        assert unknown in text
+
+    def test_cli_report_generate_truncated_json(self, runner, tmp_path):
+        """Truncated report JSON must be a Click error, not a traceback."""
+        from mcp_stress_test.cli.main import app
+
+        bad_file = tmp_path / "truncated.json"
+        bad_file.write_text("{not json", encoding="utf-8")
+        result = runner.invoke(app, ["report", "generate", "-i", str(bad_file)])
+        _assert_truncated_json_is_click_error(result)
+
+    def test_cli_report_preview_truncated_json(self, runner, tmp_path):
+        """Preview of truncated JSON must be a Click error, not a traceback."""
+        from mcp_stress_test.cli.main import app
+
+        bad_file = tmp_path / "truncated.json"
+        bad_file.write_text("{not json", encoding="utf-8")
+        result = runner.invoke(app, ["report", "preview", "-i", str(bad_file)])
+        _assert_truncated_json_is_click_error(result)
+
+    @pytest.mark.parametrize("command", ["preview", "generate"])
+    @pytest.mark.parametrize(
+        "payload",
+        (
+            {
+                "chains": [
+                    {
+                        "chain_name": "data_exfil_chain",
+                        "detected": True,
+                        "steps": [],
+                    }
+                ]
+            },
+            [
+                {
+                    "chain_name": "data_exfil_chain",
+                    "detected": True,
+                    "steps": [],
+                }
+            ],
+        ),
+        ids=("chains-object", "chain-execute-list"),
+    )
+    def test_cli_report_chain_shapes_render(self, runner, tmp_path, command, payload):
+        """Preview and generate must parse CLI chain JSON, not title-only or AttributeError."""
+        from mcp_stress_test.cli.main import app
+
+        src = tmp_path / "input.json"
+        src.write_text(json.dumps(payload), encoding="utf-8")
+        args = ["report", command, "-i", str(src)]
+        out = None
+        if command == "generate":
+            out = tmp_path / "out.md"
+            args.extend(["-o", str(out)])
+        result = runner.invoke(app, args)
+        _assert_report_cli_rendered(result, src, out)
+
+    def test_cli_scan_batch_unknown_strategy(self, runner):
+        """scan batch --strategies must reject unknown strategy names."""
+        from mcp_stress_test.cli.main import app
+
+        unknown = "no_such_strategy"
+        result = runner.invoke(app, ["scan", "batch", "-t", "read_file", "-s", unknown])
+        text = _cli_output(result)
+        assert result.exit_code in (1, 2)
+        assert unknown in text
+
     def test_cli_fuzz_mutate(self, runner):
         """Test fuzz mutate command."""
         from mcp_stress_test.cli.main import app
 
         result = runner.invoke(app, ["fuzz", "mutate", "-p", "Read secrets", "-s", "semantic"])
+        text = _cli_output(result)
         assert result.exit_code == 0
+        assert "Read secrets" in text
+
+    def test_cli_fuzz_mutate_markup_payload(self, runner):
+        """Bracket payloads must print as text, not crash Rich markup."""
+        from mcp_stress_test.cli.main import app
+
+        payload = "[bold]secret[/bold] [/notatag]"
+        result = runner.invoke(app, ["fuzz", "mutate", "-p", payload, "-s", "semantic"])
+        text = _cli_output(result)
+        assert result.exit_code == 0
+        assert "[bold]" in text
+        assert "[/bold]" in text
+        assert "[/notatag]" in text
+        assert "MarkupError" not in text
 
     def test_cli_scan_scanners(self, runner):
         """Test scan scanners command."""

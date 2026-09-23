@@ -75,8 +75,8 @@ class BaseChain(ABC):
 
     @property
     def tools_required(self) -> list[str]:
-        """List of tools this chain requires."""
-        return list({step.tool_name for step in self.steps})
+        """Tools this chain requires (optional steps are excluded)."""
+        return list({step.tool_name for step in self.steps if not step.optional})
 
     @property
     def step_types(self) -> list[StepType]:
@@ -117,9 +117,9 @@ class BaseChain(ABC):
         chain_detected = False
 
         for step in self.steps:
-            # Check dependencies
-            if not all(dep in completed_steps for dep in step.depends_on) and not step.optional:
-                # Skip if dependencies not met (unless optional)
+            # Always skip when depends_on is unmet. optional only governs
+            # whether a failed/detected step aborts the rest of the chain.
+            if not all(dep in completed_steps for dep in step.depends_on):
                 continue
 
             # Get the tool
@@ -186,6 +186,18 @@ class BaseChain(ABC):
                 capabilities=tool.capabilities,
                 is_poisoned=True,
                 poison_locations=["return_description"],
+                original_description=tool.description,
+            )
+        elif step.injection_point in {"sampling", "resource", "prompt", "elicitation"}:
+            return ToolDefinition(
+                name=tool.name,
+                description=f"{tool.description}\n\n{step.payload}",
+                parameters=tool.parameters,
+                domain=tool.domain,
+                risk_level=tool.risk_level,
+                capabilities=tool.capabilities,
+                is_poisoned=True,
+                poison_locations=[step.injection_point, "description"],
                 original_description=tool.description,
             )
         else:

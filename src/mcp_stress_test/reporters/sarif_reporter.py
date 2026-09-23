@@ -148,21 +148,30 @@ class SARIFReporter(BaseReporter):
         metrics: ReportMetrics,
     ) -> str:
         """Render SARIF report."""
+        run = {
+            "tool": self._build_tool_info(),
+            "results": self._build_results(results, chain_results),
+            "invocations": [
+                {
+                    "executionSuccessful": True,
+                    "endTimeUtc": datetime.utcnow().isoformat() + "Z",
+                }
+            ],
+        }
+        extras = metrics.extra_summary_dict()
+        if extras:
+            properties: dict[str, float] = {}
+            if "false_positive_rate" in extras:
+                properties["falsePositiveRate"] = extras["false_positive_rate"]
+            if "time_to_detection" in extras:
+                properties["timeToDetection"] = extras["time_to_detection"]
+            if "asr_reduction" in extras:
+                properties["asrReduction"] = extras["asr_reduction"]
+            run["properties"] = properties
         sarif = {
             "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
             "version": "2.1.0",
-            "runs": [
-                {
-                    "tool": self._build_tool_info(),
-                    "results": self._build_results(results, chain_results),
-                    "invocations": [
-                        {
-                            "executionSuccessful": True,
-                            "endTimeUtc": datetime.utcnow().isoformat() + "Z",
-                        }
-                    ],
-                }
-            ],
+            "runs": [run],
         }
 
         return json.dumps(sarif, indent=2)

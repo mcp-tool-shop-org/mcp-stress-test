@@ -7,6 +7,8 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 
+from mcp_stress_test import __version__
+
 console = Console()
 
 
@@ -15,7 +17,7 @@ def info_cmd() -> None:
     """Show framework capabilities and quick reference."""
     console.print(
         Panel.fit(
-            "[bold cyan]MCP Stress Test Framework[/bold cyan]\n[dim]Version 0.6.0[/dim]",
+            f"[bold cyan]MCP Stress Test Framework[/bold cyan]\n[dim]Version {__version__}[/dim]",
             border_style="cyan",
         )
     )
@@ -26,7 +28,7 @@ def info_cmd() -> None:
     console.print("  • Palo Alto Unit42 sampling exploits")
     console.print("  • CyberArk full-schema poisoning research")
 
-    console.print("\n[bold]New in v0.6.0:[/bold]")
+    console.print("\n[bold]Features:[/bold]")
     features = Table(show_header=False, box=None, padding=(0, 2))
     features.add_column("Feature", style="green")
     features.add_column("Description")
@@ -41,12 +43,17 @@ def info_cmd() -> None:
     commands = Table(show_header=False, box=None, padding=(0, 2))
     commands.add_column("Command", style="cyan")
     commands.add_column("Description")
+    commands.add_row("mcp-stress stress run", "Run baseline/mutation/temporal suites")
+    commands.add_row("mcp-stress patterns list", "List PatternLibrary attack patterns")
+    commands.add_row("mcp-stress payloads list", "List poison payloads")
+    commands.add_row("mcp-stress tools list", "List builtin tool schemas")
+    commands.add_row("mcp-stress generate", "Emit test-case JSON")
+    commands.add_row("mcp-stress server serve", "Start a demo MCP server on stdio")
     commands.add_row("mcp-stress fuzz run", "Run LLM-guided fuzzing")
-    commands.add_row("mcp-stress fuzz evasion", "Find scanner evasions")
-    commands.add_row("mcp-stress chain list", "List attack chains")
     commands.add_row("mcp-stress chain execute", "Run attack chains")
-    commands.add_row("mcp-stress scan compare", "Before/after scan comparison")
+    commands.add_row("mcp-stress scan batch", "Batch scan with optional CI gate")
     commands.add_row("mcp-stress report generate", "Generate reports")
+    commands.add_row("mcp-stress report compare", "Diff two result snapshots")
     console.print(commands)
 
     console.print("\n[bold]Attack Chains:[/bold]")

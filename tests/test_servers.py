@@ -545,14 +545,38 @@ class TestServerFarm:
         calls = [
             ("read_file", {"path": "/a.txt"}),
             ("list_directory", {"path": "/"}),
+            ("query_sql", {"query": "SELECT 1"}),
+        ]
+
+        registered = {t.name for t in farm.get_all_tools()}
+        assert {name for name, _ in calls} <= registered
+
+        results = await farm.call_tools_batch(calls)
+
+        assert len(results) == 3
+        for (name, _), result in zip(calls, results, strict=True):
+            assert not result.get("isError", False), f"{name} failed: {result}"
+            text = " ".join(c.get("text", "") for c in result.get("content", []))
+            assert "Tool not found" not in text
+
+        await farm.stop()
+
+    @pytest.mark.asyncio
+    async def test_call_tools_batch_flags_unknown_tool(self, farm: ServerFarm) -> None:
+        """An unknown tool in a batch yields exactly one error, in its own position."""
+        await farm.start()
+
+        calls = [
+            ("read_file", {"path": "/a.txt"}),
             ("execute_query", {"query": "SELECT 1"}),
+            ("query_sql", {"query": "SELECT 1"}),
         ]
 
         results = await farm.call_tools_batch(calls)
 
         assert len(results) == 3
-        for result in results:
-            assert "content" in result
+        errors = [bool(r.get("isError", False)) for r in results]
+        assert errors == [False, True, False]
 
         await farm.stop()
 
@@ -974,14 +998,84 @@ class TestMCPProtocol:
 
         await server.stop()
 
+    def test_run_stdio_initialize_and_tools_list(self, monkeypatch) -> None:
+        """Bytes fixture: JSON-RPC initialize + tools/list over BaseMCPServer.run_stdio."""
+        import asyncio
+        import io
+        import json
+        import sys
+
+        config = ServerConfig(
+            name="mcp-stdio",
+            domain=ServerDomain.FILESYSTEM,
+            enable_logging=False,
+        )
+        server = FileSystemServer(config)
+        payload = (
+            json.dumps(
+                {
+                    "jsonrpc": "2.0",
+                    "id": 1,
+                    "method": "initialize",
+                    "params": {
+                        "protocolVersion": "2024-11-05",
+                        "capabilities": {},
+                        "clientInfo": {"name": "contract", "version": "0"},
+                    },
+                }
+            )
+            + "\n"
+            + json.dumps(
+                {
+                    "jsonrpc": "2.0",
+                    "id": 2,
+                    "method": "tools/list",
+                    "params": {},
+                }
+            )
+            + "\n"
+        ).encode("utf-8")
+
+        stdin_buf = io.BytesIO(payload)
+        stdout_buf = io.BytesIO()
+
+        class _Stdin:
+            buffer = stdin_buf
+
+        class _Stdout:
+            buffer = stdout_buf
+
+        monkeypatch.setattr(sys, "stdin", _Stdin())
+        monkeypatch.setattr(sys, "stdout", _Stdout())
+
+        async def _run() -> None:
+            await asyncio.wait_for(server.run_stdio(), timeout=5.0)
+
+        asyncio.run(_run())
+
+        raw = stdout_buf.getvalue().decode("utf-8")
+        lines = [ln for ln in raw.splitlines() if ln.strip()]
+        assert len(lines) >= 2, f"expected initialize + tools/list replies, got {raw!r}"
+        init_reply = json.loads(lines[0])
+        list_reply = json.loads(lines[1])
+        assert "protocolVersion" in init_reply["result"]
+        assert "serverInfo" in init_reply["result"]
+        tools = list_reply["result"]["tools"]
+        assert any(t.get("name") == "read_file" for t in tools)
+
 
 # =============================================================================
 # Server CLI Command Tests
 # =============================================================================
 
 
+@pytest.mark.legacy
 class TestServerCLICommands:
-    """Tests for server CLI commands."""
+    """Tests for server CLI commands.
+
+    Invokes mcp_stress_test.cli_legacy, not the installed console script
+    mcp-stress = mcp_stress_test.cli:main.
+    """
 
     def test_server_status_command(self) -> None:
         """Test server status command exists."""

@@ -12,7 +12,7 @@ export const config: SiteConfig = {
     badge: 'Red team',
     headline: 'Break your scanner',
     headlineAccent: 'before attackers do.',
-    description: '1,312 adversarial attack patterns from MCPTox, Unit42, and CyberArk research. Mutation, fuzzing, chain attacks, and SARIF reporting — all from a single CLI.',
+    description: '68 loadable attack templates from MCPTox, Unit42, and CyberArk research. Mutation, fuzzing, chain attacks, and SARIF reporting — all from a single CLI.',
     primaryCta: { href: '#usage', label: 'Get started' },
     secondaryCta: { href: 'handbook/', label: 'Read the Handbook' },
     previews: [
@@ -29,7 +29,7 @@ export const config: SiteConfig = {
       title: 'Features',
       subtitle: 'Offensive security for MCP tool ecosystems.',
       features: [
-        { title: '1,312 attack patterns', desc: 'Three paradigms from MCPTox: direct injection, semantic blending, and cross-tool poisoning. Ready to fire out of the box.' },
+        { title: '68 loaded patterns', desc: 'The installed corpus matches the files on disk: 68 templates, 20 tools, 51 payloads. The MCPTox paper is larger; this package does not pretend to ship all of it.' },
         { title: 'LLM-guided fuzzing', desc: 'Deterministic mutations plus LLM-guided evasion discovery. Find the payloads your scanner misses.' },
         { title: 'Multi-tool chains', desc: 'Data exfiltration, privilege escalation, and persistence chains that test detection across coordinated attacks.' },
       ],
@@ -69,7 +69,7 @@ export const config: SiteConfig = {
       title: 'Research-Backed',
       subtitle: 'Built on cutting-edge MCP security research.',
       features: [
-        { title: 'MCPTox benchmark', desc: '1,312 patterns across 3 attack paradigms — the largest public MCP poisoning dataset, from arxiv 2508.14925.' },
+        { title: 'MCPTox benchmark', desc: 'Templates transcribed from the MCPTox paper (arxiv 2508.14925). The loader reports how many records it actually read.' },
         { title: 'Palo Alto Unit42', desc: 'Sampling loop exploits and tool-shadowing attacks from production MCP deployment research.' },
         { title: 'CyberArk', desc: 'Full-schema poisoning where no output field is safe — descriptions, error messages, return values.' },
       ],

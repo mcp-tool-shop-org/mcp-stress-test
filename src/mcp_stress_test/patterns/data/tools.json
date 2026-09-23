@@ -1,0 +1,462 @@
+{
+  "version": "2026.09.1",
+  "tools": [
+    {
+      "name": "read_file",
+      "description": "Read contents of a file at the specified path.",
+      "parameters": [
+        {
+          "name": "path",
+          "type": "string",
+          "description": "File path to read",
+          "required": true
+        }
+      ],
+      "domain": "filesystem",
+      "risk_level": "high",
+      "capabilities": [
+        "file_read"
+      ]
+    },
+    {
+      "name": "write_file",
+      "description": "Write content to a file at the specified path.",
+      "parameters": [
+        {
+          "name": "path",
+          "type": "string",
+          "description": "File path to write",
+          "required": true
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "description": "Content to write",
+          "required": true
+        }
+      ],
+      "domain": "filesystem",
+      "risk_level": "critical",
+      "capabilities": [
+        "file_write"
+      ]
+    },
+    {
+      "name": "delete_file",
+      "description": "Delete a file at the specified path.",
+      "parameters": [
+        {
+          "name": "path",
+          "type": "string",
+          "description": "File path to delete",
+          "required": true
+        }
+      ],
+      "domain": "filesystem",
+      "risk_level": "critical",
+      "capabilities": [
+        "file_delete"
+      ]
+    },
+    {
+      "name": "list_directory",
+      "description": "List contents of a directory.",
+      "parameters": [
+        {
+          "name": "path",
+          "type": "string",
+          "description": "Directory path",
+          "required": true
+        }
+      ],
+      "domain": "filesystem",
+      "risk_level": "medium",
+      "capabilities": [
+        "dir_read"
+      ]
+    },
+    {
+      "name": "send_email",
+      "description": "Send an email to the specified recipient.",
+      "parameters": [
+        {
+          "name": "to",
+          "type": "string",
+          "description": "Recipient email",
+          "required": true
+        },
+        {
+          "name": "subject",
+          "type": "string",
+          "description": "Email subject",
+          "required": true
+        },
+        {
+          "name": "body",
+          "type": "string",
+          "description": "Email body",
+          "required": true
+        },
+        {
+          "name": "cc",
+          "type": "string",
+          "description": "CC recipients",
+          "required": false
+        }
+      ],
+      "domain": "communication",
+      "risk_level": "high",
+      "capabilities": [
+        "email_send"
+      ]
+    },
+    {
+      "name": "post_slack",
+      "description": "Post a message to a Slack channel.",
+      "parameters": [
+        {
+          "name": "channel",
+          "type": "string",
+          "description": "Channel name",
+          "required": true
+        },
+        {
+          "name": "message",
+          "type": "string",
+          "description": "Message content",
+          "required": true
+        }
+      ],
+      "domain": "communication",
+      "risk_level": "high",
+      "capabilities": [
+        "slack_post"
+      ]
+    },
+    {
+      "name": "send_sms",
+      "description": "Send an SMS to the specified phone number.",
+      "parameters": [
+        {
+          "name": "phone",
+          "type": "string",
+          "description": "Phone number",
+          "required": true
+        },
+        {
+          "name": "message",
+          "type": "string",
+          "description": "SMS content",
+          "required": true
+        }
+      ],
+      "domain": "communication",
+      "risk_level": "high",
+      "capabilities": [
+        "sms_send"
+      ]
+    },
+    {
+      "name": "query_sql",
+      "description": "Execute a SQL query against the database.",
+      "parameters": [
+        {
+          "name": "query",
+          "type": "string",
+          "description": "SQL query to execute",
+          "required": true
+        },
+        {
+          "name": "database",
+          "type": "string",
+          "description": "Database name",
+          "required": false
+        }
+      ],
+      "domain": "database",
+      "risk_level": "critical",
+      "capabilities": [
+        "sql_read",
+        "sql_write"
+      ]
+    },
+    {
+      "name": "get_record",
+      "description": "Retrieve a record by ID from a table.",
+      "parameters": [
+        {
+          "name": "table",
+          "type": "string",
+          "description": "Table name",
+          "required": true
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "description": "Record ID",
+          "required": true
+        }
+      ],
+      "domain": "database",
+      "risk_level": "medium",
+      "capabilities": [
+        "sql_read"
+      ]
+    },
+    {
+      "name": "run_python",
+      "description": "Execute Python code in a sandboxed environment.",
+      "parameters": [
+        {
+          "name": "code",
+          "type": "string",
+          "description": "Python code to execute",
+          "required": true
+        }
+      ],
+      "domain": "code_execution",
+      "risk_level": "critical",
+      "capabilities": [
+        "code_exec"
+      ]
+    },
+    {
+      "name": "run_shell",
+      "description": "Execute a shell command.",
+      "parameters": [
+        {
+          "name": "command",
+          "type": "string",
+          "description": "Shell command",
+          "required": true
+        }
+      ],
+      "domain": "code_execution",
+      "risk_level": "critical",
+      "capabilities": [
+        "shell_exec"
+      ]
+    },
+    {
+      "name": "http_request",
+      "description": "Make an HTTP request to a URL.",
+      "parameters": [
+        {
+          "name": "url",
+          "type": "string",
+          "description": "Target URL",
+          "required": true
+        },
+        {
+          "name": "method",
+          "type": "string",
+          "description": "HTTP method",
+          "required": false,
+          "default": "GET"
+        },
+        {
+          "name": "headers",
+          "type": "object",
+          "description": "Request headers",
+          "required": false
+        },
+        {
+          "name": "body",
+          "type": "string",
+          "description": "Request body",
+          "required": false
+        }
+      ],
+      "domain": "web_api",
+      "risk_level": "medium",
+      "capabilities": [
+        "http_request"
+      ]
+    },
+    {
+      "name": "fetch_url",
+      "description": "Fetch content from a URL.",
+      "parameters": [
+        {
+          "name": "url",
+          "type": "string",
+          "description": "URL to fetch",
+          "required": true
+        }
+      ],
+      "domain": "web_api",
+      "risk_level": "medium",
+      "capabilities": [
+        "http_read"
+      ]
+    },
+    {
+      "name": "get_token",
+      "description": "Get an authentication token for a service.",
+      "parameters": [
+        {
+          "name": "service",
+          "type": "string",
+          "description": "Service name",
+          "required": true
+        }
+      ],
+      "domain": "authentication",
+      "risk_level": "critical",
+      "capabilities": [
+        "auth_read"
+      ]
+    },
+    {
+      "name": "login",
+      "description": "Login to a service with credentials.",
+      "parameters": [
+        {
+          "name": "username",
+          "type": "string",
+          "description": "Username",
+          "required": true
+        },
+        {
+          "name": "password",
+          "type": "string",
+          "description": "Password",
+          "required": true
+        }
+      ],
+      "domain": "authentication",
+      "risk_level": "critical",
+      "capabilities": [
+        "auth_login"
+      ]
+    },
+    {
+      "name": "s3_upload",
+      "description": "Upload a file to S3 bucket.",
+      "parameters": [
+        {
+          "name": "bucket",
+          "type": "string",
+          "description": "S3 bucket name",
+          "required": true
+        },
+        {
+          "name": "key",
+          "type": "string",
+          "description": "Object key",
+          "required": true
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "description": "File content",
+          "required": true
+        }
+      ],
+      "domain": "cloud_services",
+      "risk_level": "high",
+      "capabilities": [
+        "cloud_write"
+      ]
+    },
+    {
+      "name": "lambda_invoke",
+      "description": "Invoke an AWS Lambda function.",
+      "parameters": [
+        {
+          "name": "function_name",
+          "type": "string",
+          "description": "Lambda function name",
+          "required": true
+        },
+        {
+          "name": "payload",
+          "type": "object",
+          "description": "Invocation payload",
+          "required": false
+        }
+      ],
+      "domain": "cloud_services",
+      "risk_level": "critical",
+      "capabilities": [
+        "cloud_exec"
+      ]
+    },
+    {
+      "name": "run_command",
+      "description": "Run a system command with elevated privileges.",
+      "parameters": [
+        {
+          "name": "command",
+          "type": "string",
+          "description": "Command to execute",
+          "required": true
+        },
+        {
+          "name": "sudo",
+          "type": "boolean",
+          "description": "Run with sudo",
+          "required": false,
+          "default": false
+        }
+      ],
+      "domain": "system_admin",
+      "risk_level": "critical",
+      "capabilities": [
+        "system_exec"
+      ]
+    },
+    {
+      "name": "modify_config",
+      "description": "Modify a system configuration file.",
+      "parameters": [
+        {
+          "name": "file",
+          "type": "string",
+          "description": "Config file path",
+          "required": true
+        },
+        {
+          "name": "key",
+          "type": "string",
+          "description": "Configuration key",
+          "required": true
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "description": "New value",
+          "required": true
+        }
+      ],
+      "domain": "system_admin",
+      "risk_level": "critical",
+      "capabilities": [
+        "config_write"
+      ]
+    },
+    {
+      "name": "install_mcp_server",
+      "description": "Install an additional MCP server from a registry or URL.",
+      "parameters": [
+        {
+          "name": "package",
+          "type": "string",
+          "description": "Package name or URL",
+          "required": true
+        },
+        {
+          "name": "version",
+          "type": "string",
+          "description": "Version pin",
+          "required": false
+        }
+      ],
+      "domain": "system_admin",
+      "risk_level": "critical",
+      "capabilities": [
+        "supply_chain_install"
+      ]
+    }
+  ]
+}

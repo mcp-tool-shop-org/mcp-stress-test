@@ -275,20 +275,26 @@ class HybridMutator(Mutator):
         """Mutator identifier."""
         return "hybrid"
 
-    def __init__(self):
+    def __init__(self, max_samples: int = 32):
         self._semantic = SemanticMutator()
         self._syntactic = SyntacticMutator()
+        self.max_samples = max_samples
 
     def mutate(self, payload: str) -> Iterator[str]:
-        """Apply combined mutations."""
-        # First semantic, then syntactic
+        """Apply combined mutations, capped at max_samples."""
+        yielded = 0
         for semantic_result in self._semantic.mutate(payload):
             for syntactic_result in self._syntactic.mutate(semantic_result):
+                if yielded >= self.max_samples:
+                    return
+                yielded += 1
                 yield syntactic_result
 
-        # Also try syntactic first, then semantic
         for syntactic_result in self._syntactic.mutate(payload):
             for semantic_result in self._semantic.mutate(syntactic_result):
+                if yielded >= self.max_samples:
+                    return
+                yielded += 1
                 yield semantic_result
 
 

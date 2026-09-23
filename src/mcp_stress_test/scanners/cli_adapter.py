@@ -7,7 +7,9 @@ from __future__ import annotations
 
 import contextlib
 import json
+import os
 import re
+import shlex
 import subprocess
 import tempfile
 import time
@@ -87,12 +89,10 @@ class CLIScanner:
             temp_path = f.name
 
         try:
-            # Build command
-            cmd = self.command.format(input=temp_path)
-
+            argv = self._build_argv(temp_path)
             result = subprocess.run(
-                cmd,
-                shell=True,
+                argv,
+                shell=False,
                 capture_output=True,
                 text=True,
                 timeout=self.timeout_seconds,
@@ -100,33 +100,32 @@ class CLIScanner:
 
             duration = (time.perf_counter() - start) * 1000
 
-            # Parse output based on format
+            if result.returncode not in (self.clean_exit_code, self.finding_exit_code):
+                return AttackResult.scanner_error(
+                    tool.name,
+                    f"exited {result.returncode}: {(result.stderr or '').strip()[:500]}",
+                    self.name,
+                    scan_time_ms=duration,
+                    exit_code=result.returncode,
+                    stderr=(result.stderr or "")[:500],
+                )
+
             if self.output_format == "json":
                 return self._parse_json_output(tool, result.stdout, result.returncode, duration)
-            else:
-                return self._parse_text_output(tool, result.stdout, result.returncode, duration)
+            return self._parse_text_output(tool, result.stdout, result.returncode, duration)
 
         except subprocess.TimeoutExpired:
-            return AttackResult(
-                tool_name=tool.name,
-                strategy="unknown",
-                detected=False,
-                score_before=100.0,
-                score_after=100.0,
-                threats_found=[],
+            return AttackResult.scanner_error(
+                tool.name,
+                "timeout",
+                self.name,
                 scan_time_ms=self.timeout_seconds * 1000,
-                metadata={"error": "timeout", "scanner": self.name},
             )
-        except Exception as e:
-            return AttackResult(
-                tool_name=tool.name,
-                strategy="unknown",
-                detected=False,
-                score_before=100.0,
-                score_after=100.0,
-                threats_found=[],
-                scan_time_ms=0,
-                metadata={"error": str(e), "scanner": self.name},
+        except OSError as e:
+            return AttackResult.scanner_error(
+                tool.name,
+                f"scanner could not be launched: {e}",
+                self.name,
             )
         finally:
             Path(temp_path).unlink(missing_ok=True)
@@ -160,18 +159,24 @@ class CLIScanner:
         """Parse JSON output from scanner."""
         try:
             data = json.loads(output)
-        except json.JSONDecodeError:
-            # Fall back to exit code interpretation
-            detected = exit_code == self.finding_exit_code
-            return AttackResult(
-                tool_name=tool.name,
-                strategy="unknown",
-                detected=detected,
-                score_before=100.0,
-                score_after=50.0 if detected else 100.0,
-                threats_found=["parse_error"] if detected else [],
+        except (json.JSONDecodeError, TypeError):
+            return AttackResult.scanner_error(
+                tool.name,
+                "invalid JSON output",
+                self.name,
                 scan_time_ms=duration,
-                metadata={"scanner": self.name, "exit_code": exit_code},
+                exit_code=exit_code,
+                raw_output=(output or "")[:500],
+            )
+
+        if not isinstance(data, dict):
+            return AttackResult.scanner_error(
+                tool.name,
+                "invalid JSON output",
+                self.name,
+                scan_time_ms=duration,
+                exit_code=exit_code,
+                raw_output=(output or "")[:500],
             )
 
         # Extract score using simple path (not full JSONPath)
@@ -184,7 +189,7 @@ class CLIScanner:
         else:
             threats = []
 
-        detected = len(threats) > 0 or exit_code == self.finding_exit_code
+        detected = len(threats) > 0
 
         return AttackResult(
             tool_name=tool.name,
@@ -252,16 +257,32 @@ class CLIScanner:
 
         return current
 
+    def _split_template(self) -> list[str]:
+        """Tokenize the command template without interpolating {input}.
+
+        Uses POSIX rules off Windows so a quoted binary path with spaces
+        (e.g. \"C:\\Program Files\\Scan\\scan.exe\") stays one argv element.
+        command.split()[0] would break that path.
+        """
+        try:
+            return shlex.split(self.command, posix=os.name != "nt")
+        except ValueError:
+            return self.command.split()
+
+    def _build_argv(self, input_path: str) -> list[str]:
+        """Substitute {input} per token so a path with spaces is one argument."""
+        return [part.replace("{input}", input_path) for part in self._split_template()]
+
     def is_available(self) -> bool:
         """Check if the scanner command is available."""
-        # Try to run with --help or --version
         try:
-            base_cmd = self.command.split()[0]
+            argv = self._split_template()
+            base_cmd = argv[0] if argv else self.command
             subprocess.run(
                 [base_cmd, "--help"],
                 capture_output=True,
                 timeout=5,
             )
             return True
-        except (subprocess.TimeoutExpired, FileNotFoundError):
+        except (subprocess.TimeoutExpired, OSError, ValueError):
             return False

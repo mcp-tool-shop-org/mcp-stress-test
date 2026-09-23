@@ -97,10 +97,15 @@ class ToolLifecycle:
         return record
 
     def invoke(self) -> None:
-        """Record a tool invocation."""
+        """Record a tool invocation.
+
+        Promotes INIT/CLEAN to ACTIVE. Poison (and other post-mutation
+        states) stay sticky; only mutation helpers set or clear POISONED.
+        """
         self.invocation_count += 1
         self.last_invocation = datetime.now()
-        self.record_event(LifecycleEvent.INVOKED, ToolState.ACTIVE)
+        new_state = ToolState.ACTIVE if self.state in (ToolState.INIT, ToolState.CLEAN) else None
+        self.record_event(LifecycleEvent.INVOKED, new_state)
 
 
 class TimeSimulator:
