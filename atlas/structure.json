@@ -2,56 +2,58 @@
   "boundaries": [
     {
       "dynamicReads": 0,
+      "dynamicSpawns": 0,
+      "dynamicSpawnsInTests": 0,
       "dynamicWrites": 0,
       "entryPoints": [],
       "externals": 0,
       "files": [
         {
-          "hash": "d3d3ef1fe16ad379f4650c0e7ae99340d451449e63d5e75184cf8faf2f81891a",
+          "hash": "94f96146987d3a6c9cc1b649f8d7c9e2bbb32a535289f5e99ea74d08d976587d",
           "path": ".github/ISSUE_TEMPLATE/attack_pattern.yml"
         },
         {
-          "hash": "a1ceaa0a045783b1f2f8e23590553b258093842c3a54114f7a9e2836936214c9",
+          "hash": "38b0c50d12d671f3e9606df59abcad2c67ae77c5122d7990bf495dee5dd8bc0d",
           "path": ".github/ISSUE_TEMPLATE/bug_report.yml"
         },
         {
-          "hash": "7117929833423c3eaf6ae34ecf9ea43d94e94c8ea999a04c555ae11fe51bb7e4",
+          "hash": "a77739eea25f5d3985bd1b0939fc23c4407daa8892f0c42b324f77a1e3cb68e1",
           "path": ".github/ISSUE_TEMPLATE/feature_request.yml"
         },
         {
-          "hash": "da29f828b93b4b90cac870403a2ff3e3a9324abe3a58c2c5318c9544614bf71e",
+          "hash": "b8c464773861fe68e4b1b0df057b4a5e0e5aaf7eb3d699311891b1940ce4387b",
           "path": ".github/dependabot.yml"
         },
         {
-          "hash": "eb3887162a1075e83db7bee7c324adfb5809029978e5410623044ff3b49fc0ed",
+          "hash": "0bbde0f407458cd1ed924b6f5d2de468af4c69e81346033bea18656c3983dbbd",
           "path": ".github/issue_bodies/001-p0-readme-positioning.md"
         },
         {
-          "hash": "17847ed1d6658bbfa3b2ae6cc277613a16bdd2e5d9e12ac239a0cad85689c2cb",
+          "hash": "22eb8a69b7c437c6acf603c542d2e5ec02cca9501144f21079c467af512a255b",
           "path": ".github/issue_bodies/002-p0-quickstart-load-test.md"
         },
         {
-          "hash": "5dda9359b044f95add99eaed926587a01813689f7a48ac228ef2e0a9bc061d8a",
+          "hash": "580361629f0b02e1a259134e3b21a70fe6c5895c97479005df9335d982496c5a",
           "path": ".github/issue_bodies/003-p1-scenarios-and-profiles.md"
         },
         {
-          "hash": "fca9656c5f7a72cd9bce7dc3351cad33ab184bfb0ef9814c95d3c88f8c723d6d",
+          "hash": "a04a69a59acfcd2c395f615d9428a8d72894f8c72d293593bdc0920a0ce82a15",
           "path": ".github/issue_bodies/004-p1-metrics-and-reporting.md"
         },
         {
-          "hash": "86b28daebaf3916e62ae7291098c2ff12e6736a8d03797ae89aa632f54662714",
+          "hash": "c7274b463105e8fe5ea16e90af166ec8149992c5f8c555e13347e6bbc62a538a",
           "path": ".github/issue_bodies/005-p2-performance-regression-suite.md"
         },
         {
-          "hash": "118efd1ad71a96576155a22f6aed469d22543b9b0e08c8e10a6fed1b7825d908",
+          "hash": "b0a0882e666c599a766e74fd928ee7b4d5c0f2c1c4ed7d511ae2bcc2682f9938",
           "path": ".github/workflows/ci.yml"
         },
         {
-          "hash": "cefc842d0f25d6d83e9ac7af3466f9458743c94d0d10902d4397807fb87dfafb",
+          "hash": "662dd992903c9d9365ff3f629035756cb6ed486b6666826eb72a9d9e69554a2d",
           "path": ".github/workflows/pages.yml"
         },
         {
-          "hash": "65eb6bbedde015f7f805a4975ec067660c1af698eb71d99363d62aff81233221",
+          "hash": "71715e4828880da588aad453291f56d23e53f54301b4b2e4a8d2b2b2ba0aad28",
           "path": ".github/workflows/publish.yml"
         }
       ],
@@ -67,12 +69,14 @@
     },
     {
       "dynamicReads": 0,
+      "dynamicSpawns": 0,
+      "dynamicSpawnsInTests": 0,
       "dynamicWrites": 0,
       "entryPoints": [],
       "externals": 0,
       "files": [
         {
-          "hash": "042d612a3cbe8a3f9bd05eb042a69d53eb692a75ba6b7c410ebcee890b66c4de",
+          "hash": "91337e6e476a281a136143e6dfcc388b0019852a298192eff96bfc5be95d3af6",
           "path": "docs/media/README.md"
         }
       ],
@@ -88,104 +92,110 @@
     },
     {
       "dynamicReads": 0,
+      "dynamicSpawns": 0,
+      "dynamicSpawnsInTests": 0,
       "dynamicWrites": 0,
       "entryPoints": [],
       "externals": 0,
       "files": [
         {
-          "hash": "e8d8ca420754a5e5a26b4f7e5a751fe24907de25f3ec7f0d9110064e0bb206e0",
+          "hash": "d44aaf2933d74d04ab09e5c7dea141924616fe6637b147b85852713a868d228b",
           "path": ".gitignore"
         },
         {
-          "hash": "0f2de34b8a1b70dace8c99383e53b00560cbe3e43c8f1cad7660eba3df37d323",
+          "hash": "85bf2f5b20d51efb9f5cb763cc7d35fb56ed10a7329ee651e087fbdb6f95238e",
           "path": "CHANGELOG.md"
         },
         {
-          "hash": "8dfff8e0d158387066d6f602d0f0dad35a49f823776985a14b198276b3a00554",
+          "hash": "03025f740e6de1e939bb4204e39ec502d6ecea52f3fcbc499fa705d4732b45a7",
           "path": "CLAUDE.md"
         },
         {
-          "hash": "0e1050fa0ac984969006cd098fee5fb212106580c355f63629940a04305ed638",
+          "hash": "a95b37a74335bd84e846aef64ffd770ff231acd47ce7ff6721cd31e261e37a29",
           "path": "CONTRIBUTING.md"
         },
         {
-          "hash": "66ab7d2ea4b33856703e919bcd2d4ce984a609b6af91dd753655a0627c9aa5b4",
+          "hash": "05b1aea0843e929a13246f252981ad8b5dfd8d864daab00d0cd5cd20a91e328f",
           "path": "Dockerfile"
         },
         {
-          "hash": "5ae6b3c8f446f0a7cb95176e4dadb91b68aaffb16b3be09f64f5de248b6a973a",
+          "hash": "367e5141e4f5884e5791c4021f33a9faa958840a5decf44e1b273a87aad1c459",
           "path": "LICENSE"
         },
         {
-          "hash": "dd34e562a486d35fc73f68eb8c8c2b4ecbbe85f0788a22ff26bc058c2f8afeec",
+          "hash": "4efc82b149666496e9908a41964740d489a787c00d71e1fb01980e60e960af9a",
           "path": "PRESS_RELEASE.md"
         },
         {
-          "hash": "b314dbb0bacda7535ba39486664c7a6f05db497a420f835d09b49ae6cb6bb58f",
+          "hash": "4e32eb964d7b90e8ffebea192edcbd4e864f99ca31f07fe7872d5356c6726e17",
           "path": "PROPOSED_README.md"
         },
         {
-          "hash": "33dc520a2c9ab850d9f50d646221f7f4528c8cbc8d1c91330bb3d8fc4c197fe2",
+          "hash": "ed83990e756ea765c03fc045bef5808ecc9b3f1bb52950c33877738da820fcf8",
           "path": "README.es.md"
         },
         {
-          "hash": "40668afe90954d7b614b235ba29e046c0c978dd627bc6b6e82301cfe5769a34f",
+          "hash": "d4070be7c17d24eaed74f510663f0b6bb247f17d1f0a342055a0eb4f994753d2",
           "path": "README.fr.md"
         },
         {
-          "hash": "cc39dfc3522ce55e3ea0c631ff28b0aa945830120129393d0d49790be9b18216",
+          "hash": "6d0007b0761737b3ff9d360a5be4e48eb4e5dd820a8fe16189938531f2181f8c",
           "path": "README.hi.md"
         },
         {
-          "hash": "2ef869bf3d7105445dab367fa0c897e43c29a397b2be2884a7daa88ec1e14d74",
+          "hash": "e747033101d4dcd419c425b6dd9d792b43c4941f05b8ac59c87cdf50629a6845",
           "path": "README.it.md"
         },
         {
-          "hash": "f6cf22a958cd15d8b34ca54f6e4d07e04bd5702cbcdbbeafe4ef7ad83df66083",
+          "hash": "76675c173db741013f9e9ba2e0f7497ae7ec7e10ca2351effac89df806a52a61",
           "path": "README.ja.md"
         },
         {
-          "hash": "bf2738b63ff86abede04edcffce5ffd5da476108f6d99afd052d8f9019908762",
+          "hash": "747e75a0b321e7e475aee0062b42b45d92bfab6b15571a1bd3f55ea4bd5ee081",
           "path": "README.md"
         },
         {
-          "hash": "f5b713f8afa2de435b8e11650a7c2d7f3529d2ca54b3632e3dab38735adce013",
+          "hash": "138705de311ca7ebe09ee2b91185827a63c51c0b7bddd855507c49601201bcb9",
           "path": "README.pt-BR.md"
         },
         {
-          "hash": "986ffd908dd695d766c88cd10b8775ef79aebae13ff17febe02253c6d07cc5cf",
+          "hash": "771386b9e22f7010faebd137fa6c6984567dd0d53e7a2989f1d19653a2eaeef7",
           "path": "README.zh.md"
         },
         {
-          "hash": "7779921075ff59e6e2e88423c8f3f415838cfdcfd6850a2a83e1247b74aad7c8",
+          "hash": "446760eb9a74809556673981236dc6adef850414b022de0ccd22fb0ba04e62cd",
           "path": "README_TEMPLATE.md"
         },
         {
-          "hash": "f6c3c71c2ec1f0e631b0a1cdf12edf3d7bd05cc12c758d59940f5dba30142e97",
+          "hash": "9677e40d289481f72e760d0df74578e98e40bc6fc12ce4201ce0fbaa5b0e168f",
           "path": "REPO_METADATA.md"
         },
         {
-          "hash": "a32068ac968572a94c27649166030c216a574b48622bb4beb9f964ce4ab4c857",
+          "hash": "c2cb33ec84c6e3e98ed5bc1a76755ba05645d4d9069f3be27d89fc06f72c2d83",
           "path": "ROADMAP.md"
         },
         {
-          "hash": "c584cfd2074e19b060b38712781b558060e9dd85fdb57e9d180e333067a8f131",
+          "hash": "fe32225f3a8fd38c51ef279f759214dd7c6f2b2176ebbfac882585b92bcacc01",
           "path": "SCORECARD.md"
         },
         {
-          "hash": "04b5165148b48d89970ed73e4dcc7b332952cdeb5d7e2104713238d581d2d008",
+          "hash": "112a340d5cfa5c3b2c8c4d0a0b7053f4e0861c13e75f5aa32568365c2ab723e1",
           "path": "SECURITY.md"
         },
         {
-          "hash": "1e7093aa2d401afdca55415e903e3c849432e62be47fd7b3b24e824bd44fae89",
+          "hash": "d860078100307243178e6c84c9c7ac81aab4e1e0da900ef102ae058b5efb4880",
           "path": "SHIP_GATE.md"
+        },
+        {
+          "hash": "59ca3f6a5be96b80fee73bebf2b778211208d17cd3fb82e2134608dff0729c76",
+          "path": "codecov.yml"
         },
         {
           "hash": "c6100f2d1fa400ae9f87f19b3f12581c01dbe54f8712388d8a4e741949ff754c",
           "path": "logo.png"
         },
         {
-          "hash": "0b7f8adea075d1467bbcf0b3bfc1a4f7ac41cb2dc0c5c6d9dea7c940ca9e56f1",
+          "hash": "7e17598080cf2e14b89f296d6a415dbb3fb09966789c240674fc6d29f10bfe47",
           "path": "pyproject.toml"
         }
       ],
@@ -201,68 +211,80 @@
     },
     {
       "dynamicReads": 0,
+      "dynamicSpawns": 0,
+      "dynamicSpawnsInTests": 0,
       "dynamicWrites": 0,
       "entryPoints": [],
       "externals": 0,
       "files": [
         {
-          "hash": "ef173a28801b1e2b3ef594f5d457e32a1e38f688ae380c5dfda72d9372d66648",
+          "hash": "e0899a59c3c96f45e77bd51e9f70d2fbcef811b9e9191b38a4794515969488ac",
           "path": "site/astro.config.mjs"
         },
         {
-          "hash": "b5578baf42cab82e5e7b451b6992cb929aeb6ff8d02d8e11ab690e6f67fea144",
+          "hash": "af5d4f54dca60686724d306eb58759fb25b6f5ba4d66559ab84a968112a184e5",
           "path": "site/package-lock.json"
         },
         {
-          "hash": "cff923d88f356795747a843362ca300b43d09c5715e6356f904b4d5fa06a7fae",
+          "hash": "17ed487ab5049bb52f8c5e35f77f21be7da639f1fb6a3fa70e9b02ffabfe7be6",
           "path": "site/package.json"
         },
         {
-          "hash": "ec030f2e4bf6dc57eaca075d390c228b3212cf29db267e32ef92e110de1acdcc",
+          "constantOnly": true,
+          "hash": "ee756dfba4122d2acc94a39b2555d9f200fff56a87a8c0b10f9cd01df26a8b62",
           "path": "site/src/content.config.ts"
         },
         {
-          "hash": "38ca8f955f9f0f1531227ea5fec3dae1bad276fbf7d4587cd849bd05c0ccaf4d",
+          "hash": "135755e20d190d9c44310805938823689fd0ad3dcbff2a4137dde56518058161",
           "path": "site/src/content/docs/handbook/beginners.md"
         },
         {
-          "hash": "947a132336ac6ce80d695abbc17fecb7da1eb3b6621426fff96976738f12751f",
+          "hash": "df36e7adcf4e9930b935a4d22ee8501288000394b63263f124398965d8be4f19",
           "path": "site/src/content/docs/handbook/configuration.md"
         },
         {
-          "hash": "6c0d36980087f801d86bc69cd4b74eef33dc38c4506ff9293dc851042e6de6c1",
+          "hash": "c0504e8ef781358acf55d19d0eb27528a050570075568a39a0491c9d297a529f",
           "path": "site/src/content/docs/handbook/getting-started.md"
         },
         {
-          "hash": "d7a272080ec55a4885592214df5a0c0c3a5bd3d14de428cdeaa239d868e3db23",
+          "hash": "792b195064ada602ed060e74000d3722d668649de4641c51cd0d493c91af579b",
           "path": "site/src/content/docs/handbook/index.md"
         },
         {
-          "hash": "c1d1c956b1f79ae4bfaf16c1d46281c30cb829d3983911e3c62aa9049d0a5ff6",
+          "hash": "8fe2495b363919aeac8ec7a2bd75c1a18ceb1d0c8b16682381bc159fd93c7df8",
           "path": "site/src/content/docs/handbook/reference.md"
         },
         {
-          "hash": "06950f482fe34e0b3eb4078c870fcba912fca542a37bcb57dd7873e19741704b",
+          "hash": "85ebe0769d48ae0ae8810dcf793dceeffb1d4b50057ba366ab0ea66202a9d3ee",
           "path": "site/src/content/docs/handbook/usage.md"
         },
         {
-          "hash": "a699ad78a6d27d6864ccfe4c3a4a01993aca28ecb4a3d20893f37db9f9b1a522",
+          "hash": "391533713539035d3c92282579d43de0f137067867fdb502d7eaea3c74601d2a",
+          "importOrder": [
+            "site/src/styles/global.css",
+            "site/src/site-config.ts"
+          ],
+          "importsFiles": [
+            "site/src/site-config.ts",
+            "site/src/styles/global.css"
+          ],
           "path": "site/src/pages/index.astro"
         },
         {
-          "hash": "e0a44ae1ed7371c04112db1c62854c14483427d0c9041c72d4dff620c742332c",
+          "constantOnly": true,
+          "hash": "034ab1231a2d2c24ffdc0ca43185b2ea781d49344dd2bbb5619699e2a89ae2fb",
           "path": "site/src/site-config.ts"
         },
         {
-          "hash": "5995279a40a9a63426a93feec129006b261cc7200426a398914d0317722ef19b",
+          "hash": "29ee8df91833e694bdba973126b34a6177de4cf01dab6d9ef7d3126e8e2b67fb",
           "path": "site/src/styles/global.css"
         },
         {
-          "hash": "9d8dddc46c99a1863e6980810ca6375e764db806f99696446751cbdc5be1a1d9",
+          "hash": "51d012e49bcba75b105bdc8aa7a6d1a6733a00ace857b24423c75215ebcff631",
           "path": "site/src/styles/starlight-custom.css"
         },
         {
-          "hash": "61fc24492db9aef7ec38eb91cfeebaef96155014bb5f22648fd8ed2327c6cae2",
+          "hash": "b5b0a5b04a14cddd7713c5e1c82e86c79c17c2f86b170e26e9b170b3d5e01cd9",
           "path": "site/tsconfig.json"
         }
       ],
@@ -277,22 +299,24 @@
       "unresolvedSites": 0
     },
     {
-      "dynamicReads": 13,
-      "dynamicWrites": 13,
+      "dynamicReads": 8,
+      "dynamicSpawns": 0,
+      "dynamicSpawnsInTests": 0,
+      "dynamicWrites": 3,
       "entryPoints": [
         "src/mcp_stress_test/cli/__init__.py"
       ],
       "externals": 0,
       "files": [
         {
-          "hash": "1a189eba53049664f9655e1b9f398ed5c54549676fc6d4d3e35546c84e1e786e",
+          "hash": "cc0b53fb0622ecf0be36bd517bbe51399796598a37e4833d0422261deac787bc",
           "importsFiles": [
             "src/mcp_stress_test/models.py"
           ],
           "path": "src/mcp_stress_test/__init__.py"
         },
         {
-          "hash": "8be0f1ec82064e19814180bb1ba8e6cc123e849db2042fd25c69648b61a7bb31",
+          "hash": "672559335b099671f7401ff779136f2368e1e9a001fd9649574a3a156053af57",
           "importsFiles": [
             "src/mcp_stress_test/chains/base.py",
             "src/mcp_stress_test/chains/executor.py",
@@ -302,7 +326,7 @@
           "path": "src/mcp_stress_test/chains/__init__.py"
         },
         {
-          "hash": "accaf7c6c8ffb797d292a6a5a21c82670663cdc518f7eb9119541c5bff73b4a8",
+          "hash": "3ca01502dd6da6401038f0215de43b43af8c0491bcd4c8f61a6bb1892f257a54",
           "importsFiles": [
             "src/mcp_stress_test/core/protocols.py",
             "src/mcp_stress_test/models.py"
@@ -313,7 +337,7 @@
           "exports": [
             "execute_chains"
           ],
-          "hash": "fe53cdc8f86b3a3ddaa7eaab12dc6c832a8ef9d45429b8f472f959eea74c028d",
+          "hash": "38b663be4e128ae7b4800465f71efb6c1d48bf04bf5994eb3884047ac20ee6c9",
           "importsFiles": [
             "src/mcp_stress_test/chains/base.py",
             "src/mcp_stress_test/chains/library.py",
@@ -327,7 +351,12 @@
             "get_chain",
             "list_chains"
           ],
-          "hash": "3651a0b6256626e86822bb328e3c25bfa1e0f2b0e7eb24c39c3aaf20d4723a2e",
+          "hash": "a2d2ec009facab3a6f09c860669f4a10b65297b96fc0e0452ecb2897f35a4924",
+          "importOrder": [
+            "src/mcp_stress_test/chains/base.py",
+            "src/mcp_stress_test/generator/protocol.py",
+            "src/mcp_stress_test/chains/loader.py"
+          ],
           "importsFiles": [
             "src/mcp_stress_test/chains/base.py",
             "src/mcp_stress_test/chains/loader.py",
@@ -344,21 +373,21 @@
             "register_chain",
             "registered_chains"
           ],
-          "hash": "e1c6da78d93328531485a0eeb50aaa47856a988d26853c7b660c2a770249e3ce",
+          "hash": "e4c7f2c7cd4d29bb1c50fec082874450ec81892c47b7cbb63e03a0b3435f3bf8",
           "importsFiles": [
             "src/mcp_stress_test/chains/base.py"
           ],
           "path": "src/mcp_stress_test/chains/loader.py"
         },
         {
-          "hash": "df7bcdf1b83d48946a4f7d85c42db8234bec62d16c69216f72203f1851f53edc",
+          "hash": "a4e807922a8e687d01c46861290a5afb035701ac5cd00abc57c1ae0e0b3903ad",
           "importsFiles": [
             "src/mcp_stress_test/cli/main.py"
           ],
           "path": "src/mcp_stress_test/cli/__init__.py"
         },
         {
-          "hash": "e6b1c7cdcb04616a2c4065914dcc8c18a183cf279a114cbcf343797148a7abbe",
+          "hash": "b5b23693182a87094c734e9791cbf152575f905c8a3f7d5cd91f78b14a616acf",
           "path": "src/mcp_stress_test/cli/commands/__init__.py"
         },
         {
@@ -368,7 +397,31 @@
             "chain_list",
             "chain_show"
           ],
-          "hash": "c76edc095bbc0a3cb91340584e03a75218f657d74e29c0be3b272a61e4b786ea",
+          "failurePaths": [
+            {
+              "in": "chain_show",
+              "kind": "raise",
+              "line": 70
+            },
+            {
+              "in": "chain_execute",
+              "kind": "raise",
+              "line": 152
+            },
+            {
+              "in": "chain_execute",
+              "kind": "raise",
+              "line": 154
+            }
+          ],
+          "hash": "aa00ce2e9d31ed5eda8dd5b37f6a40fa3ecda8f51f62242eb0ff0580e2b39c47",
+          "importOrder": [
+            "src/mcp_stress_test/cli/quality_gate.py",
+            "src/mcp_stress_test/chains/library.py",
+            "src/mcp_stress_test/chains/executor.py",
+            "src/mcp_stress_test/cli/scanner_resolve.py",
+            "src/mcp_stress_test/models.py"
+          ],
           "importsFiles": [
             "src/mcp_stress_test/chains/executor.py",
             "src/mcp_stress_test/chains/library.py",
@@ -385,7 +438,27 @@
             "fuzz_mutate",
             "fuzz_run"
           ],
-          "hash": "c829709f38114d7a1957be790d40201fb170832ca932efe2d195fb1991c71ecf",
+          "failurePaths": [
+            {
+              "in": "fuzz_run",
+              "kind": "except",
+              "line": 55
+            },
+            {
+              "in": "fuzz_evasion",
+              "kind": "except",
+              "line": 141
+            }
+          ],
+          "hash": "afce6530738ccec9a6c1c8e0568fb081e6168a7321642eb1a822601edcaa0d58",
+          "importOrder": [
+            "src/mcp_stress_test/core/config.py",
+            "src/mcp_stress_test/fuzzing/llm_fuzzer.py",
+            "src/mcp_stress_test/cli/scanner_resolve.py",
+            "src/mcp_stress_test/fuzzing/evasion.py",
+            "src/mcp_stress_test/models.py",
+            "src/mcp_stress_test/fuzzing/mutations.py"
+          ],
           "importsFiles": [
             "src/mcp_stress_test/cli/scanner_resolve.py",
             "src/mcp_stress_test/core/config.py",
@@ -400,7 +473,7 @@
           "exports": [
             "generate_cmd"
           ],
-          "hash": "8db61eb8c9282512073d144e0ffe53fe40d97b6b014bbe7a056bab4abd00232f",
+          "hash": "c8223f93d855b8b87c9e2e5ea535f0b173d185cb27a41c3ebbc8cd56cd3b870d",
           "importsFiles": [
             "src/mcp_stress_test/models.py",
             "src/mcp_stress_test/patterns/__init__.py"
@@ -411,7 +484,7 @@
           "exports": [
             "info_cmd"
           ],
-          "hash": "2946b5ab7654713659d868af9d74e854613d8a71fb5c8715c4dac029f7a3bb0a",
+          "hash": "a6b624e7baf5bb64beded85841f9c1847b7a097c1b74a0b67dce974641daf361",
           "importsFiles": [
             "src/mcp_stress_test/__init__.py"
           ],
@@ -423,7 +496,7 @@
             "patterns_list",
             "patterns_stats"
           ],
-          "hash": "8a12cd59faaace4bad37ead8cfcd0717435a76b6b27b7277f73b80741efb9bfe",
+          "hash": "5e057ec1e2d853941c6bd988c2973770ba9165f5cc8e2c6ae86a669e8f26df76",
           "importsFiles": [
             "src/mcp_stress_test/models.py",
             "src/mcp_stress_test/patterns/__init__.py"
@@ -435,7 +508,7 @@
             "payloads_group",
             "payloads_list"
           ],
-          "hash": "19f8d93bf3b8f1dacfc2f2198a8a30a39281168188afa869a18b5a4e4d7e2290",
+          "hash": "b25caeda0ac00ed997f57b6128814e43a26614a627e660abf0f7e1a9da0c4db3",
           "importsFiles": [
             "src/mcp_stress_test/patterns/__init__.py"
           ],
@@ -452,7 +525,99 @@
             "report_group",
             "report_preview"
           ],
-          "hash": "16ed4bd52eb56b3cfbea3f9160483d2dce658efb6eb55fb491a838e2aa2dbac3",
+          "failurePaths": [
+            {
+              "in": "_as_float",
+              "kind": "except",
+              "line": 20
+            },
+            {
+              "in": "_read_optional_float",
+              "kind": "except",
+              "line": 37
+            },
+            {
+              "in": "parse_report_input",
+              "kind": "raise",
+              "line": 181
+            },
+            {
+              "in": "parse_report_input",
+              "kind": "raise",
+              "line": 189
+            },
+            {
+              "in": "parse_report_input",
+              "kind": "raise",
+              "line": 198
+            },
+            {
+              "in": "parse_report_input",
+              "kind": "raise",
+              "line": 211
+            },
+            {
+              "in": "parse_report_input",
+              "kind": "raise",
+              "line": 213
+            },
+            {
+              "in": "parse_report_input",
+              "kind": "raise",
+              "line": 219
+            },
+            {
+              "in": "load_report_json",
+              "kind": "except",
+              "line": 233
+            },
+            {
+              "in": "load_report_json",
+              "kind": "raise",
+              "line": 234
+            },
+            {
+              "in": "load_report_json",
+              "kind": "except",
+              "line": 235
+            },
+            {
+              "in": "load_report_json",
+              "kind": "raise",
+              "line": 236
+            },
+            {
+              "in": "report_generate",
+              "kind": "raise",
+              "line": 323
+            },
+            {
+              "in": "report_preview",
+              "kind": "except",
+              "line": 391
+            },
+            {
+              "in": "report_preview",
+              "kind": "raise",
+              "line": 392
+            },
+            {
+              "in": "report_preview",
+              "kind": "except",
+              "line": 393
+            },
+            {
+              "in": "report_preview",
+              "kind": "raise",
+              "line": 394
+            }
+          ],
+          "hash": "c27c4bde3892e8b6ad0d2d4bc7c81cac207a2c1c1e16a9ef225b21e747cdf27d",
+          "importOrder": [
+            "src/mcp_stress_test/core/protocols.py",
+            "src/mcp_stress_test/reporters/__init__.py",
+            "src/mcp_stress_test/cli/quality_gate.py"
+          ],
           "importsFiles": [
             "src/mcp_stress_test/cli/quality_gate.py",
             "src/mcp_stress_test/core/protocols.py",
@@ -467,7 +632,34 @@
             "scan_group",
             "scan_scanners"
           ],
-          "hash": "6f6c7f596637898b559ac27de06081cbe5b52418cc1e4c22447f4674c426dcad",
+          "failurePaths": [
+            {
+              "in": "scan_batch",
+              "kind": "raise",
+              "line": 194
+            },
+            {
+              "in": "scan_batch",
+              "kind": "raise",
+              "line": 199
+            },
+            {
+              "in": "scan_batch",
+              "kind": "raise",
+              "line": 201
+            },
+            {
+              "in": "scan_batch",
+              "kind": "except",
+              "line": 252
+            },
+            {
+              "in": "scan_batch",
+              "kind": "raise",
+              "line": 281
+            }
+          ],
+          "hash": "bca5437beaa56311f8dcde99d4e55058bdaad6ebe3c94aa071fe3c4f3efb86f3",
           "importsFiles": [
             "src/mcp_stress_test/cli/quality_gate.py",
             "src/mcp_stress_test/cli/scanner_resolve.py",
@@ -484,7 +676,14 @@
             "server_list",
             "server_serve"
           ],
-          "hash": "d74ac8f57498e7159c8d8e194141e33959d111f0a1544643aabbe8de0e06a16b",
+          "failurePaths": [
+            {
+              "in": "_serve",
+              "kind": "raise",
+              "line": 54
+            }
+          ],
+          "hash": "61b27c94dd53bb12ec77ed5cbe720449c738cd71a334f19fdd765cd079c34ddb",
           "importsFiles": [
             "src/mcp_stress_test/models.py",
             "src/mcp_stress_test/servers/__init__.py"
@@ -497,7 +696,41 @@
             "stress_group",
             "stress_run"
           ],
-          "hash": "42b9baee2c7f17583063547dd845a1ed0601c974bdc37b02990c58314eac35d3",
+          "failurePaths": [
+            {
+              "in": "execute_stress_run",
+              "kind": "raise",
+              "line": 49
+            },
+            {
+              "in": "execute_stress_run",
+              "kind": "raise",
+              "line": 55
+            },
+            {
+              "in": "execute_stress_run",
+              "kind": "raise",
+              "line": 66
+            },
+            {
+              "in": "execute_stress_run",
+              "kind": "raise",
+              "line": 68
+            },
+            {
+              "in": "execute_stress_run",
+              "kind": "raise",
+              "line": 74
+            }
+          ],
+          "hash": "90f7df767b6fc589ad33bb2f4008d4cee529c1d689a9144544d4ac7af9acde9d",
+          "importOrder": [
+            "src/mcp_stress_test/patterns/__init__.py",
+            "src/mcp_stress_test/scanner/__init__.py",
+            "src/mcp_stress_test/scanner/runner.py",
+            "src/mcp_stress_test/core/data_paths.py",
+            "src/mcp_stress_test/scanner/checkpoint.py"
+          ],
           "importsFiles": [
             "src/mcp_stress_test/core/data_paths.py",
             "src/mcp_stress_test/patterns/__init__.py",
@@ -512,7 +745,7 @@
             "tools_group",
             "tools_list"
           ],
-          "hash": "dc74a5b1b9e737f3e89882d52b4886d485623522f9482947a227b7d6367d009c",
+          "hash": "d853145f6895b468d1150d4ca8308b4124e8fe34684b5d58ec5a72a4d84da513",
           "importsFiles": [
             "src/mcp_stress_test/models.py",
             "src/mcp_stress_test/patterns/__init__.py"
@@ -524,7 +757,13 @@
             "app",
             "main"
           ],
-          "hash": "34f1a0730932bb2ac06db2a98ad91672293d8d39ae7f229db5ea1f947cf44eb6",
+          "failurePaths": [
+            {
+              "kind": "except",
+              "line": 28
+            }
+          ],
+          "hash": "80e965e08c9c98891814a1d1f649a2f03180eccd02ca069773f8460fa02fe348",
           "importsFiles": [
             "src/mcp_stress_test/__init__.py",
             "src/mcp_stress_test/cli/commands/chain.py",
@@ -546,7 +785,19 @@
             "enforce_quality_gate",
             "quality_gate_options"
           ],
-          "hash": "d6f00812e92b19f6b3c4f57c0a01503adc4f4397f2b82aac97e78d6609a6e624",
+          "failurePaths": [
+            {
+              "in": "enforce_quality_gate",
+              "kind": "raise",
+              "line": 42
+            },
+            {
+              "in": "enforce_quality_gate",
+              "kind": "raise",
+              "line": 49
+            }
+          ],
+          "hash": "6ce8a6090f7e53eef0194b82dce44eb2ae5431b2cc868eab757dbe5922e45896",
           "path": "src/mcp_stress_test/cli/quality_gate.py"
         },
         {
@@ -555,7 +806,29 @@
             "require_scanner_available",
             "resolve_scanner"
           ],
-          "hash": "a2e9449ac3055962702677d01b088573fffd8b1cea1983588db3d5e745779f60",
+          "failurePaths": [
+            {
+              "in": "resolve_scanner",
+              "kind": "raise",
+              "line": 37
+            },
+            {
+              "in": "resolve_scanner",
+              "kind": "raise",
+              "line": 42
+            },
+            {
+              "in": "require_scanner_available",
+              "kind": "raise",
+              "line": 70
+            },
+            {
+              "in": "raise_if_scan_error",
+              "kind": "raise",
+              "line": 84
+            }
+          ],
+          "hash": "ecfde8ae6817b04e43da4074f1f8708e0882887fe69dbd66baf6291e4f1870cc",
           "importsFiles": [
             "src/mcp_stress_test/scanners/cli_adapter.py",
             "src/mcp_stress_test/scanners/mock.py",
@@ -596,7 +869,64 @@
             "tools",
             "tools_list"
           ],
-          "hash": "9fb39d5a24287a17e742b01059163f739b41587f0f4735f829c8f144c9b3b7db",
+          "failurePaths": [
+            {
+              "kind": "except",
+              "line": 23
+            },
+            {
+              "in": "attack_mutate",
+              "kind": "raise",
+              "line": 425
+            },
+            {
+              "in": "attack_simulate",
+              "kind": "raise",
+              "line": 533
+            },
+            {
+              "in": "stress_compare",
+              "kind": "raise",
+              "line": 774
+            },
+            {
+              "in": "checkpoint_restore",
+              "kind": "except",
+              "line": 1054
+            },
+            {
+              "in": "run_farm",
+              "kind": "except",
+              "line": 1212
+            },
+            {
+              "in": "poison_tool",
+              "kind": "raise",
+              "line": 1343
+            },
+            {
+              "in": "server_call",
+              "kind": "except",
+              "line": 1399
+            },
+            {
+              "in": "call_tool",
+              "kind": "raise",
+              "line": 1413
+            }
+          ],
+          "hash": "a3f933cef7f6d86e482f9f8a3250e8183fde1c267496fb0042688e87d9acc52c",
+          "importOrder": [
+            "src/mcp_stress_test/__init__.py",
+            "src/mcp_stress_test/models.py",
+            "src/mcp_stress_test/patterns/__init__.py",
+            "src/mcp_stress_test/generator/__init__.py",
+            "src/mcp_stress_test/generator/strategies.py",
+            "src/mcp_stress_test/cli/commands/stress.py",
+            "src/mcp_stress_test/scanner/__init__.py",
+            "src/mcp_stress_test/scanner/checkpoint.py",
+            "src/mcp_stress_test/servers/__init__.py"
+          ],
           "importsFiles": [
             "src/mcp_stress_test/__init__.py",
             "src/mcp_stress_test/cli/commands/stress.py",
@@ -611,7 +941,7 @@
           "path": "src/mcp_stress_test/cli_legacy.py"
         },
         {
-          "hash": "3dc8b3add919c2ce2a6498f6c8d262d8e70f1d8ec1102f2c1ac116c00276f4bf",
+          "hash": "19611a834289488e23d9fa434f872a984bb52671d0ef17b9c1d15c2069e333a8",
           "importsFiles": [
             "src/mcp_stress_test/core/config.py",
             "src/mcp_stress_test/core/protocols.py",
@@ -620,7 +950,7 @@
           "path": "src/mcp_stress_test/core/__init__.py"
         },
         {
-          "hash": "e0e4b6831a24f629bc3358ef7f869a0ba672b6592ef2e71c312dc7ec7ef3d212",
+          "hash": "90947078d725e305ad78b0783658b6b6e6c711f3de012577e87b919a6d063429",
           "importsFiles": [
             "src/mcp_stress_test/core/data_paths.py"
           ],
@@ -632,25 +962,25 @@
             "default_checkpoint_dir",
             "persistent_root"
           ],
-          "hash": "8d0ad868b1ff31f57880ff9f61119c5de826fb7a5d7aac9089c84cb0b59a1612",
+          "hash": "6aaee11c7af864505a90af27f5e9172ae988a8984cdcd854cad880332a9af76b",
           "path": "src/mcp_stress_test/core/data_paths.py"
         },
         {
-          "hash": "bf4fe37ca1d2b9a1008aabe3f9f1f7ae2cedeb389494250b468d9b344705913a",
+          "hash": "5466ef3a82e46bce4268f9404991f2ec39f6be9955ca87c3bf59fd35c64fa84a",
           "importsFiles": [
             "src/mcp_stress_test/models.py"
           ],
           "path": "src/mcp_stress_test/core/protocols.py"
         },
         {
-          "hash": "c0a77fd293af2e404b17e88471ba4aa2a0e812738667dec59569c015a0575457",
+          "hash": "223a453588a8475c1668fcc7ed7beba8347c50b3b17a76886b2f407fa2143897",
           "importsFiles": [
             "src/mcp_stress_test/core/protocols.py"
           ],
           "path": "src/mcp_stress_test/core/registry.py"
         },
         {
-          "hash": "70a8ca90ccdaefda3410a554f78fdd92dd3e89a139e76fa162b07e9444c3a864",
+          "hash": "28cb935e7f911040a1cfcccbf5a6ead313033dbab6cacb260ace58640080b652",
           "importsFiles": [
             "src/mcp_stress_test/fuzzing/evasion.py",
             "src/mcp_stress_test/fuzzing/evolutionary.py",
@@ -660,7 +990,7 @@
           "path": "src/mcp_stress_test/fuzzing/__init__.py"
         },
         {
-          "hash": "09601092328c4a0d3efeadf9cb2a25bf4a5c86a3b35ea487b1fb7e1ad15aa2fd",
+          "hash": "4fe32052ff31b24930a0a9c721652be5d35c4778eca9bb21fec1da78c3d70684",
           "importsFiles": [
             "src/mcp_stress_test/core/config.py",
             "src/mcp_stress_test/core/protocols.py",
@@ -670,7 +1000,13 @@
           "path": "src/mcp_stress_test/fuzzing/evasion.py"
         },
         {
-          "hash": "a72403faa7a37ca6f60c74e71ac3b2b0fb4897c1e491cff37a56ababec745752",
+          "hash": "9d4cce144b81e877f0ff6437687d669a772e0ace88b5a10552884fa1d1c0c819",
+          "importOrder": [
+            "src/mcp_stress_test/core/protocols.py",
+            "src/mcp_stress_test/fuzzing/mutations.py",
+            "src/mcp_stress_test/fuzzing/llm_fuzzer.py",
+            "src/mcp_stress_test/models.py"
+          ],
           "importsFiles": [
             "src/mcp_stress_test/core/protocols.py",
             "src/mcp_stress_test/fuzzing/llm_fuzzer.py",
@@ -683,7 +1019,24 @@
           "exports": [
             "create_fuzzer"
           ],
-          "hash": "9dac8a33460e9c6a1ff5ecc0d790100822c183623110b673a8915a1e1f17b396",
+          "failurePaths": [
+            {
+              "in": "_call_llm",
+              "kind": "raise",
+              "line": 117
+            },
+            {
+              "in": "fuzz",
+              "kind": "except",
+              "line": 154
+            },
+            {
+              "in": "fuzz",
+              "kind": "except",
+              "line": 170
+            }
+          ],
+          "hash": "f9c9546c4a424999940d2097578f083b1d5f21282b1e5965e90ae33fe9f93538",
           "importsFiles": [
             "src/mcp_stress_test/core/config.py",
             "src/mcp_stress_test/core/protocols.py",
@@ -692,14 +1045,14 @@
           "path": "src/mcp_stress_test/fuzzing/llm_fuzzer.py"
         },
         {
-          "hash": "dae3e5bc14f4d85cdcd45229565a21d555ac673528ff06c2c94e80548965ee6e",
+          "hash": "c3cbd1001e30131216b61ca8e9cf7028b2d4f40a8882a5ff70d5e0d253aa5551",
           "importsFiles": [
             "src/mcp_stress_test/core/protocols.py"
           ],
           "path": "src/mcp_stress_test/fuzzing/mutations.py"
         },
         {
-          "hash": "5f07703dc3bcc9c791f0ea3b422ffae6c0aa6f0fda00479142cf9173ce261b3c",
+          "hash": "4062d66a12dd392f97e126674e49668f3a0ae28c421e0f51562a8969df866f7c",
           "importsFiles": [
             "src/mcp_stress_test/generator/mutator.py",
             "src/mcp_stress_test/generator/protocol.py",
@@ -709,7 +1062,7 @@
           "path": "src/mcp_stress_test/generator/__init__.py"
         },
         {
-          "hash": "040380ec2f3a6a44980dd215b9225a5b1c4fac7072751f7dbd4824ca1510bd0a",
+          "hash": "46bdf5ade6995630b52b4e9e75cb5a1e789afea6875d2aa3b20c83ed58e9194d",
           "importsFiles": [
             "src/mcp_stress_test/generator/strategies.py",
             "src/mcp_stress_test/models.py"
@@ -729,7 +1082,7 @@
             "prompts_list_result",
             "resources_list_result"
           ],
-          "hash": "6c2757a3a31d9be9f0af90f75c03a97408147e282e1cc2982e5ca6ea41c10dab",
+          "hash": "b8c572053e8ca2e49bc471c2f5993000a6b72f559965d607423cd135b103e676",
           "importsFiles": [
             "src/mcp_stress_test/generator/strategies.py",
             "src/mcp_stress_test/models.py"
@@ -741,14 +1094,21 @@
             "get_all_strategies",
             "get_strategy"
           ],
-          "hash": "7beb8fa41099005d8f783e1903022be6c1957d894b5616bc7d69a6d5bf2a377b",
+          "failurePaths": [
+            {
+              "in": "get_strategy",
+              "kind": "raise",
+              "line": 393
+            }
+          ],
+          "hash": "aa81e86ded61294c27f8b0b384081f04dacca953054aa860e0efaf13a484bd10",
           "importsFiles": [
             "src/mcp_stress_test/models.py"
           ],
           "path": "src/mcp_stress_test/generator/strategies.py"
         },
         {
-          "hash": "b386811dbdd24dde9f9426e53dd63d11adb59ea0b76c7839ccd8ffe16f5f8966",
+          "hash": "9c4976c78f3d8472ca24cc27bbce041e541bfb7c6ee3b61a67a3b78a638bf0f8",
           "importsFiles": [
             "src/mcp_stress_test/generator/mutator.py",
             "src/mcp_stress_test/generator/strategies.py",
@@ -757,11 +1117,11 @@
           "path": "src/mcp_stress_test/generator/time_simulator.py"
         },
         {
-          "hash": "bf0c2d6ef6724c7161cc652275e4f276ac7b4f1e8d0db4b29979834fcfd2fe6f",
+          "hash": "0a8a821a460f7937fc56712afb9ad3a53427a5a71ce79c509cb367a0cbf70d2d",
           "path": "src/mcp_stress_test/models.py"
         },
         {
-          "hash": "8d26a0f65d46d01e8880b119cba854ac6435f6a7b1bfaee2bef38a6d56d673fc",
+          "hash": "317a01dda5e1e3152fdc53a151114634e1e68a481cdc5cad5754e2e8d85e965a",
           "importsFiles": [
             "src/mcp_stress_test/patterns/library.py",
             "src/mcp_stress_test/patterns/loader.py"
@@ -772,42 +1132,47 @@
           "exports": [
             "load_corpus"
           ],
-          "hash": "c6eed5b352dc324b6a0d1145ebd00c70235760b251aa54141ad589f85d6b0f23",
+          "hash": "9ede6876346b59517cef3e3f6dc565fcea95500bd59d826455a647d2a0d3dc4c",
           "importsFiles": [
             "src/mcp_stress_test/models.py"
           ],
           "path": "src/mcp_stress_test/patterns/corpus.py"
         },
         {
-          "hash": "2e053b94801e7135448d124e03529b6e67a194150cb18b515bff4ed8961e8ec8",
+          "hash": "86d5b0dc27012bac2b007179befdaddc4a72a191a4b8ce74eb07f2f47ea7a305",
           "path": "src/mcp_stress_test/patterns/data/cases.json"
         },
         {
-          "hash": "1f777174f4050ee0be0ac2cd1e047664270ce8e0e5fa29ec3ee4a97aee5f98b7",
+          "hash": "686fc65ef0b183075b41d164a3666479f11d966ee59a1f7d4d5203ff346206fc",
           "path": "src/mcp_stress_test/patterns/data/chains.yaml"
         },
         {
-          "hash": "79dc8b7c21e9816d04c65e11443fbf6b851bb9c0942017a08fa502418c62b869",
+          "hash": "60e32f0ddcda2e9dbf0f129fba38a29892526732bfcb767247f97fc80bb7c322",
           "path": "src/mcp_stress_test/patterns/data/manifest.json"
         },
         {
-          "hash": "6dfb7a042eb8a23b971f6a5fa3fd3aef81d24ab0f5e58de6f55ff60b1ae9db89",
+          "hash": "2115ac32284b7c76c0e4678eef4d36f2db5566356f8c5ef8c7b5d2020651de45",
           "path": "src/mcp_stress_test/patterns/data/patterns.json"
         },
         {
-          "hash": "32b128a9a2a095d0c97367c85f747dc343cd2e9ea91612d2bdd3b5357efd5d8e",
+          "hash": "2c6ff26c4cb7fd906fc2482dfb2c4ef1e2037cd68b7f4536f558fbc8d9588b9b",
           "path": "src/mcp_stress_test/patterns/data/payloads.json"
         },
         {
-          "hash": "006e73eaa5f94ed35310edd3ab8b97dddf7ec5cc0afc26532325c8c2ae581552",
+          "hash": "b3fc82565b49bc73b8afe3c06009c1dd5d29d2463dfec6aeaceb065892fd0347",
           "path": "src/mcp_stress_test/patterns/data/profiles.json"
         },
         {
-          "hash": "62d5b6e04f6c650f7c26c35cbb7a839b922b9e1759d2d5564e564b3c483288df",
+          "hash": "9abe37e3291664c6d301bb5124b76f3c68277ce6d29b1e81e241969f09ad1a5b",
           "path": "src/mcp_stress_test/patterns/data/tools.json"
         },
         {
-          "hash": "e1dfadc0c5201d658a5cc3fff9834446b49afe3d59709f342f3f579655e32317",
+          "hash": "23aacf800c6b7ab38513a19e3dc2e83e5ee1dbfb3b50fdc9f1357e7c0a717335",
+          "importOrder": [
+            "src/mcp_stress_test/models.py",
+            "src/mcp_stress_test/patterns/payloads.py",
+            "src/mcp_stress_test/patterns/corpus.py"
+          ],
           "importsFiles": [
             "src/mcp_stress_test/models.py",
             "src/mcp_stress_test/patterns/corpus.py",
@@ -820,7 +1185,7 @@
             "load_patterns",
             "load_payloads"
           ],
-          "hash": "79306870c287499c056524880c69bb4ea674d95ca4e904a403bf660a22bf5655",
+          "hash": "18866e025e93ee072583dde20ad7e1d75c1f90e7bd7d676086cc07807209f321",
           "importsFiles": [
             "src/mcp_stress_test/models.py",
             "src/mcp_stress_test/patterns/library.py",
@@ -834,14 +1199,14 @@
             "get_payloads_by_category",
             "get_payloads_by_injection_point"
           ],
-          "hash": "178ac16746343a30c0b3a41d4251a234d5746f5dcb5b94277fadee778768d084",
+          "hash": "e426da39cd632761ad2d4eb3528648921f2b8e6d6202461d05f7b36c68864f5c",
           "importsFiles": [
             "src/mcp_stress_test/models.py"
           ],
           "path": "src/mcp_stress_test/patterns/payloads.py"
         },
         {
-          "hash": "1faaa6670b23bfe41e91362bf8c546fc119a429cd79da7ce00665e1fd515e2a2",
+          "hash": "e2d7c51296ccadcd98c8e889e8fccd64a4c698d57b7105d55985d602596494f2",
           "importsFiles": [
             "src/mcp_stress_test/reporters/base.py",
             "src/mcp_stress_test/reporters/html_reporter.py",
@@ -852,14 +1217,21 @@
           "path": "src/mcp_stress_test/reporters/__init__.py"
         },
         {
-          "hash": "b07d6da57743e2b3da2c9f7735b311cab6ef0c354547094ab24f37f41967d822",
+          "failurePaths": [
+            {
+              "in": "_first_present_float",
+              "kind": "except",
+              "line": 70
+            }
+          ],
+          "hash": "c89818a1cda52c417c099628bb9076e96c888e1ed02b5a1bc3ac06f0bb4ba40e",
           "importsFiles": [
             "src/mcp_stress_test/core/protocols.py"
           ],
           "path": "src/mcp_stress_test/reporters/base.py"
         },
         {
-          "hash": "eeab924ae5d2362baf77f030e14a5cef3bc06f0b272fd0fedd6117a98432ac30",
+          "hash": "f09f0db68a7524148aafeb13b2257331a39d8267b024a1eaf820ddf8b0bc3318",
           "importsFiles": [
             "src/mcp_stress_test/core/protocols.py",
             "src/mcp_stress_test/reporters/base.py"
@@ -867,7 +1239,7 @@
           "path": "src/mcp_stress_test/reporters/html_reporter.py"
         },
         {
-          "hash": "3f3f3f5349f30828158ea965ba798178431777789fc31e770c7d4196481c39b6",
+          "hash": "ed18b439cbbdb90542455096abba5fcd0b1b1854a54f280e59f63e4037596ff3",
           "importsFiles": [
             "src/mcp_stress_test/__init__.py",
             "src/mcp_stress_test/core/protocols.py",
@@ -876,7 +1248,7 @@
           "path": "src/mcp_stress_test/reporters/json_reporter.py"
         },
         {
-          "hash": "ca4776168c08d1a272fe74fd41ea72779d3951b80fa36b96285578e6321afe2f",
+          "hash": "e87da3b149ebe33d0d90feb996fb23f1eea183fac84e033d0ba0009fb6a43692",
           "importsFiles": [
             "src/mcp_stress_test/core/protocols.py",
             "src/mcp_stress_test/reporters/base.py"
@@ -884,7 +1256,7 @@
           "path": "src/mcp_stress_test/reporters/markdown_reporter.py"
         },
         {
-          "hash": "b382e8243cfb2968aa8639071d10b4197bc70b5c562507d775255c1e1b2da1f7",
+          "hash": "b837c3feae6bc87244cb80a36640fac5ddc6946a917ccc827ab59c3ed71ace01",
           "importsFiles": [
             "src/mcp_stress_test/__init__.py",
             "src/mcp_stress_test/core/protocols.py",
@@ -893,7 +1265,7 @@
           "path": "src/mcp_stress_test/reporters/sarif_reporter.py"
         },
         {
-          "hash": "c6b772cf89dc9ee9eb6e19e1de4c4084996234734961bff1d1c160cb5f6dcb06",
+          "hash": "2a90ce6cd035d5afd2f83cad09e8c7ee11432844bbd6251386a3cd4afdb38aad",
           "importsFiles": [
             "src/mcp_stress_test/scanner/adapter.py",
             "src/mcp_stress_test/scanner/checkpoint.py",
@@ -904,7 +1276,44 @@
           "path": "src/mcp_stress_test/scanner/__init__.py"
         },
         {
-          "hash": "7f1fc8aa24a368fd1136c7a78a4f165f02abf39eef056f259c73c0fed99ab39d",
+          "failurePaths": [
+            {
+              "in": "scan",
+              "kind": "except",
+              "line": 280
+            },
+            {
+              "in": "scan",
+              "kind": "except",
+              "line": 297
+            },
+            {
+              "in": "scan",
+              "kind": "except",
+              "line": 304
+            },
+            {
+              "in": "scan",
+              "kind": "except",
+              "line": 308
+            },
+            {
+              "in": "_create_backend",
+              "kind": "raise",
+              "line": 456
+            },
+            {
+              "in": "_create_backend",
+              "kind": "raise",
+              "line": 460
+            },
+            {
+              "in": "_create_backend",
+              "kind": "raise",
+              "line": 470
+            }
+          ],
+          "hash": "a7a388020e6c4ac7cac784199ae3dec2c263b9bd84eb8ba5b467f77ea4a2843c",
           "importsFiles": [
             "src/mcp_stress_test/models.py",
             "src/mcp_stress_test/scanners/http.py"
@@ -912,7 +1321,89 @@
           "path": "src/mcp_stress_test/scanner/adapter.py"
         },
         {
-          "hash": "2c1c464c8ee369e9fe897e73b65e89ca62c4f956792ed4cc6cd5f9f32ef7ddb2",
+          "failurePaths": [
+            {
+              "in": "thaw",
+              "kind": "raise",
+              "line": 137
+            },
+            {
+              "in": "thaw",
+              "kind": "raise",
+              "line": 141
+            },
+            {
+              "in": "thaw",
+              "kind": "raise",
+              "line": 145
+            },
+            {
+              "in": "list",
+              "kind": "except",
+              "line": 153
+            },
+            {
+              "in": "_load_cwm_module",
+              "kind": "except",
+              "line": 165
+            },
+            {
+              "in": "freeze",
+              "kind": "except",
+              "line": 197
+            },
+            {
+              "in": "list",
+              "kind": "except",
+              "line": 221
+            },
+            {
+              "in": "create_checkpoint",
+              "kind": "except",
+              "line": 337
+            },
+            {
+              "in": "restore_checkpoint",
+              "kind": "raise",
+              "line": 370
+            },
+            {
+              "in": "restore_checkpoint",
+              "kind": "except",
+              "line": 385
+            },
+            {
+              "in": "restore_checkpoint",
+              "kind": "except",
+              "line": 388
+            },
+            {
+              "in": "restore_checkpoint",
+              "kind": "raise",
+              "line": 390
+            },
+            {
+              "in": "_cwm_freeze",
+              "kind": "except",
+              "line": 611
+            },
+            {
+              "in": "_cwm_thaw",
+              "kind": "except",
+              "line": 626
+            },
+            {
+              "in": "__next__",
+              "kind": "raise",
+              "line": 656
+            },
+            {
+              "in": "jump_to",
+              "kind": "raise",
+              "line": 683
+            }
+          ],
+          "hash": "9d37b3f1fd48d469c313ae38e4b5e43b8ca2f24471c01bf5cfb331a1656669c8",
           "importsFiles": [
             "src/mcp_stress_test/core/data_paths.py",
             "src/mcp_stress_test/models.py"
@@ -920,7 +1411,24 @@
           "path": "src/mcp_stress_test/scanner/checkpoint.py"
         },
         {
-          "hash": "70cb9758ee9f7b1b4d71a2475d33b60457657d9a18fad4e285755f376a546a14",
+          "failurePaths": [
+            {
+              "in": "scan",
+              "kind": "raise",
+              "line": 65
+            },
+            {
+              "in": "__init__",
+              "kind": "raise",
+              "line": 105
+            },
+            {
+              "in": "fan_out",
+              "kind": "except",
+              "line": 129
+            }
+          ],
+          "hash": "4af39c4b5541ad037259f63ba546da09986165898fbf3536c1cfcebffd9618f8",
           "importsFiles": [
             "src/mcp_stress_test/core/protocols.py",
             "src/mcp_stress_test/core/registry.py",
@@ -935,14 +1443,121 @@
             "ingest_tools",
             "tool_schema_from_mcp"
           ],
-          "hash": "f7df1a9d49b395f651347df4d1f84e4dd713c4d7f69087ce6dbadbc93effa358",
+          "failurePaths": [
+            {
+              "in": "__init__",
+              "kind": "raise",
+              "line": 68
+            },
+            {
+              "in": "__init__",
+              "kind": "raise",
+              "line": 70
+            },
+            {
+              "in": "list_tools",
+              "kind": "raise",
+              "line": 112
+            },
+            {
+              "in": "list_tools",
+              "kind": "raise",
+              "line": 115
+            },
+            {
+              "in": "_rpc",
+              "kind": "raise",
+              "line": 174
+            },
+            {
+              "in": "_rpc",
+              "kind": "raise",
+              "line": 176
+            },
+            {
+              "in": "_write",
+              "kind": "raise",
+              "line": 188
+            },
+            {
+              "in": "worker",
+              "kind": "except",
+              "line": 201
+            },
+            {
+              "in": "_read_message",
+              "kind": "raise",
+              "line": 209
+            },
+            {
+              "in": "_read_message",
+              "kind": "raise",
+              "line": 211
+            },
+            {
+              "in": "_read_message",
+              "kind": "raise",
+              "line": 214
+            },
+            {
+              "in": "_read_message_blocking",
+              "kind": "raise",
+              "line": 219
+            },
+            {
+              "in": "_read_message_blocking",
+              "kind": "raise",
+              "line": 232
+            },
+            {
+              "in": "_read_message_blocking",
+              "kind": "raise",
+              "line": 249
+            },
+            {
+              "in": "_read_message_blocking",
+              "kind": "raise",
+              "line": 253
+            },
+            {
+              "in": "_read_message_blocking",
+              "kind": "raise",
+              "line": 260
+            },
+            {
+              "in": "_read_message_blocking",
+              "kind": "raise",
+              "line": 263
+            },
+            {
+              "in": "_read_message_blocking",
+              "kind": "raise",
+              "line": 266
+            }
+          ],
+          "hash": "4b726376a74556b5af648f61f1696af4f164587cd9137e039486fc47ad81da24",
           "importsFiles": [
             "src/mcp_stress_test/models.py"
           ],
           "path": "src/mcp_stress_test/scanner/mcp_client.py"
         },
         {
-          "hash": "afd23c34ab4c222deb2c67530d87588ce8aded1a598d7aa5f09a68b1d9bb7c82",
+          "failurePaths": [
+            {
+              "in": "export_results",
+              "kind": "raise",
+              "line": 1023
+            }
+          ],
+          "hash": "61ff0e85685bb0244e7ed9ed3e857fb5b3986df53eafccae9953fae6f1382d3d",
+          "importOrder": [
+            "src/mcp_stress_test/generator/__init__.py",
+            "src/mcp_stress_test/models.py",
+            "src/mcp_stress_test/scanner/adapter.py",
+            "src/mcp_stress_test/scanner/checkpoint.py",
+            "src/mcp_stress_test/scanner/mcp_client.py",
+            "src/mcp_stress_test/scanner/comparative.py"
+          ],
           "importsFiles": [
             "src/mcp_stress_test/generator/__init__.py",
             "src/mcp_stress_test/models.py",
@@ -954,7 +1569,7 @@
           "path": "src/mcp_stress_test/scanner/runner.py"
         },
         {
-          "hash": "4fe07d3ef77cbf4c82e10ac1f16d3e7bfadc045b071eb474dfa82853f1dce856",
+          "hash": "7fee5fcf447b1612275e25799e8aaae24ea923cd46105ab207e66bbeba09d1fc",
           "importsFiles": [
             "src/mcp_stress_test/scanners/cli_adapter.py",
             "src/mcp_stress_test/scanners/http.py",
@@ -964,7 +1579,39 @@
           "path": "src/mcp_stress_test/scanners/__init__.py"
         },
         {
-          "hash": "130ac9315867900eae1446694028874489f4a02a9b95acd01308c2eb66f65397",
+          "failurePaths": [
+            {
+              "in": "scan",
+              "kind": "except",
+              "line": 117
+            },
+            {
+              "in": "scan",
+              "kind": "except",
+              "line": 124
+            },
+            {
+              "in": "_parse_json_output",
+              "kind": "except",
+              "line": 162
+            },
+            {
+              "in": "_extract_json_value",
+              "kind": "except",
+              "line": 255
+            },
+            {
+              "in": "_split_template",
+              "kind": "except",
+              "line": 269
+            },
+            {
+              "in": "is_available",
+              "kind": "except",
+              "line": 287
+            }
+          ],
+          "hash": "7b50f5875c99ce7767514e1f62f41a04dd2372c6a8127da0524c8bd59b4ea303",
           "importsFiles": [
             "src/mcp_stress_test/core/protocols.py",
             "src/mcp_stress_test/models.py"
@@ -977,7 +1624,44 @@
             "normalize_threats",
             "score_to_grade"
           ],
-          "hash": "f929d7a0323a5fcf838baad6185a0dd6d3750feec5a0ceeb2e4b0668ce3bb6d7",
+          "failurePaths": [
+            {
+              "in": "extract_json_path",
+              "kind": "except",
+              "line": 41
+            },
+            {
+              "in": "_load_httpx",
+              "kind": "except",
+              "line": 76
+            },
+            {
+              "in": "post_tool",
+              "kind": "except",
+              "line": 108
+            },
+            {
+              "in": "post_tool",
+              "kind": "except",
+              "line": 110
+            },
+            {
+              "in": "post_tool",
+              "kind": "except",
+              "line": 121
+            },
+            {
+              "in": "map_scan_result",
+              "kind": "except",
+              "line": 133
+            },
+            {
+              "in": "map_scan_result",
+              "kind": "except",
+              "line": 140
+            }
+          ],
+          "hash": "ce3d063f1e2c693c8736a76ac7fe24650e2b07d50372aea5e1fe23692fe121a8",
           "importsFiles": [
             "src/mcp_stress_test/core/protocols.py",
             "src/mcp_stress_test/models.py"
@@ -985,7 +1669,7 @@
           "path": "src/mcp_stress_test/scanners/http.py"
         },
         {
-          "hash": "a74e70b7ddc99ef08869c4eda5526ea109dc1c8789455ea5cf225d03e2268545",
+          "hash": "3cf25893411fbdbe138b867008ca849897388f54e1388219672432435d022c2d",
           "importsFiles": [
             "src/mcp_stress_test/core/protocols.py",
             "src/mcp_stress_test/models.py"
@@ -993,7 +1677,29 @@
           "path": "src/mcp_stress_test/scanners/mock.py"
         },
         {
-          "hash": "6c2b6d0e683006714514ed3985187d0d752aaa38b7fc57229ddd55ea19474982",
+          "failurePaths": [
+            {
+              "in": "scan",
+              "kind": "except",
+              "line": 79
+            },
+            {
+              "in": "scan",
+              "kind": "except",
+              "line": 83
+            },
+            {
+              "in": "_parse_output",
+              "kind": "except",
+              "line": 130
+            },
+            {
+              "in": "is_available",
+              "kind": "except",
+              "line": 200
+            }
+          ],
+          "hash": "295dc5a02c220e93c941f62b78ad46d25f11647b953b60d333399d87d32cc23b",
           "importsFiles": [
             "src/mcp_stress_test/core/protocols.py",
             "src/mcp_stress_test/models.py"
@@ -1001,7 +1707,7 @@
           "path": "src/mcp_stress_test/scanners/tool_scan.py"
         },
         {
-          "hash": "2a81bddc824975e87b0fde8fb0099fdea886052933c2f793be92a9e5c234ad93",
+          "hash": "9b7c106e2f232a41aed0b86d62e6d954530d6814304a41fe425a4d8db2b413f2",
           "importsFiles": [
             "src/mcp_stress_test/servers/base.py",
             "src/mcp_stress_test/servers/domains.py",
@@ -1010,7 +1716,24 @@
           "path": "src/mcp_stress_test/servers/__init__.py"
         },
         {
-          "hash": "8822348af0ea9b158fe794e91c2ed5b485bb13f4f00a5136d0284b7157f5ebec",
+          "failurePaths": [
+            {
+              "in": "handle_tool_call",
+              "kind": "except",
+              "line": 419
+            },
+            {
+              "in": "run_stdio",
+              "kind": "except",
+              "line": 591
+            },
+            {
+              "in": "run_stdio",
+              "kind": "except",
+              "line": 607
+            }
+          ],
+          "hash": "cebc7b9acc4a6ba9f1c9adfc62035b912204e98adf71227fb3039867bf901a0a",
           "importsFiles": [
             "src/mcp_stress_test/models.py"
           ],
@@ -1020,7 +1743,14 @@
           "exports": [
             "create_server"
           ],
-          "hash": "f707e8a005514ea5f787c590a6e16754eb15f77d2a58dc593f637982dc1b878a",
+          "failurePaths": [
+            {
+              "in": "create_server",
+              "kind": "raise",
+              "line": 856
+            }
+          ],
+          "hash": "43fa3c730d5b7391bae177117b5fe0b15ca2ede217a0713879b1dec857ee1d9c",
           "importsFiles": [
             "src/mcp_stress_test/models.py",
             "src/mcp_stress_test/servers/base.py"
@@ -1031,7 +1761,7 @@
           "exports": [
             "create_farm"
           ],
-          "hash": "4e205d9388aa5c072a26e2259d864b1515b73ce20b2e7fe6fc460e50cc28352c",
+          "hash": "8e64aafa2548c2f3b3f740fb1aedb8fad51c270ae33627b1dbe7fb370ebd1f02",
           "importsFiles": [
             "src/mcp_stress_test/models.py",
             "src/mcp_stress_test/servers/base.py",
@@ -1046,44 +1776,69 @@
       "importConfidence": "full",
       "name": "src",
       "origin": "authored",
+      "outsidePlaces": [
+        {
+          "reads": 21,
+          "where": [
+            "caller"
+          ],
+          "writes": 12
+        }
+      ],
+      "outsideReads": 21,
+      "outsideWrites": 12,
       "role": "code",
+      "testRunners": [
+        "pytest"
+      ],
       "testedBy": 9,
       "unresolvedSites": 0
     },
     {
       "dynamicReads": 0,
+      "dynamicSpawns": 0,
+      "dynamicSpawnsInTests": 0,
       "dynamicWrites": 0,
       "entryPoints": [],
       "externals": 0,
       "files": [
         {
-          "hash": "83238f2092a4b308e0e4ccdc370118b6164c08121f7ffa3d69bdba5160963635",
+          "hash": "951c8264030d02834a38367e7d333f8dbaaec97a67b035a0814a13db3d79a064",
+          "noStatements": true,
           "path": "tests/__init__.py"
         },
         {
           "exports": [
             "pytest_configure"
           ],
-          "hash": "144885e382b0a7f120af44939c84cc8a668794538a770eba1052310de921de81",
+          "hash": "c628b53fd8ba054065c806bdf59f402b1b1af25a216144fbda2687113b08e1a5",
           "path": "tests/conftest.py"
         },
         {
           "exports": [
             "runner"
           ],
-          "hash": "2b30be110b430560e1162d1f8cadc77df41a4973b0d823b68078da017bc7cf64",
+          "hash": "cc964938bdc0f43c17fe6dc548c1aa60669b20fe57b5666d98871120c6008f2c",
           "importsFiles": [
             "src/mcp_stress_test/__init__.py",
             "src/mcp_stress_test/cli_legacy.py"
           ],
-          "path": "tests/test_cli.py"
+          "path": "tests/test_cli.py",
+          "testFramework": "pytest"
         },
         {
           "exports": [
             "sample_payload",
             "sample_tool"
           ],
-          "hash": "c611530c3e21694a9959247528e517ff3852c25472b9d55bab2c79bc9062adfc",
+          "hash": "b95a0c43e7a56ce354f7a61482f2c628108fdfc76e4979e76e08f944d8688d0e",
+          "importOrder": [
+            "src/mcp_stress_test/generator/__init__.py",
+            "src/mcp_stress_test/generator/mutator.py",
+            "src/mcp_stress_test/generator/strategies.py",
+            "src/mcp_stress_test/models.py",
+            "src/mcp_stress_test/cli_legacy.py"
+          ],
           "importsFiles": [
             "src/mcp_stress_test/cli_legacy.py",
             "src/mcp_stress_test/generator/__init__.py",
@@ -1091,17 +1846,36 @@
             "src/mcp_stress_test/generator/strategies.py",
             "src/mcp_stress_test/models.py"
           ],
-          "path": "tests/test_generator.py"
+          "path": "tests/test_generator.py",
+          "testFramework": "pytest"
         },
         {
-          "hash": "1d736fe07a4e64f1db3a65f52408c47c146a380c91e8cb89034e1cd2abb89cb1",
+          "hash": "eacc8337e722d161954f64970a79362c9c323b48baba8640ad7f1b58a41a3a60",
           "importsFiles": [
             "src/mcp_stress_test/models.py"
           ],
           "path": "tests/test_models.py"
         },
         {
-          "hash": "f925b2cd06286dce38198b4f19544b72a23bd1ee37b38406dcc7413ab31ee1d2",
+          "hash": "caee3dfe2da4a0106357455fa2b187ca63b46b1ad3bac0a47feaf749b72e948e",
+          "importOrder": [
+            "src/mcp_stress_test/__init__.py",
+            "src/mcp_stress_test/models.py",
+            "src/mcp_stress_test/core/protocols.py",
+            "src/mcp_stress_test/core/registry.py",
+            "src/mcp_stress_test/scanners/mock.py",
+            "src/mcp_stress_test/core/config.py",
+            "src/mcp_stress_test/fuzzing/llm_fuzzer.py",
+            "src/mcp_stress_test/fuzzing/mutations.py",
+            "src/mcp_stress_test/fuzzing/evasion.py",
+            "src/mcp_stress_test/chains/library.py",
+            "src/mcp_stress_test/chains/executor.py",
+            "src/mcp_stress_test/reporters/json_reporter.py",
+            "src/mcp_stress_test/reporters/markdown_reporter.py",
+            "src/mcp_stress_test/reporters/sarif_reporter.py",
+            "src/mcp_stress_test/reporters/html_reporter.py",
+            "src/mcp_stress_test/cli/main.py"
+          ],
           "importsFiles": [
             "src/mcp_stress_test/__init__.py",
             "src/mcp_stress_test/chains/executor.py",
@@ -1120,13 +1894,30 @@
             "src/mcp_stress_test/reporters/sarif_reporter.py",
             "src/mcp_stress_test/scanners/mock.py"
           ],
-          "path": "tests/test_new_features.py"
+          "path": "tests/test_new_features.py",
+          "testFramework": "pytest"
         },
         {
           "exports": [
             "ollama_absent"
           ],
-          "hash": "ed49b53c9f7e2069ce27c5e14d17e2aee81f7d38b84c8ddb0d69e2827acafb1f",
+          "hash": "877f33e7d55bbca6fd237cd6ca87a02c2e90a0ac0cf36235bfe177e4297dff49",
+          "importOrder": [
+            "src/mcp_stress_test/cli/__init__.py",
+            "src/mcp_stress_test/cli/main.py",
+            "src/mcp_stress_test/core/protocols.py",
+            "src/mcp_stress_test/models.py",
+            "src/mcp_stress_test/fuzzing/__init__.py",
+            "src/mcp_stress_test/fuzzing/llm_fuzzer.py",
+            "src/mcp_stress_test/cli_legacy.py",
+            "src/mcp_stress_test/cli/commands/report.py",
+            "src/mcp_stress_test/reporters/json_reporter.py",
+            "src/mcp_stress_test/chains/__init__.py",
+            "src/mcp_stress_test/chains/library.py",
+            "src/mcp_stress_test/generator/__init__.py",
+            "src/mcp_stress_test/patterns/__init__.py",
+            "src/mcp_stress_test/scanners/mock.py"
+          ],
           "importsFiles": [
             "src/mcp_stress_test/chains/__init__.py",
             "src/mcp_stress_test/chains/library.py",
@@ -1136,22 +1927,25 @@
             "src/mcp_stress_test/cli_legacy.py",
             "src/mcp_stress_test/core/protocols.py",
             "src/mcp_stress_test/fuzzing/__init__.py",
+            "src/mcp_stress_test/fuzzing/llm_fuzzer.py",
             "src/mcp_stress_test/generator/__init__.py",
             "src/mcp_stress_test/models.py",
             "src/mcp_stress_test/patterns/__init__.py",
             "src/mcp_stress_test/reporters/json_reporter.py",
             "src/mcp_stress_test/scanners/mock.py"
           ],
-          "path": "tests/test_operator_contract.py"
+          "path": "tests/test_operator_contract.py",
+          "testFramework": "pytest"
         },
         {
-          "hash": "1a477bec59fd4e4be07cf41fe8510be8ce0c5b48b0bb6d4b39bf417f7b1309da",
+          "hash": "f3396491fa474be888d35e3d6fd323f670a63438bc28c74a32b173c7d7f2fd7b",
           "importsFiles": [
             "src/mcp_stress_test/models.py",
             "src/mcp_stress_test/patterns/__init__.py",
             "src/mcp_stress_test/patterns/payloads.py"
           ],
-          "path": "tests/test_patterns.py"
+          "path": "tests/test_patterns.py",
+          "testFramework": "pytest"
         },
         {
           "exports": [
@@ -1160,7 +1954,18 @@
             "sample_tool",
             "temp_storage_dir"
           ],
-          "hash": "3ba1b40a6ec3f88e1b3fc37ab879ea28e6a2b44c1a382b21f58d9facb947f3fd",
+          "hash": "6a14a8ea5a4a8172fcf35e46cf06582f050c1244c20a629cc441c6e3a3562c3b",
+          "importOrder": [
+            "src/mcp_stress_test/generator/__init__.py",
+            "src/mcp_stress_test/generator/strategies.py",
+            "src/mcp_stress_test/models.py",
+            "src/mcp_stress_test/scanner/__init__.py",
+            "src/mcp_stress_test/scanner/adapter.py",
+            "src/mcp_stress_test/scanner/checkpoint.py",
+            "src/mcp_stress_test/scanner/runner.py",
+            "src/mcp_stress_test/core/config.py",
+            "src/mcp_stress_test/cli_legacy.py"
+          ],
           "importsFiles": [
             "src/mcp_stress_test/cli_legacy.py",
             "src/mcp_stress_test/core/config.py",
@@ -1172,14 +1977,15 @@
             "src/mcp_stress_test/scanner/checkpoint.py",
             "src/mcp_stress_test/scanner/runner.py"
           ],
-          "path": "tests/test_scanner.py"
+          "path": "tests/test_scanner.py",
+          "testFramework": "pytest"
         },
         {
           "exports": [
             "spaced_tempdir",
             "tool"
           ],
-          "hash": "0ec29aae3ed3a80b057b81bd11a750cc4e1f862787234465996612e84b0aec7c",
+          "hash": "bc1a7e2cec05f1d002fa3d9fe604cf92ec365c8477ab9a5220409d638a2552df",
           "importsFiles": [
             "src/mcp_stress_test/core/protocols.py",
             "src/mcp_stress_test/models.py",
@@ -1187,10 +1993,18 @@
             "src/mcp_stress_test/scanners/cli_adapter.py",
             "src/mcp_stress_test/scanners/tool_scan.py"
           ],
-          "path": "tests/test_scanner_adapters.py"
+          "path": "tests/test_scanner_adapters.py",
+          "testFramework": "pytest"
         },
         {
-          "hash": "2ca188ca5e66c22f549cc0b37033fc7e0c0cedd4ed6565b21b472ce696adbbdf",
+          "hash": "f192581e27a341ce75d7f079a02242acb255ed9185ba96b00191451d7d09a28d",
+          "importOrder": [
+            "src/mcp_stress_test/models.py",
+            "src/mcp_stress_test/servers/base.py",
+            "src/mcp_stress_test/servers/domains.py",
+            "src/mcp_stress_test/servers/farm.py",
+            "src/mcp_stress_test/cli_legacy.py"
+          ],
           "importsFiles": [
             "src/mcp_stress_test/cli_legacy.py",
             "src/mcp_stress_test/models.py",
@@ -1198,7 +2012,8 @@
             "src/mcp_stress_test/servers/domains.py",
             "src/mcp_stress_test/servers/farm.py"
           ],
-          "path": "tests/test_servers.py"
+          "path": "tests/test_servers.py",
+          "testFramework": "pytest"
         }
       ],
       "globs": [
@@ -1208,74 +2023,277 @@
       "name": "tests",
       "origin": "authored",
       "role": "test",
+      "testRunners": [
+        "pytest"
+      ],
       "testedBy": 0,
+      "unresolvedNamed": [
+        {
+          "path": "tests/test_operator_contract.py",
+          "specifier": null,
+          "why": "dynamic"
+        },
+        {
+          "path": "tests/test_operator_contract.py",
+          "specifier": null,
+          "why": "dynamic"
+        }
+      ],
       "unresolvedSites": 2
     }
   ],
   "doors": [
     {
+      "checksCount": 1,
       "commands": [
         {
+          "dir": "",
           "job": "lint",
-          "step": "Install linters",
-          "text": "pip install ruff==0.16.6"
+          "programs": [
+            "pip"
+          ],
+          "step": "Install linters"
         },
         {
+          "dir": "",
           "job": "lint",
-          "step": "Check formatting",
-          "text": "ruff format --check ."
+          "programs": [
+            "ruff"
+          ],
+          "step": "Check formatting"
         },
         {
+          "dir": "",
           "job": "lint",
-          "step": "Check linting",
-          "text": "ruff check . --output-format=github"
+          "programs": [
+            "ruff"
+          ],
+          "step": "Check linting"
         },
         {
+          "dir": "",
           "job": "test",
-          "step": "Atlas check",
-          "text": "npx --yes @dogfood-lab/atlas@1.14.0 check"
+          "programs": [
+            "npx"
+          ],
+          "step": "Atlas check"
         },
         {
+          "dir": "",
           "job": "test",
-          "step": "Install package",
-          "text": "pip install --upgrade pip\npip install -e \".[dev]\"\n"
+          "programs": [
+            "pip"
+          ],
+          "step": "Install package"
         },
         {
+          "dir": "",
           "job": "test",
-          "step": "Run tests",
-          "text": "pytest tests/ -v --tb=short --cov=mcp_stress_test --cov-report=term-missing"
+          "programs": [
+            "pytest"
+          ],
+          "step": "Run tests"
         },
         {
+          "dir": "",
           "job": "test",
-          "step": "Test CLI",
-          "text": "mcp-stress --version\nmcp-stress info\nmcp-stress chain list\n"
+          "programs": [
+            "mcp-stress"
+          ],
+          "step": "Test CLI"
         },
         {
+          "dir": "",
           "job": "typecheck",
-          "step": "Install dependencies",
-          "text": "pip install --upgrade pip\npip install -e \".[dev]\"\npip install pyright\n"
+          "programs": [
+            "pip"
+          ],
+          "step": "Install dependencies"
         },
         {
+          "dir": "",
           "job": "typecheck",
-          "step": "Run Pyright",
-          "text": "pyright src/"
+          "programs": [
+            "pyright"
+          ],
+          "step": "Run Pyright"
         },
         {
+          "dir": "",
           "job": "pip-audit",
-          "step": "Install package",
-          "text": "pip install --upgrade pip\npip install -e \".[dev]\"\n"
+          "programs": [
+            "pip"
+          ],
+          "step": "Install package"
         },
         {
+          "dir": "",
           "job": "pip-audit",
-          "step": "Audit installed graph",
-          "text": "pip install pip-audit==2.10.1\npip-audit\n"
+          "programs": [
+            "pip",
+            "pip-audit"
+          ],
+          "step": "Audit installed graph"
         }
       ],
+      "elsewhere": [],
       "file": ".github/workflows/ci.yml",
+      "jobs": [
+        {
+          "basis": "declared",
+          "name": "lint",
+          "runsOn": [
+            {
+              "labels": [
+                "ubuntu-latest"
+              ],
+              "platform": {
+                "cpu": "x64",
+                "libc": "glibc",
+                "os": "linux"
+              }
+            }
+          ],
+          "setup": [
+            {
+              "ranges": [
+                {
+                  "from": "3.12",
+                  "range": ">=3.12.0 <3.13.0-0"
+                }
+              ],
+              "step": "Set up Python",
+              "uses": "actions/setup-python",
+              "version": "3.12"
+            }
+          ]
+        },
+        {
+          "basis": "declared",
+          "name": "test",
+          "runsOn": [
+            {
+              "labels": [
+                "ubuntu-latest"
+              ],
+              "platform": {
+                "cpu": "x64",
+                "libc": "glibc",
+                "os": "linux"
+              }
+            }
+          ],
+          "setup": [
+            {
+              "ranges": [
+                {
+                  "from": "3.11",
+                  "range": ">=3.11.0 <3.12.0-0"
+                },
+                {
+                  "from": "3.12",
+                  "range": ">=3.12.0 <3.13.0-0"
+                }
+              ],
+              "step": "Set up Python ${{ matrix.python-version }}",
+              "uses": "actions/setup-python",
+              "version": "${{ matrix.python-version }}"
+            },
+            {
+              "ranges": [
+                {
+                  "from": "22",
+                  "range": ">=22.0.0 <23.0.0-0"
+                }
+              ],
+              "step": "Set up Node for the Atlas check",
+              "uses": "actions/setup-node",
+              "version": "22"
+            }
+          ]
+        },
+        {
+          "basis": "declared",
+          "name": "codecov",
+          "runsOn": [
+            {
+              "labels": [
+                "ubuntu-latest"
+              ],
+              "platform": {
+                "cpu": "x64",
+                "libc": "glibc",
+                "os": "linux"
+              }
+            }
+          ]
+        },
+        {
+          "basis": "declared",
+          "name": "typecheck",
+          "runsOn": [
+            {
+              "labels": [
+                "ubuntu-latest"
+              ],
+              "platform": {
+                "cpu": "x64",
+                "libc": "glibc",
+                "os": "linux"
+              }
+            }
+          ],
+          "setup": [
+            {
+              "ranges": [
+                {
+                  "from": "3.12",
+                  "range": ">=3.12.0 <3.13.0-0"
+                }
+              ],
+              "step": "Set up Python",
+              "uses": "actions/setup-python",
+              "version": "3.12"
+            }
+          ]
+        },
+        {
+          "basis": "declared",
+          "name": "pip-audit",
+          "runsOn": [
+            {
+              "labels": [
+                "ubuntu-latest"
+              ],
+              "platform": {
+                "cpu": "x64",
+                "libc": "glibc",
+                "os": "linux"
+              }
+            }
+          ],
+          "setup": [
+            {
+              "ranges": [
+                {
+                  "from": "3.12",
+                  "range": ">=3.12.0 <3.13.0-0"
+                }
+              ],
+              "step": "Set up Python",
+              "uses": "actions/setup-python",
+              "version": "3.12"
+            }
+          ]
+        }
+      ],
       "landings": [],
       "mentions": [],
       "name": "CI",
-      "permissions": [],
+      "permissions": [
+        "contents:read",
+        "id-token:write"
+      ],
       "pushes": false,
       "reach": [
         {
@@ -1296,22 +2314,30 @@
           "job": "lint",
           "matched": true,
           "path": "src/",
+          "runKind": "checks",
           "via": "ruff"
+        },
+        {
+          "job": "test",
+          "path": "src/mcp_stress_test/cli/__init__.py",
+          "runKind": "executes"
         },
         {
           "directory": true,
           "job": "lint",
           "matched": true,
           "path": "tests/",
+          "runKind": "checks",
           "via": "ruff"
         },
         {
           "directory": true,
           "job": "test",
-          "path": "tests/"
+          "path": "tests/",
+          "runKind": "executes"
         }
       ],
-      "runsCount": 2,
+      "runsCount": 3,
       "secrets": [],
       "sends": {
         "deploysPages": false,
@@ -1324,6 +2350,25 @@
         "releases": false
       },
       "stages": [],
+      "tests": [
+        {
+          "config": "pyproject.toml",
+          "coverage": true,
+          "files": 11,
+          "job": "test",
+          "junit": true,
+          "runner": "pytest",
+          "step": "Run tests"
+        },
+        {
+          "job": "test",
+          "ran": [
+            "src/mcp_stress_test/cli/__init__.py"
+          ],
+          "runner": null,
+          "step": "Test CLI"
+        }
+      ],
       "triggers": [
         {
           "branches": [
@@ -1339,6 +2384,7 @@
           "paths": [
             ".github/workflows/**",
             "atlas/**",
+            "codecov.yml",
             "pyproject.toml",
             "site/astro.config.mjs",
             "site/package-lock.json",
@@ -1353,25 +2399,104 @@
       ],
       "uses": [
         "actions/checkout",
+        "actions/download-artifact",
         "actions/setup-node",
-        "actions/setup-python"
+        "actions/setup-python",
+        "actions/upload-artifact",
+        "codecov/codecov-action"
       ],
       "usesWorkflowToken": false
     },
     {
+      "checksCount": 0,
       "commands": [
         {
+          "dir": "site",
           "job": "build",
-          "step": "Install site dependencies",
-          "text": "npm ci"
+          "programs": [
+            "npm"
+          ],
+          "step": "Install site dependencies"
         },
         {
+          "dir": "site",
           "job": "build",
-          "step": "Build site",
-          "text": "npm run build"
+          "programs": [
+            "npm"
+          ],
+          "step": "Build site"
         }
       ],
+      "elsewhere": [],
       "file": ".github/workflows/pages.yml",
+      "gated": [
+        {
+          "jobs": [
+            "deploy"
+          ],
+          "pushes": false,
+          "sends": [
+            "deploysPages"
+          ],
+          "stages": [],
+          "when": {
+            "branches": [
+              "main"
+            ],
+            "event": "push"
+          }
+        }
+      ],
+      "jobs": [
+        {
+          "basis": "declared",
+          "name": "build",
+          "runsOn": [
+            {
+              "labels": [
+                "ubuntu-latest"
+              ],
+              "platform": {
+                "cpu": "x64",
+                "libc": "glibc",
+                "os": "linux"
+              }
+            }
+          ],
+          "setup": [
+            {
+              "ranges": [
+                {
+                  "from": "22",
+                  "range": ">=22.0.0 <23.0.0-0"
+                }
+              ],
+              "step": "1",
+              "uses": "actions/setup-node",
+              "version": "22"
+            }
+          ]
+        },
+        {
+          "basis": "declared",
+          "environment": {
+            "name": "github-pages"
+          },
+          "name": "deploy",
+          "runsOn": [
+            {
+              "labels": [
+                "ubuntu-latest"
+              ],
+              "platform": {
+                "cpu": "x64",
+                "libc": "glibc",
+                "os": "linux"
+              }
+            }
+          ]
+        }
+      ],
       "landings": [],
       "mentions": [],
       "name": "Deploy site to GitHub Pages",
@@ -1381,13 +2506,35 @@
         "pages:write"
       ],
       "pushes": false,
-      "reach": [],
+      "reach": [
+        {
+          "boundary": "site",
+          "depth": 0,
+          "files": 5
+        }
+      ],
       "readers": [],
-      "runs": [],
-      "runsCount": 0,
+      "runs": [
+        {
+          "job": "build",
+          "matched": true,
+          "path": "site/astro.config.mjs",
+          "runKind": "executes",
+          "via": "astro build"
+        },
+        {
+          "directory": true,
+          "job": "build",
+          "matched": true,
+          "path": "site/src/",
+          "runKind": "executes",
+          "via": "astro build"
+        }
+      ],
+      "runsCount": 2,
       "secrets": [],
       "sends": {
-        "deploysPages": true,
+        "deploysPages": false,
         "dispatchesTo": [],
         "opensIssues": false,
         "opensIssuesOnFailure": false,
@@ -1431,49 +2578,251 @@
       "usesWorkflowToken": false
     },
     {
+      "checksCount": 4,
       "commands": [
         {
+          "dir": "",
           "job": "build",
-          "step": "Install build tools",
-          "text": "python -m pip install --upgrade pip\npip install build twine\n"
+          "programs": [
+            "pip",
+            "python"
+          ],
+          "step": "Install build tools"
         },
         {
+          "dir": "",
           "job": "build",
-          "step": "Build package",
-          "text": "python -m build"
+          "programs": [
+            "python"
+          ],
+          "step": "Build package"
         },
         {
+          "dir": "",
           "job": "build",
-          "step": "Check package",
-          "text": "twine check dist/*"
+          "programs": [
+            "twine"
+          ],
+          "step": "Check package"
         },
         {
+          "dir": "",
           "job": "test",
-          "step": "Install package",
-          "text": "python -m pip install --upgrade pip\npip install -e \".[dev]\"\n"
+          "programs": [
+            "pip",
+            "python"
+          ],
+          "step": "Install package"
         },
         {
+          "dir": "",
           "job": "test",
-          "step": "Run tests",
-          "text": "pytest tests/ -v --tb=short"
+          "programs": [
+            "pytest"
+          ],
+          "step": "Run tests"
         },
         {
+          "dir": "",
           "job": "package-smoke",
-          "step": "Smoke-test wheel",
-          "text": "python -m venv .venv-wheel\n.venv-wheel/bin/pip install --upgrade pip\n.venv-wheel/bin/pip install dist/*.whl\nunset PYTHONPATH\n.venv-wheel/bin/mcp-stress --version\n.venv-wheel/bin/mcp-stress info\n.venv-wheel/bin/mcp-stress chain list\n"
+          "programs": [
+            ".venv-wheel/bin/mcp-stress",
+            ".venv-wheel/bin/pip",
+            "python"
+          ],
+          "step": "Smoke-test wheel"
         },
         {
+          "dir": "",
           "job": "package-smoke",
-          "step": "Smoke-test sdist",
-          "text": "python -m venv .venv-sdist\n.venv-sdist/bin/pip install --upgrade pip\n.venv-sdist/bin/pip install dist/*.tar.gz\nunset PYTHONPATH\n.venv-sdist/bin/mcp-stress --version\n.venv-sdist/bin/mcp-stress info\n.venv-sdist/bin/mcp-stress chain list\n"
+          "programs": [
+            ".venv-sdist/bin/mcp-stress",
+            ".venv-sdist/bin/pip",
+            "python"
+          ],
+          "step": "Smoke-test sdist"
         },
         {
+          "dir": "",
           "job": "release-assets",
-          "step": "Upload assets to release",
-          "text": "gh release upload \"${{ github.event.release.tag_name }}\" dist/*"
+          "programs": [
+            "gh"
+          ],
+          "step": "Upload assets to release"
         }
       ],
+      "elsewhere": [],
       "file": ".github/workflows/publish.yml",
+      "gated": [
+        {
+          "jobs": [
+            "release-assets"
+          ],
+          "pushes": false,
+          "sends": [
+            "assets:file:dist/*"
+          ],
+          "stages": [],
+          "when": {
+            "event": "release"
+          }
+        },
+        {
+          "jobs": [
+            "docker"
+          ],
+          "pushes": false,
+          "sends": [
+            "publishesTo:container image"
+          ],
+          "stages": [],
+          "when": {
+            "inputs": {
+              "publish_docker": true
+            }
+          }
+        },
+        {
+          "jobs": [
+            "publish-pypi"
+          ],
+          "pushes": false,
+          "sends": [
+            "publishesTo:pypi"
+          ],
+          "stages": [],
+          "when": {
+            "inputs": {
+              "publish_pypi": true
+            }
+          }
+        }
+      ],
+      "jobs": [
+        {
+          "basis": "declared",
+          "name": "build",
+          "runsOn": [
+            {
+              "labels": [
+                "ubuntu-latest"
+              ],
+              "platform": {
+                "cpu": "x64",
+                "libc": "glibc",
+                "os": "linux"
+              }
+            }
+          ],
+          "setup": [
+            {
+              "step": "Set up Python",
+              "unresolved": "expression",
+              "uses": "actions/setup-python",
+              "version": "${{ env.PYTHON_DEFAULT }}"
+            }
+          ]
+        },
+        {
+          "basis": "declared",
+          "name": "test",
+          "runsOn": [
+            {
+              "labels": [
+                "ubuntu-latest"
+              ],
+              "platform": {
+                "cpu": "x64",
+                "libc": "glibc",
+                "os": "linux"
+              }
+            }
+          ],
+          "setup": [
+            {
+              "step": "Set up Python",
+              "unresolved": "expression",
+              "uses": "actions/setup-python",
+              "version": "${{ env.PYTHON_DEFAULT }}"
+            }
+          ]
+        },
+        {
+          "basis": "declared",
+          "name": "package-smoke",
+          "runsOn": [
+            {
+              "labels": [
+                "ubuntu-latest"
+              ],
+              "platform": {
+                "cpu": "x64",
+                "libc": "glibc",
+                "os": "linux"
+              }
+            }
+          ],
+          "setup": [
+            {
+              "step": "Set up Python",
+              "unresolved": "expression",
+              "uses": "actions/setup-python",
+              "version": "${{ env.PYTHON_DEFAULT }}"
+            }
+          ]
+        },
+        {
+          "basis": "declared",
+          "environment": {
+            "name": "pypi"
+          },
+          "name": "publish-pypi",
+          "runsOn": [
+            {
+              "labels": [
+                "ubuntu-latest"
+              ],
+              "platform": {
+                "cpu": "x64",
+                "libc": "glibc",
+                "os": "linux"
+              }
+            }
+          ]
+        },
+        {
+          "basis": "declared",
+          "name": "release-assets",
+          "runsOn": [
+            {
+              "labels": [
+                "ubuntu-latest"
+              ],
+              "platform": {
+                "cpu": "x64",
+                "libc": "glibc",
+                "os": "linux"
+              }
+            }
+          ]
+        },
+        {
+          "basis": "declared",
+          "name": "docker",
+          "runsOn": [
+            {
+              "labels": [
+                "ubuntu-latest"
+              ],
+              "platform": {
+                "cpu": "x64",
+                "libc": "glibc",
+                "os": "linux"
+              }
+            }
+          ]
+        }
+      ],
       "landings": [],
       "mentions": [],
       "name": "Publish",
@@ -1486,29 +2835,103 @@
       "pushes": false,
       "reach": [
         {
-          "boundary": "tests",
+          "boundary": "root",
           "depth": 0,
-          "files": 11
+          "files": 2
         },
         {
           "boundary": "src",
-          "depth": 1,
-          "enters": {
-            "file": "src/mcp_stress_test/__init__.py",
-            "from": "tests/test_cli.py"
-          },
-          "files": 63
+          "depth": 0,
+          "files": 65
+        },
+        {
+          "boundary": "tests",
+          "depth": 0,
+          "files": 11
         }
       ],
       "readers": [],
       "runs": [
         {
+          "job": "docker",
+          "packed": true,
+          "path": "README.md",
+          "runKind": "checks",
+          "via": "docker build Dockerfile",
+          "when": {
+            "inputs": {
+              "publish_docker": true
+            }
+          }
+        },
+        {
+          "job": "docker",
+          "packed": true,
+          "path": "pyproject.toml",
+          "runKind": "checks",
+          "via": "docker build Dockerfile",
+          "when": {
+            "inputs": {
+              "publish_docker": true
+            }
+          }
+        },
+        {
+          "directory": true,
+          "job": "docker",
+          "packed": true,
+          "path": "src/",
+          "runKind": "checks",
+          "via": "docker build Dockerfile",
+          "when": {
+            "inputs": {
+              "publish_docker": true
+            }
+          }
+        },
+        {
+          "directory": true,
+          "job": "build",
+          "path": "src/mcp_stress_test/",
+          "runKind": "checks",
+          "via": "build pyproject.toml"
+        },
+        {
+          "directory": true,
+          "job": "docker",
+          "path": "src/mcp_stress_test/",
+          "runKind": "checks",
+          "via": "docker build Dockerfile → build pyproject.toml",
+          "when": {
+            "inputs": {
+              "publish_docker": true
+            }
+          }
+        },
+        {
+          "job": "docker",
+          "path": "src/mcp_stress_test/cli/__init__.py",
+          "runKind": "executes",
+          "via": "docker build Dockerfile",
+          "when": {
+            "inputs": {
+              "publish_docker": true
+            }
+          }
+        },
+        {
+          "job": "package-smoke",
+          "path": "src/mcp_stress_test/cli/__init__.py",
+          "runKind": "executes"
+        },
+        {
           "directory": true,
           "job": "test",
-          "path": "tests/"
+          "path": "tests/",
+          "runKind": "executes"
         }
       ],
-      "runsCount": 1,
+      "runsCount": 6,
       "secrets": [
         "GITHUB_TOKEN"
       ],
@@ -1518,14 +2941,37 @@
         "opensIssues": false,
         "opensIssuesOnFailure": false,
         "opensPullRequests": false,
-        "publishes": true,
-        "publishesTo": [
-          "container image",
-          "pypi"
-        ],
+        "publishes": false,
+        "publishesTo": [],
         "releases": false
       },
       "stages": [],
+      "tests": [
+        {
+          "config": "pyproject.toml",
+          "coverage": true,
+          "files": 11,
+          "job": "test",
+          "runner": "pytest",
+          "step": "Run tests"
+        },
+        {
+          "job": "package-smoke",
+          "ran": [
+            "src/mcp_stress_test/cli/__init__.py"
+          ],
+          "runner": null,
+          "step": "Smoke-test wheel"
+        },
+        {
+          "job": "package-smoke",
+          "ran": [
+            "src/mcp_stress_test/cli/__init__.py"
+          ],
+          "runner": null,
+          "step": "Smoke-test sdist"
+        }
+      ],
       "triggers": [
         {
           "event": "release",
@@ -1535,6 +2981,26 @@
         },
         {
           "event": "workflow_dispatch"
+        }
+      ],
+      "unresolvedChecks": [
+        {
+          "job": "test",
+          "manifest": "pyproject.toml",
+          "requires": ">=3.11",
+          "rule": "D1-python",
+          "step": "Install package",
+          "tool": "pip install",
+          "why": "expression"
+        },
+        {
+          "job": "test",
+          "manifest": "pyproject.toml",
+          "requires": ">=3.11",
+          "rule": "D1-python",
+          "step": "Run tests",
+          "tool": "pytest",
+          "why": "expression"
         }
       ],
       "uses": [
@@ -1549,6 +3015,48 @@
         "pypa/gh-action-pypi-publish"
       ],
       "usesWorkflowToken": true
+    },
+    {
+      "checksCount": 0,
+      "commands": [],
+      "elsewhere": [],
+      "file": "pyproject.toml",
+      "kind": "command",
+      "landings": [],
+      "mentions": [],
+      "name": "mcp-stress",
+      "permissions": [],
+      "pushes": false,
+      "reach": [
+        {
+          "boundary": "src",
+          "depth": 0,
+          "files": 58
+        }
+      ],
+      "readers": [],
+      "runs": [
+        {
+          "path": "src/mcp_stress_test/cli/__init__.py",
+          "runKind": "executes"
+        }
+      ],
+      "runsCount": 1,
+      "secrets": [],
+      "sends": {
+        "deploysPages": false,
+        "dispatchesTo": [],
+        "opensIssues": false,
+        "opensIssuesOnFailure": false,
+        "opensPullRequests": false,
+        "publishes": false,
+        "publishesTo": [],
+        "releases": false
+      },
+      "stages": [],
+      "triggers": [],
+      "uses": [],
+      "usesWorkflowToken": false
     }
   ],
   "edges": [
@@ -1559,257 +3067,18 @@
       "to": "src"
     }
   ],
+  "engine": "1.24.0",
   "generatedFrom": {
-    "commit": "be7da06fb4542fb3c6503e23280490179bb6bdde",
-    "tracked": 135
+    "commit": "b6c6103d12166ac95a1ef0b4f81c991ba351d8dc",
+    "tracked": 136
   },
   "landings": [
     {
       "readers": [
         {
-          "by": "README.fr.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.hi.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.it.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.ja.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.pt-BR.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.zh.md",
-          "call": "literal",
-          "confidence": "text"
-        }
-      ],
-      "target": "README.es.md",
-      "writers": []
-    },
-    {
-      "readers": [
-        {
-          "by": "README.es.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.hi.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.it.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.ja.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.pt-BR.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.zh.md",
-          "call": "literal",
-          "confidence": "text"
-        }
-      ],
-      "target": "README.fr.md",
-      "writers": []
-    },
-    {
-      "readers": [
-        {
-          "by": "README.es.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.fr.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.it.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.ja.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.pt-BR.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.zh.md",
-          "call": "literal",
-          "confidence": "text"
-        }
-      ],
-      "target": "README.hi.md",
-      "writers": []
-    },
-    {
-      "readers": [
-        {
-          "by": "README.es.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.fr.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.hi.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.ja.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.pt-BR.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.zh.md",
-          "call": "literal",
-          "confidence": "text"
-        }
-      ],
-      "target": "README.it.md",
-      "writers": []
-    },
-    {
-      "readers": [
-        {
-          "by": "README.es.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.fr.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.hi.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.it.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.pt-BR.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.zh.md",
-          "call": "literal",
-          "confidence": "text"
-        }
-      ],
-      "target": "README.ja.md",
-      "writers": []
-    },
-    {
-      "readers": [
-        {
-          "by": "README.es.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.fr.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.hi.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.it.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.ja.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.pt-BR.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.zh.md",
-          "call": "literal",
-          "confidence": "text"
+          "by": "pyproject.toml",
+          "call": "configuration",
+          "confidence": "config"
         }
       ],
       "target": "README.md",
@@ -1818,94 +3087,34 @@
     {
       "readers": [
         {
-          "by": "README.es.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.fr.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.hi.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.it.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.ja.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.zh.md",
-          "call": "literal",
-          "confidence": "text"
-        }
-      ],
-      "target": "README.pt-BR.md",
-      "writers": []
-    },
-    {
-      "readers": [
-        {
-          "by": "README.es.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.fr.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.hi.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.it.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.ja.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.md",
-          "call": "literal",
-          "confidence": "text"
-        },
-        {
-          "by": "README.pt-BR.md",
-          "call": "literal",
-          "confidence": "text"
-        }
-      ],
-      "target": "README.zh.md",
-      "writers": []
-    },
-    {
-      "readers": [
-        {
-          "by": "src/mcp_stress_test/chains/loader.py",
-          "call": "literal",
+          "by": "site/astro.config.mjs",
+          "call": "content-collection",
           "confidence": "ast"
         }
       ],
-      "target": "src/mcp_stress_test/chains/loader.py",
+      "target": "site/src/content/docs",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "site/astro.config.mjs",
+          "call": "autogenerate",
+          "confidence": "ast"
+        }
+      ],
+      "target": "site/src/content/docs/handbook",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "pyproject.toml",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "src/mcp_stress_test",
       "writers": []
     },
     {
@@ -1916,7 +3125,83 @@
           "confidence": "ast"
         }
       ],
-      "target": "src/mcp_stress_test/patterns/library.py",
+      "target": "src/mcp_stress_test/patterns/data",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "src/mcp_stress_test/patterns/data/manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "src/mcp_stress_test/patterns/data/cases.json",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "src/mcp_stress_test/chains/loader.py",
+          "call": "literal",
+          "confidence": "ast"
+        },
+        {
+          "by": "src/mcp_stress_test/chains/loader.py",
+          "call": "read_text",
+          "confidence": "ast"
+        },
+        {
+          "by": "src/mcp_stress_test/patterns/data/manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "src/mcp_stress_test/patterns/data/chains.yaml",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "src/mcp_stress_test/patterns/data/manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "src/mcp_stress_test/patterns/data/patterns.json",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "src/mcp_stress_test/patterns/data/manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "src/mcp_stress_test/patterns/data/payloads.json",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "src/mcp_stress_test/patterns/data/manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "src/mcp_stress_test/patterns/data/profiles.json",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "src/mcp_stress_test/patterns/data/manifest.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "src/mcp_stress_test/patterns/data/tools.json",
       "writers": []
     }
   ],

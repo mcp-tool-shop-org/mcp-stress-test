@@ -1,4 +1,8 @@
 {
+  "authorship": {
+    "parts": [],
+    "places": []
+  },
   "boundaries": [
     {
       "breakage": {
@@ -123,8 +127,8 @@
         "path": ".github/dependabot.yml"
       },
       {
-        "commits": 9,
-        "lines": 179,
+        "commits": 13,
+        "lines": 395,
         "path": ".github/workflows/ci.yml"
       },
       {
@@ -231,6 +235,36 @@
         "commits": 1,
         "lines": 80,
         "path": "SHIP_GATE.md"
+      },
+      {
+        "commits": 2,
+        "lines": 152,
+        "path": "atlas/README.md"
+      },
+      {
+        "commits": 2,
+        "lines": 52,
+        "path": "atlas/boundaries.yaml"
+      },
+      {
+        "commits": 2,
+        "lines": 302,
+        "path": "atlas/page.json"
+      },
+      {
+        "commits": 2,
+        "lines": 1562,
+        "path": "atlas/statistics.json"
+      },
+      {
+        "commits": 2,
+        "lines": 3856,
+        "path": "atlas/structure.json"
+      },
+      {
+        "commits": 2,
+        "lines": 36,
+        "path": "codecov.yml"
       },
       {
         "commits": 1,
@@ -736,31 +770,33 @@
   },
   "confidence": {
     "level": "low",
-    "reason": "fewer than 30 qualifying commits in the window, and fewer than 20 source files reach 10 revisions"
+    "reason": "fewer than 30 qualifying commits in the window, and fewer than 25 source files reach 10 revisions"
   },
-  "generatedAt": "2026-09-23T17:48:06.369Z",
+  "generatedAt": "2026-09-30T20:10:14.735Z",
   "generatedFrom": {
-    "commit": "be7da06fb4542fb3c6503e23280490179bb6bdde"
+    "commit": "b6c6103d12166ac95a1ef0b4f81c991ba351d8dc"
   },
   "pairs": [],
   "parameters": {
-    "appliedChangesetLimit": 33.75,
+    "appliedChangesetLimit": 35.25,
     "changeset": 50,
     "changesetFraction": 0.25,
     "cohesionDrop": 0.2,
     "couplingPopulation": "source",
     "fallenShared": 3,
     "floor": "fallen",
+    "floorHeld": false,
     "floorTrigger": "both",
-    "headDate": "2026-09-23T13:08:56-04:00",
-    "inScopeFiles": 135,
+    "headDate": "2026-09-26T19:44:20-07:00",
+    "inScopeFiles": 141,
     "pinnedStart": null,
-    "qualifyingCommits": 16,
+    "priorFloor": "fallen",
+    "qualifyingCommits": 18,
     "qualifyingMinimum": 30,
     "revisions": 5,
     "shared": 10,
     "sharedFloorUsed": 3,
-    "since": "2026-03-27T17:08:56.000Z",
+    "since": "2026-03-31T02:44:20.000Z",
     "sourceExtensions": [
       ".js",
       ".mjs",
@@ -770,9 +806,12 @@
       ".tsx",
       ".mts",
       ".cts",
-      ".py"
+      ".py",
+      ".rs",
+      ".gd"
     ],
     "sourceFileReach": 20,
+    "sourceFileRise": 25,
     "sourceFilesReachingStrongFloor": 0,
     "strength": 0.5,
     "windowDays": 180
