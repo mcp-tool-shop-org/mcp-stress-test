@@ -6,34 +6,180 @@
   ],
   "breaks": [
     {
-      "doors": 2,
+      "doors": 3,
       "importedBy": [],
       "importedByTests": [
         "tests"
       ],
       "kind": "part",
-      "name": "src"
+      "name": "src",
+      "partLabel": "src"
     },
     {
       "doors": 2,
       "importedBy": [],
       "importedByTests": [],
       "kind": "part",
-      "name": "tests"
+      "name": "tests",
+      "partLabel": "tests"
     }
   ],
   "changes": {
-    "first": true
+    "fileCounts": {
+      "added": 1,
+      "changed": 134,
+      "moved": 0,
+      "parts": 6,
+      "removed": 0
+    },
+    "items": [
+      {
+        "kind": "door",
+        "sentence": "CI's push trigger now also names `codecov.yml`.",
+        "subjects": [
+          ".github/workflows/ci.yml"
+        ]
+      },
+      {
+        "kind": "door",
+        "sentence": "CI now also runs src/mcp_stress_test/cli/__init__.py.",
+        "subjects": [
+          ".github/workflows/ci.yml",
+          "src/mcp_stress_test/cli/__init__.py"
+        ]
+      },
+      {
+        "kind": "door",
+        "sentence": "Deploy site to GitHub Pages now also runs site/astro.config.mjs and site/src/.",
+        "subjects": [
+          ".github/workflows/pages.yml",
+          "site/astro.config.mjs",
+          "site/src/"
+        ]
+      },
+      {
+        "kind": "door",
+        "sentence": "And 3 more changes to doors.",
+        "subjects": []
+      },
+      {
+        "kind": "landing",
+        "sentence": "README.md is now also read by pyproject.toml.",
+        "subjects": [
+          "README.md",
+          "pyproject.toml"
+        ]
+      },
+      {
+        "kind": "landing",
+        "sentence": "site/src/content/docs/ is now read by site/astro.config.mjs.",
+        "subjects": [
+          "site/src/content/docs/",
+          "site/astro.config.mjs"
+        ]
+      },
+      {
+        "kind": "landing",
+        "sentence": "site/src/content/docs/handbook/ is now read by site/astro.config.mjs.",
+        "subjects": [
+          "site/src/content/docs/handbook/",
+          "site/astro.config.mjs"
+        ]
+      },
+      {
+        "kind": "landing",
+        "sentence": "And 8 more new writers and readers of places.",
+        "subjects": []
+      },
+      {
+        "kind": "counts",
+        "sentence": "1 file added and 134 changed content, across 6 parts.",
+        "subjects": []
+      }
+    ],
+    "since": {
+      "commit": "be7da06fb4542fb3c6503e23280490179bb6bdde",
+      "generatedAt": "2026-09-23T17:48:06.369Z"
+    },
+    "unchanged": false
   },
   "changesTogether": [],
   "changesTogetherNote": [
-    "Window: 180 days; a pair counts from 3 shared commits."
+    "Window: 180 days; a pair counts from 3 shared commits, since the window holds fewer than 30 qualifying commits."
   ],
   "changesTogetherWithTests": 0,
-  "commit": "be7da06fb4542fb3c6503e23280490179bb6bdde",
+  "commit": "b6c6103d12166ac95a1ef0b4f81c991ba351d8dc",
+  "defaultBranch": "main",
+  "derived": "6 parts, mostly Python (76 files), CSS (2), TypeScript (2), Astro (1) and JavaScript (1). Work enters through 4 doors; the busiest is Publish, which reaches 3 parts. It publishes to PyPI and a container image. It deploys a site to GitHub Pages. People run mcp-stress.",
   "doors": [
     {
+      "checks": [
+        "src/mcp_stress_test/"
+      ],
+      "checksCount": 1,
+      "checksMore": 0,
+      "file": ".github/workflows/publish.yml",
+      "held": [
+        {
+          "checks": [],
+          "checksMore": 0,
+          "lead": "on a run by hand with publish_docker true",
+          "packs": [
+            "README.md",
+            "pyproject.toml",
+            "src/"
+          ],
+          "runs": [],
+          "runsMore": 0,
+          "when": "(on a run by hand, only with publish_docker true)"
+        }
+      ],
+      "id": ".github/workflows/publish.yml",
+      "landings": [],
+      "name": "Publish",
+      "pushes": false,
+      "reach": [
+        {
+          "boundary": "root",
+          "depth": 0,
+          "files": 2
+        },
+        {
+          "boundary": "src",
+          "depth": 0,
+          "files": 65
+        },
+        {
+          "boundary": "tests",
+          "depth": 0,
+          "files": 11
+        }
+      ],
+      "runs": [
+        "src/mcp_stress_test/cli/__init__.py",
+        "tests/"
+      ],
+      "runsCount": 2,
+      "runsMore": 0,
+      "sends": [
+        "uploads dist/* to the release on a release event",
+        "publishes a container image (on a run by hand, only with publish_docker true)",
+        "publishes to PyPI (on a run by hand, only with publish_pypi true)"
+      ],
+      "stages": [],
+      "triggers": [
+        "when a release is published",
+        "or by hand"
+      ]
+    },
+    {
+      "checks": [
+        "src/"
+      ],
+      "checksCount": 1,
+      "checksMore": 0,
       "file": ".github/workflows/ci.yml",
+      "id": ".github/workflows/ci.yml",
       "landings": [],
       "name": "CI",
       "pushes": false,
@@ -50,85 +196,119 @@
         }
       ],
       "runs": [
-        "tests/",
-        "src/"
-      ],
-      "runsCount": 2,
-      "sends": [],
-      "stages": [],
-      "triggers": [
-        "on a pull request",
-        "on a push to main touching 8 paths",
-        "or by hand"
-      ]
-    },
-    {
-      "file": ".github/workflows/publish.yml",
-      "landings": [],
-      "name": "Publish",
-      "pushes": false,
-      "reach": [
-        {
-          "boundary": "tests",
-          "depth": 0,
-          "files": 11
-        },
-        {
-          "boundary": "src",
-          "depth": 1,
-          "files": 63
-        }
-      ],
-      "runs": [
+        "src/mcp_stress_test/cli/__init__.py",
         "tests/"
       ],
-      "runsCount": 1,
+      "runsCount": 2,
+      "runsMore": 0,
       "sends": [
-        "publishes to PyPI and a container image"
+        "uploads coverage to Codecov"
       ],
       "stages": [],
       "triggers": [
-        "when a release is published",
+        "on a pull request to main",
+        "on a push to main touching 9 paths",
         "or by hand"
       ]
     },
     {
+      "checks": [],
+      "checksCount": 0,
+      "checksMore": 0,
       "file": ".github/workflows/pages.yml",
+      "id": ".github/workflows/pages.yml",
       "landings": [],
       "name": "Deploy site to GitHub Pages",
       "pushes": false,
-      "reach": [],
-      "runs": [],
-      "runsCount": 0,
+      "reach": [
+        {
+          "boundary": "site",
+          "depth": 0,
+          "files": 5
+        }
+      ],
+      "runs": [
+        "site/astro.config.mjs",
+        "site/src/"
+      ],
+      "runsCount": 2,
+      "runsMore": 0,
       "sends": [
-        "deploys the site"
+        "deploys the site on a push to main"
       ],
       "stages": [],
       "triggers": [
-        "on a pull request touching 2 paths",
+        "on a pull request to main touching 2 paths",
         "on a push to main touching 2 paths",
         "or by hand"
       ]
+    },
+    {
+      "checks": [],
+      "checksCount": 0,
+      "checksMore": 0,
+      "file": "pyproject.toml",
+      "id": "pyproject.toml#mcp-stress",
+      "kind": "command",
+      "landings": [],
+      "name": "mcp-stress",
+      "pushes": false,
+      "reach": [
+        {
+          "boundary": "src",
+          "depth": 0,
+          "files": 58
+        }
+      ],
+      "runs": [
+        "src/mcp_stress_test/cli/__init__.py"
+      ],
+      "runsCount": 1,
+      "runsMore": 0,
+      "sends": [],
+      "stages": [],
+      "triggers": []
     }
   ],
   "duplicates": [],
   "duplicatesLead": null,
   "duplicatesNote": [],
-  "generated": [],
-  "generatedAt": "2026-09-23T17:48:06.369Z",
-  "limits": [
-    "2 import sites could not be resolved.",
-    "13 writes and 13 reads use paths built at run time and are not named here.",
-    "Statistics confidence is low: fewer than 30 qualifying commits in the window, and fewer than 20 source files reach 10 revisions."
+  "edges": [
+    {
+      "from": "tests",
+      "fromTests": true,
+      "to": "src"
+    }
   ],
-  "mainDoor": ".github/workflows/ci.yml",
+  "engine": "1.24.0",
+  "generated": [],
+  "generatedAt": "2026-09-30T20:10:14.735Z",
+  "limits": [
+    "2 imports could not be resolved: `tests/test_operator_contract.py` imports a path built at run time, twice.",
+    "3 writes and 8 reads use paths built at run time and are not named here.",
+    "12 writes and 21 reads go to a path their caller passes, not to this repository.",
+    "Statistics confidence is low: fewer than 30 qualifying commits in the window, and fewer than 25 source files reach 10 revisions."
+  ],
+  "mainDoor": ".github/workflows/publish.yml",
+  "partLabels": {
+    ".github": ".github",
+    "docs": "docs",
+    "root": "the repository root",
+    "site": "site",
+    "src": "src",
+    "tests": "tests"
+  },
   "parts": 6,
   "readers": [],
   "repo": "mcp-tool-shop-org/mcp-stress-test",
   "sequences": [],
+  "startDoor": ".github/workflows/ci.yml",
   "startHere": [
     ".github/workflows/ci.yml",
-    "src/"
+    "src/mcp_stress_test/cli/__init__.py",
+    "src/mcp_stress_test/cli/main.py",
+    "src/mcp_stress_test/__init__.py",
+    "src/mcp_stress_test/models.py"
   ],
   "summary": null,
   "summaryFrom": null,
@@ -137,7 +317,9 @@
     "site": 0,
     "src": 9
   },
+  "unnamedWrites": 3,
   "unread": [],
+  "unreadFiles": 0,
   "unreadNote": [],
   "untested": [
     {
