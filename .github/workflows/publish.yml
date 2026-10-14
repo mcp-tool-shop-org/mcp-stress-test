@@ -33,6 +33,9 @@ env:
   PYTHON_DEFAULT: '3.12'
   PACKAGE_NAME: mcp-stress-test
 
+permissions:
+  contents: read
+
 jobs:
   # ===========================================================================
   # Build Package

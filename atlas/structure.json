@@ -45,7 +45,7 @@
           "path": ".github/issue_bodies/005-p2-performance-regression-suite.md"
         },
         {
-          "hash": "b0a0882e666c599a766e74fd928ee7b4d5c0f2c1c4ed7d511ae2bcc2682f9938",
+          "hash": "b9ab847cd38f619d058148690f1f7250c4994179e6b413ac4cdf7c70bcc4dd37",
           "path": ".github/workflows/ci.yml"
         },
         {
@@ -53,7 +53,7 @@
           "path": ".github/workflows/pages.yml"
         },
         {
-          "hash": "71715e4828880da588aad453291f56d23e53f54301b4b2e4a8d2b2b2ba0aad28",
+          "hash": "28281a83d10320eb945d48ffccf78512cb2a2434b7cc84a7cdf7bc1504c18220",
           "path": ".github/workflows/publish.yml"
         }
       ],
@@ -103,7 +103,7 @@
           "path": ".gitignore"
         },
         {
-          "hash": "85bf2f5b20d51efb9f5cb763cc7d35fb56ed10a7329ee651e087fbdb6f95238e",
+          "hash": "66bbe0b47f17896ea0418e8c2d5522674d4fbd9d0131c53aadfcc5de0c6c6c68",
           "path": "CHANGELOG.md"
         },
         {
@@ -195,7 +195,7 @@
           "path": "logo.png"
         },
         {
-          "hash": "7e17598080cf2e14b89f296d6a415dbb3fb09966789c240674fc6d29f10bfe47",
+          "hash": "79d6f7370a9511ab11ee0231e5cc04ecf898d21157bbedf146a84a55023b4027",
           "path": "pyproject.toml"
         }
       ],
@@ -222,7 +222,7 @@
           "path": "site/astro.config.mjs"
         },
         {
-          "hash": "af5d4f54dca60686724d306eb58759fb25b6f5ba4d66559ab84a968112a184e5",
+          "hash": "0607a19c4f60b635244a906c7ad2424359b50e20c4a83bc140f202abce4a941e",
           "path": "site/package-lock.json"
         },
         {
@@ -309,7 +309,7 @@
       "externals": 0,
       "files": [
         {
-          "hash": "cc0b53fb0622ecf0be36bd517bbe51399796598a37e4833d0422261deac787bc",
+          "hash": "d0f1b9c0234d50b7b57a050f29559ecd3dde31600ce68b2b2f837579588461e2",
           "importsFiles": [
             "src/mcp_stress_test/models.py"
           ],
@@ -3069,7 +3069,7 @@
   ],
   "engine": "1.24.0",
   "generatedFrom": {
-    "commit": "b6c6103d12166ac95a1ef0b4f81c991ba351d8dc",
+    "commit": "1e1b0b7c29f919db0222c62dc973854b4b4f1777",
     "tracked": 136
   },
   "landings": [

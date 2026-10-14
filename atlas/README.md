@@ -1,22 +1,14 @@
 # mcp-stress-test: how it works
 
-Mapped at 2026-09-30 from commit b6c6103 by Atlas 1.24.0.
+Mapped at 2026-10-14 from commit 1e1b0b7 by Atlas 1.24.0.
 
 ## What this is
 
 6 parts, mostly Python (76 files), CSS (2), TypeScript (2), Astro (1) and JavaScript (1). Work enters through 4 doors; the busiest is Publish, which reaches 3 parts. It publishes to PyPI and a container image. It deploys a site to GitHub Pages. People run mcp-stress.
 
-## What changed since 2026-09-23 (be7da06)
+## What changed since 2026-09-30 (b6c6103)
 
-- CI's push trigger now also names `codecov.yml`.
-- CI now also runs src/mcp_stress_test/cli/__init__.py.
-- Deploy site to GitHub Pages now also runs site/astro.config.mjs and site/src/.
-- And 3 more changes to doors.
-- README.md is now also read by pyproject.toml.
-- site/src/content/docs/ is now read by site/astro.config.mjs.
-- site/src/content/docs/handbook/ is now read by site/astro.config.mjs.
-- And 8 more new writers and readers of places.
-- 1 file added and 134 changed content, across 6 parts.
+Nothing structural changed since 2026-09-30; 6 files changed content.
 
 ## What comes in
 

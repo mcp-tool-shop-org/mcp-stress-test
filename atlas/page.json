@@ -26,89 +26,31 @@
   ],
   "changes": {
     "fileCounts": {
-      "added": 1,
-      "changed": 134,
+      "added": 0,
+      "changed": 6,
       "moved": 0,
-      "parts": 6,
+      "parts": 4,
       "removed": 0
     },
     "items": [
       {
-        "kind": "door",
-        "sentence": "CI's push trigger now also names `codecov.yml`.",
-        "subjects": [
-          ".github/workflows/ci.yml"
-        ]
-      },
-      {
-        "kind": "door",
-        "sentence": "CI now also runs src/mcp_stress_test/cli/__init__.py.",
-        "subjects": [
-          ".github/workflows/ci.yml",
-          "src/mcp_stress_test/cli/__init__.py"
-        ]
-      },
-      {
-        "kind": "door",
-        "sentence": "Deploy site to GitHub Pages now also runs site/astro.config.mjs and site/src/.",
-        "subjects": [
-          ".github/workflows/pages.yml",
-          "site/astro.config.mjs",
-          "site/src/"
-        ]
-      },
-      {
-        "kind": "door",
-        "sentence": "And 3 more changes to doors.",
-        "subjects": []
-      },
-      {
-        "kind": "landing",
-        "sentence": "README.md is now also read by pyproject.toml.",
-        "subjects": [
-          "README.md",
-          "pyproject.toml"
-        ]
-      },
-      {
-        "kind": "landing",
-        "sentence": "site/src/content/docs/ is now read by site/astro.config.mjs.",
-        "subjects": [
-          "site/src/content/docs/",
-          "site/astro.config.mjs"
-        ]
-      },
-      {
-        "kind": "landing",
-        "sentence": "site/src/content/docs/handbook/ is now read by site/astro.config.mjs.",
-        "subjects": [
-          "site/src/content/docs/handbook/",
-          "site/astro.config.mjs"
-        ]
-      },
-      {
-        "kind": "landing",
-        "sentence": "And 8 more new writers and readers of places.",
-        "subjects": []
-      },
-      {
         "kind": "counts",
-        "sentence": "1 file added and 134 changed content, across 6 parts.",
+        "sentence": "Nothing structural changed since 2026-09-30; 6 files changed content.",
         "subjects": []
       }
     ],
     "since": {
-      "commit": "be7da06fb4542fb3c6503e23280490179bb6bdde",
-      "generatedAt": "2026-09-23T17:48:06.369Z"
+      "commit": "b6c6103d12166ac95a1ef0b4f81c991ba351d8dc",
+      "generatedAt": "2026-09-30T20:10:14.735Z"
     },
-    "unchanged": false
+    "unchanged": true
   },
   "changesTogether": [],
   "changesTogetherNote": [
     "Window: 180 days; a pair counts from 3 shared commits, since the window holds fewer than 30 qualifying commits."
   ],
   "changesTogetherWithTests": 0,
-  "commit": "b6c6103d12166ac95a1ef0b4f81c991ba351d8dc",
+  "commit": "1e1b0b7c29f919db0222c62dc973854b4b4f1777",
   "defaultBranch": "main",
   "derived": "6 parts, mostly Python (76 files), CSS (2), TypeScript (2), Astro (1) and JavaScript (1). Work enters through 4 doors; the busiest is Publish, which reaches 3 parts. It publishes to PyPI and a container image. It deploys a site to GitHub Pages. People run mcp-stress.",
   "doors": [
@@ -282,7 +224,7 @@
   ],
   "engine": "1.24.0",
   "generated": [],
-  "generatedAt": "2026-09-30T20:10:14.735Z",
+  "generatedAt": "2026-10-14T23:56:28.360Z",
   "limits": [
     "2 imports could not be resolved: `tests/test_operator_contract.py` imports a path built at run time, twice.",
     "3 writes and 8 reads use paths built at run time and are not named here.",
