@@ -83,7 +83,7 @@
       "confidence": "low",
       "highWater": null,
       "name": "src",
-      "qualifyingSourceCommits": 1,
+      "qualifyingSourceCommits": 2,
       "rebaseline": null
     },
     {
@@ -107,138 +107,93 @@
     "definition": "commits is how many commits in the window touch the file, including merges and commits dropped from coupling. lines is added plus deleted in those commits.",
     "files": [
       {
-        "commits": 1,
-        "lines": 92,
-        "path": ".github/ISSUE_TEMPLATE/attack_pattern.yml"
-      },
-      {
-        "commits": 1,
-        "lines": 80,
-        "path": ".github/ISSUE_TEMPLATE/bug_report.yml"
-      },
-      {
-        "commits": 1,
-        "lines": 65,
-        "path": ".github/ISSUE_TEMPLATE/feature_request.yml"
-      },
-      {
         "commits": 2,
         "lines": 27,
         "path": ".github/dependabot.yml"
       },
       {
-        "commits": 14,
-        "lines": 393,
+        "commits": 13,
+        "lines": 277,
         "path": ".github/workflows/ci.yml"
       },
       {
-        "commits": 4,
-        "lines": 73,
+        "commits": 2,
+        "lines": 21,
         "path": ".github/workflows/pages.yml"
       },
       {
-        "commits": 4,
-        "lines": 272,
+        "commits": 3,
+        "lines": 97,
         "path": ".github/workflows/publish.yml"
       },
       {
-        "commits": 2,
-        "lines": 97,
+        "commits": 1,
+        "lines": 1,
         "path": ".gitignore"
       },
       {
         "commits": 2,
-        "lines": 106,
+        "lines": 20,
         "path": "CHANGELOG.md"
       },
       {
         "commits": 1,
-        "lines": 31,
-        "path": "CLAUDE.md"
-      },
-      {
-        "commits": 1,
-        "lines": 195,
-        "path": "CONTRIBUTING.md"
-      },
-      {
-        "commits": 3,
-        "lines": 91,
+        "lines": 14,
         "path": "Dockerfile"
       },
       {
         "commits": 1,
-        "lines": 21,
-        "path": "LICENSE"
-      },
-      {
-        "commits": 2,
-        "lines": 125,
+        "lines": 10,
         "path": "PRESS_RELEASE.md"
       },
       {
-        "commits": 2,
-        "lines": 506,
+        "commits": 1,
+        "lines": 235,
         "path": "README.es.md"
       },
       {
-        "commits": 2,
-        "lines": 504,
+        "commits": 1,
+        "lines": 233,
         "path": "README.fr.md"
       },
       {
-        "commits": 2,
-        "lines": 502,
+        "commits": 1,
+        "lines": 231,
         "path": "README.hi.md"
       },
       {
-        "commits": 2,
-        "lines": 486,
+        "commits": 1,
+        "lines": 215,
         "path": "README.it.md"
       },
       {
-        "commits": 2,
-        "lines": 510,
+        "commits": 1,
+        "lines": 239,
         "path": "README.ja.md"
       },
       {
-        "commits": 2,
-        "lines": 342,
+        "commits": 1,
+        "lines": 54,
         "path": "README.md"
       },
       {
-        "commits": 2,
-        "lines": 510,
+        "commits": 1,
+        "lines": 239,
         "path": "README.pt-BR.md"
       },
       {
-        "commits": 2,
-        "lines": 470,
+        "commits": 1,
+        "lines": 199,
         "path": "README.zh.md"
       },
       {
-        "commits": 4,
-        "lines": 506,
+        "commits": 3,
+        "lines": 16,
         "path": "ROADMAP.md"
       },
       {
-        "commits": 1,
-        "lines": 44,
-        "path": "SCORECARD.md"
-      },
-      {
-        "commits": 1,
-        "lines": 65,
-        "path": "SECURITY.md"
-      },
-      {
-        "commits": 1,
-        "lines": 80,
-        "path": "SHIP_GATE.md"
-      },
-      {
-        "commits": 4,
-        "lines": 260,
+        "commits": 5,
+        "lines": 276,
         "path": "atlas/README.md"
       },
       {
@@ -247,18 +202,18 @@
         "path": "atlas/boundaries.yaml"
       },
       {
-        "commits": 4,
-        "lines": 802,
+        "commits": 5,
+        "lines": 878,
         "path": "atlas/page.json"
       },
       {
-        "commits": 4,
-        "lines": 1684,
+        "commits": 5,
+        "lines": 1728,
         "path": "atlas/statistics.json"
       },
       {
-        "commits": 4,
-        "lines": 8382,
+        "commits": 5,
+        "lines": 8396,
         "path": "atlas/structure.json"
       },
       {
@@ -267,113 +222,78 @@
         "path": "codecov.yml"
       },
       {
-        "commits": 1,
-        "lines": 0,
-        "path": "logo.png"
-      },
-      {
         "commits": 2,
-        "lines": 92,
+        "lines": 4,
         "path": "pyproject.toml"
       },
       {
-        "commits": 2,
-        "lines": 26,
+        "commits": 1,
+        "lines": 2,
         "path": "site/astro.config.mjs"
       },
       {
-        "commits": 9,
-        "lines": 13724,
+        "commits": 8,
+        "lines": 6185,
         "path": "site/package-lock.json"
       },
       {
-        "commits": 2,
-        "lines": 24,
+        "commits": 1,
+        "lines": 6,
         "path": "site/package.json"
       },
       {
         "commits": 1,
-        "lines": 7,
-        "path": "site/src/content.config.ts"
-      },
-      {
-        "commits": 2,
-        "lines": 199,
+        "lines": 4,
         "path": "site/src/content/docs/handbook/beginners.md"
       },
       {
-        "commits": 2,
-        "lines": 190,
+        "commits": 1,
+        "lines": 11,
         "path": "site/src/content/docs/handbook/configuration.md"
       },
       {
-        "commits": 2,
-        "lines": 136,
+        "commits": 1,
+        "lines": 11,
         "path": "site/src/content/docs/handbook/getting-started.md"
       },
       {
-        "commits": 3,
-        "lines": 70,
+        "commits": 2,
+        "lines": 14,
         "path": "site/src/content/docs/handbook/index.md"
       },
       {
-        "commits": 2,
-        "lines": 314,
+        "commits": 1,
+        "lines": 16,
         "path": "site/src/content/docs/handbook/reference.md"
       },
       {
         "commits": 1,
-        "lines": 217,
-        "path": "site/src/content/docs/handbook/usage.md"
-      },
-      {
-        "commits": 1,
-        "lines": 33,
-        "path": "site/src/pages/index.astro"
-      },
-      {
-        "commits": 2,
-        "lines": 84,
+        "lines": 6,
         "path": "site/src/site-config.ts"
       },
       {
-        "commits": 1,
-        "lines": 3,
-        "path": "site/src/styles/global.css"
-      },
-      {
-        "commits": 1,
-        "lines": 17,
-        "path": "site/src/styles/starlight-custom.css"
-      },
-      {
-        "commits": 1,
-        "lines": 5,
-        "path": "site/tsconfig.json"
-      },
-      {
         "commits": 2,
-        "lines": 27,
+        "lines": 4,
         "path": "src/mcp_stress_test/__init__.py"
       },
       {
-        "commits": 2,
-        "lines": 43,
+        "commits": 1,
+        "lines": 9,
         "path": "src/mcp_stress_test/chains/__init__.py"
       },
       {
-        "commits": 2,
-        "lines": 225,
+        "commits": 1,
+        "lines": 22,
         "path": "src/mcp_stress_test/chains/base.py"
       },
       {
-        "commits": 2,
-        "lines": 205,
+        "commits": 1,
+        "lines": 12,
         "path": "src/mcp_stress_test/chains/executor.py"
       },
       {
-        "commits": 2,
-        "lines": 458,
+        "commits": 1,
+        "lines": 91,
         "path": "src/mcp_stress_test/chains/library.py"
       },
       {
@@ -383,22 +303,12 @@
       },
       {
         "commits": 1,
-        "lines": 11,
-        "path": "src/mcp_stress_test/cli/__init__.py"
-      },
-      {
-        "commits": 1,
-        "lines": 3,
-        "path": "src/mcp_stress_test/cli/commands/__init__.py"
-      },
-      {
-        "commits": 2,
-        "lines": 297,
+        "lines": 79,
         "path": "src/mcp_stress_test/cli/commands/chain.py"
       },
       {
-        "commits": 2,
-        "lines": 249,
+        "commits": 1,
+        "lines": 40,
         "path": "src/mcp_stress_test/cli/commands/fuzz.py"
       },
       {
@@ -407,8 +317,8 @@
         "path": "src/mcp_stress_test/cli/commands/generate.py"
       },
       {
-        "commits": 2,
-        "lines": 92,
+        "commits": 1,
+        "lines": 17,
         "path": "src/mcp_stress_test/cli/commands/info.py"
       },
       {
@@ -422,13 +332,13 @@
         "path": "src/mcp_stress_test/cli/commands/payloads.py"
       },
       {
-        "commits": 2,
-        "lines": 732,
+        "commits": 1,
+        "lines": 535,
         "path": "src/mcp_stress_test/cli/commands/report.py"
       },
       {
-        "commits": 2,
-        "lines": 348,
+        "commits": 1,
+        "lines": 77,
         "path": "src/mcp_stress_test/cli/commands/scan.py"
       },
       {
@@ -447,8 +357,8 @@
         "path": "src/mcp_stress_test/cli/commands/tools.py"
       },
       {
-        "commits": 2,
-        "lines": 83,
+        "commits": 1,
+        "lines": 18,
         "path": "src/mcp_stress_test/cli/main.py"
       },
       {
@@ -462,18 +372,18 @@
         "path": "src/mcp_stress_test/cli/scanner_resolve.py"
       },
       {
-        "commits": 2,
-        "lines": 2018,
+        "commits": 1,
+        "lines": 178,
         "path": "src/mcp_stress_test/cli_legacy.py"
       },
       {
-        "commits": 2,
-        "lines": 42,
+        "commits": 1,
+        "lines": 4,
         "path": "src/mcp_stress_test/core/__init__.py"
       },
       {
-        "commits": 2,
-        "lines": 228,
+        "commits": 1,
+        "lines": 7,
         "path": "src/mcp_stress_test/core/config.py"
       },
       {
@@ -482,24 +392,14 @@
         "path": "src/mcp_stress_test/core/data_paths.py"
       },
       {
-        "commits": 2,
-        "lines": 370,
+        "commits": 1,
+        "lines": 78,
         "path": "src/mcp_stress_test/core/protocols.py"
       },
       {
         "commits": 1,
-        "lines": 148,
-        "path": "src/mcp_stress_test/core/registry.py"
-      },
-      {
-        "commits": 2,
-        "lines": 38,
+        "lines": 13,
         "path": "src/mcp_stress_test/fuzzing/__init__.py"
-      },
-      {
-        "commits": 1,
-        "lines": 274,
-        "path": "src/mcp_stress_test/fuzzing/evasion.py"
       },
       {
         "commits": 1,
@@ -507,23 +407,23 @@
         "path": "src/mcp_stress_test/fuzzing/evolutionary.py"
       },
       {
-        "commits": 2,
-        "lines": 379,
+        "commits": 1,
+        "lines": 66,
         "path": "src/mcp_stress_test/fuzzing/llm_fuzzer.py"
       },
       {
-        "commits": 2,
-        "lines": 351,
+        "commits": 1,
+        "lines": 14,
         "path": "src/mcp_stress_test/fuzzing/mutations.py"
       },
       {
-        "commits": 2,
-        "lines": 43,
+        "commits": 1,
+        "lines": 18,
         "path": "src/mcp_stress_test/generator/__init__.py"
       },
       {
-        "commits": 2,
-        "lines": 628,
+        "commits": 1,
+        "lines": 172,
         "path": "src/mcp_stress_test/generator/mutator.py"
       },
       {
@@ -533,23 +433,13 @@
       },
       {
         "commits": 1,
-        "lines": 409,
-        "path": "src/mcp_stress_test/generator/strategies.py"
-      },
-      {
-        "commits": 2,
-        "lines": 531,
+        "lines": 9,
         "path": "src/mcp_stress_test/generator/time_simulator.py"
       },
       {
-        "commits": 2,
-        "lines": 377,
-        "path": "src/mcp_stress_test/models.py"
-      },
-      {
         "commits": 1,
-        "lines": 10,
-        "path": "src/mcp_stress_test/patterns/__init__.py"
+        "lines": 44,
+        "path": "src/mcp_stress_test/models.py"
       },
       {
         "commits": 1,
@@ -592,63 +482,53 @@
         "path": "src/mcp_stress_test/patterns/data/tools.json"
       },
       {
-        "commits": 2,
-        "lines": 957,
+        "commits": 1,
+        "lines": 245,
         "path": "src/mcp_stress_test/patterns/library.py"
       },
       {
         "commits": 1,
-        "lines": 35,
-        "path": "src/mcp_stress_test/patterns/loader.py"
-      },
-      {
-        "commits": 2,
-        "lines": 414,
+        "lines": 158,
         "path": "src/mcp_stress_test/patterns/payloads.py"
       },
       {
         "commits": 1,
-        "lines": 21,
-        "path": "src/mcp_stress_test/reporters/__init__.py"
-      },
-      {
-        "commits": 2,
-        "lines": 214,
+        "lines": 60,
         "path": "src/mcp_stress_test/reporters/base.py"
       },
       {
-        "commits": 2,
-        "lines": 418,
+        "commits": 1,
+        "lines": 57,
         "path": "src/mcp_stress_test/reporters/html_reporter.py"
       },
       {
-        "commits": 2,
-        "lines": 88,
+        "commits": 1,
+        "lines": 1,
         "path": "src/mcp_stress_test/reporters/json_reporter.py"
       },
       {
-        "commits": 2,
-        "lines": 129,
+        "commits": 1,
+        "lines": 1,
         "path": "src/mcp_stress_test/reporters/markdown_reporter.py"
       },
       {
-        "commits": 2,
-        "lines": 332,
+        "commits": 1,
+        "lines": 33,
         "path": "src/mcp_stress_test/reporters/sarif_reporter.py"
       },
       {
-        "commits": 2,
-        "lines": 19,
+        "commits": 1,
+        "lines": 6,
         "path": "src/mcp_stress_test/scanner/__init__.py"
       },
       {
-        "commits": 2,
-        "lines": 630,
+        "commits": 1,
+        "lines": 159,
         "path": "src/mcp_stress_test/scanner/adapter.py"
       },
       {
-        "commits": 3,
-        "lines": 771,
+        "commits": 2,
+        "lines": 309,
         "path": "src/mcp_stress_test/scanner/checkpoint.py"
       },
       {
@@ -662,18 +542,18 @@
         "path": "src/mcp_stress_test/scanner/mcp_client.py"
       },
       {
-        "commits": 2,
-        "lines": 1233,
+        "commits": 1,
+        "lines": 512,
         "path": "src/mcp_stress_test/scanner/runner.py"
       },
       {
-        "commits": 2,
-        "lines": 19,
+        "commits": 1,
+        "lines": 2,
         "path": "src/mcp_stress_test/scanners/__init__.py"
       },
       {
-        "commits": 2,
-        "lines": 370,
+        "commits": 1,
+        "lines": 103,
         "path": "src/mcp_stress_test/scanners/cli_adapter.py"
       },
       {
@@ -682,39 +562,14 @@
         "path": "src/mcp_stress_test/scanners/http.py"
       },
       {
-        "commits": 1,
-        "lines": 161,
-        "path": "src/mcp_stress_test/scanners/mock.py"
-      },
-      {
-        "commits": 3,
-        "lines": 321,
+        "commits": 2,
+        "lines": 101,
         "path": "src/mcp_stress_test/scanners/tool_scan.py"
       },
       {
-        "commits": 1,
-        "lines": 43,
-        "path": "src/mcp_stress_test/servers/__init__.py"
-      },
-      {
-        "commits": 3,
-        "lines": 753,
+        "commits": 2,
+        "lines": 117,
         "path": "src/mcp_stress_test/servers/base.py"
-      },
-      {
-        "commits": 1,
-        "lines": 858,
-        "path": "src/mcp_stress_test/servers/domains.py"
-      },
-      {
-        "commits": 1,
-        "lines": 575,
-        "path": "src/mcp_stress_test/servers/farm.py"
-      },
-      {
-        "commits": 1,
-        "lines": 1,
-        "path": "tests/__init__.py"
       },
       {
         "commits": 1,
@@ -722,23 +577,18 @@
         "path": "tests/conftest.py"
       },
       {
-        "commits": 2,
-        "lines": 178,
+        "commits": 1,
+        "lines": 10,
         "path": "tests/test_cli.py"
       },
       {
-        "commits": 2,
-        "lines": 521,
+        "commits": 1,
+        "lines": 7,
         "path": "tests/test_generator.py"
       },
       {
         "commits": 1,
-        "lines": 241,
-        "path": "tests/test_models.py"
-      },
-      {
-        "commits": 2,
-        "lines": 682,
+        "lines": 191,
         "path": "tests/test_new_features.py"
       },
       {
@@ -748,12 +598,7 @@
       },
       {
         "commits": 1,
-        "lines": 238,
-        "path": "tests/test_patterns.py"
-      },
-      {
-        "commits": 2,
-        "lines": 959,
+        "lines": 240,
         "path": "tests/test_scanner.py"
       },
       {
@@ -762,8 +607,8 @@
         "path": "tests/test_scanner_adapters.py"
       },
       {
-        "commits": 2,
-        "lines": 1115,
+        "commits": 1,
+        "lines": 100,
         "path": "tests/test_servers.py"
       }
     ]
@@ -772,9 +617,9 @@
     "level": "low",
     "reason": "fewer than 30 qualifying commits in the window, and fewer than 25 source files reach 10 revisions"
   },
-  "generatedAt": "2026-10-14T23:56:28.360Z",
+  "generatedAt": "2026-10-15T02:52:12.312Z",
   "generatedFrom": {
-    "commit": "1e1b0b7c29f919db0222c62dc973854b4b4f1777"
+    "commit": "bdad13921c1ad81f053bbdd41572528995096513"
   },
   "pairs": [],
   "parameters": {
@@ -787,16 +632,16 @@
     "floor": "fallen",
     "floorHeld": false,
     "floorTrigger": "both",
-    "headDate": "2026-10-01T13:33:26-07:00",
+    "headDate": "2026-10-14T17:03:23-07:00",
     "inScopeFiles": 141,
     "pinnedStart": null,
     "priorFloor": "fallen",
-    "qualifyingCommits": 18,
+    "qualifyingCommits": 19,
     "qualifyingMinimum": 30,
     "revisions": 5,
     "shared": 10,
     "sharedFloorUsed": 3,
-    "since": "2026-04-04T20:33:26.000Z",
+    "since": "2026-04-18T00:03:23.000Z",
     "sourceExtensions": [
       ".js",
       ".mjs",
