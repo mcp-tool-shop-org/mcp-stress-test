@@ -122,8 +122,8 @@
         "path": ".github/workflows/pages.yml"
       },
       {
-        "commits": 3,
-        "lines": 97,
+        "commits": 4,
+        "lines": 99,
         "path": ".github/workflows/publish.yml"
       },
       {
@@ -192,8 +192,8 @@
         "path": "ROADMAP.md"
       },
       {
-        "commits": 5,
-        "lines": 276,
+        "commits": 6,
+        "lines": 282,
         "path": "atlas/README.md"
       },
       {
@@ -202,18 +202,18 @@
         "path": "atlas/boundaries.yaml"
       },
       {
-        "commits": 5,
-        "lines": 878,
+        "commits": 6,
+        "lines": 892,
         "path": "atlas/page.json"
       },
       {
-        "commits": 5,
-        "lines": 1728,
+        "commits": 6,
+        "lines": 2155,
         "path": "atlas/statistics.json"
       },
       {
-        "commits": 5,
-        "lines": 8396,
+        "commits": 6,
+        "lines": 8400,
         "path": "atlas/structure.json"
       },
       {
@@ -232,13 +232,13 @@
         "path": "site/astro.config.mjs"
       },
       {
-        "commits": 8,
-        "lines": 6185,
+        "commits": 10,
+        "lines": 6451,
         "path": "site/package-lock.json"
       },
       {
-        "commits": 1,
-        "lines": 6,
+        "commits": 2,
+        "lines": 9,
         "path": "site/package.json"
       },
       {
@@ -617,9 +617,9 @@
     "level": "low",
     "reason": "fewer than 30 qualifying commits in the window, and fewer than 25 source files reach 10 revisions"
   },
-  "generatedAt": "2026-10-15T02:52:12.312Z",
+  "generatedAt": "2026-11-11T22:24:13.697Z",
   "generatedFrom": {
-    "commit": "bdad13921c1ad81f053bbdd41572528995096513"
+    "commit": "034aa3f6fc18134757e84a9263a180b3b782e3bc"
   },
   "pairs": [],
   "parameters": {
@@ -632,16 +632,16 @@
     "floor": "fallen",
     "floorHeld": false,
     "floorTrigger": "both",
-    "headDate": "2026-10-14T17:03:23-07:00",
+    "headDate": "2026-10-20T16:06:01-04:00",
     "inScopeFiles": 141,
     "pinnedStart": null,
     "priorFloor": "fallen",
-    "qualifyingCommits": 19,
+    "qualifyingCommits": 22,
     "qualifyingMinimum": 30,
     "revisions": 5,
     "shared": 10,
     "sharedFloorUsed": 3,
-    "since": "2026-04-18T00:03:23.000Z",
+    "since": "2026-04-23T20:06:01.000Z",
     "sourceExtensions": [
       ".js",
       ".mjs",
