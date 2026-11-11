@@ -1,14 +1,14 @@
 # mcp-stress-test: how it works
 
-Mapped at 2026-10-15 from commit bdad139 by Atlas 1.24.0.
+Mapped at 2026-11-11 from commit 034aa3f by Atlas 1.26.0.
 
 ## What this is
 
 6 parts, mostly Python (76 files), CSS (2), TypeScript (2), Astro (1) and JavaScript (1). Work enters through 4 doors; the busiest is Publish, which reaches 3 parts. It publishes to PyPI and a container image. It deploys a site to GitHub Pages. People run mcp-stress.
 
-## What changed since 2026-10-14 (1e1b0b7)
+## What changed since 2026-10-15 (bdad139)
 
-Nothing structural changed since 2026-10-14; 1 file changed content.
+Nothing structural changed since 2026-10-15; 4 files changed content.
 
 ## What comes in
 
@@ -77,8 +77,8 @@ Read those in order to follow one pull request end to end.
 ## What this map cannot see
 
 - 2 imports could not be resolved: `tests/test_operator_contract.py` imports a path built at run time, twice.
-- 3 writes and 8 reads use paths built at run time and are not named here.
-- 12 writes and 21 reads go to a path their caller passes, not to this repository.
+- 3 writes and 7 reads use paths built at run time and are not named here.
+- 12 writes and 22 reads go to a path their caller passes, not to this repository.
 - Statistics confidence is low: fewer than 30 qualifying commits in the window, and fewer than 25 source files reach 10 revisions.
 
 Regenerate with `npx --yes @dogfood-lab/atlas map`.

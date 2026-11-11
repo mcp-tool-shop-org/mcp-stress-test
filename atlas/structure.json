@@ -45,7 +45,7 @@
           "path": ".github/issue_bodies/005-p2-performance-regression-suite.md"
         },
         {
-          "hash": "b9ab847cd38f619d058148690f1f7250c4994179e6b413ac4cdf7c70bcc4dd37",
+          "hash": "567eb5818007233e8363c47b3b45512efaa23465deae433afbb460a4562bacf6",
           "path": ".github/workflows/ci.yml"
         },
         {
@@ -53,7 +53,7 @@
           "path": ".github/workflows/pages.yml"
         },
         {
-          "hash": "28281a83d10320eb945d48ffccf78512cb2a2434b7cc84a7cdf7bc1504c18220",
+          "hash": "e716a623df7669e08319e8630bd0f0a8aee10b85ea77dad35a0a36179a7a79e3",
           "path": ".github/workflows/publish.yml"
         }
       ],
@@ -222,11 +222,11 @@
           "path": "site/astro.config.mjs"
         },
         {
-          "hash": "1be0148ea2a3b47ec21f091b74d4135dbd06aa34d69b5643bb4fe65d8dad4b64",
+          "hash": "01b4c7259256650c2f468783bdaf2d5edbf6ac868174322bc113e2b7667c47bb",
           "path": "site/package-lock.json"
         },
         {
-          "hash": "17ed487ab5049bb52f8c5e35f77f21be7da639f1fb6a3fa70e9b02ffabfe7be6",
+          "hash": "f70476bbf956f26e144852469081483b247f4867786b127be7c97ffdc39cfb39",
           "path": "site/package.json"
         },
         {
@@ -299,7 +299,7 @@
       "unresolvedSites": 0
     },
     {
-      "dynamicReads": 8,
+      "dynamicReads": 7,
       "dynamicSpawns": 0,
       "dynamicSpawnsInTests": 0,
       "dynamicWrites": 3,
@@ -1778,14 +1778,14 @@
       "origin": "authored",
       "outsidePlaces": [
         {
-          "reads": 21,
+          "reads": 22,
           "where": [
             "caller"
           ],
           "writes": 12
         }
       ],
-      "outsideReads": 21,
+      "outsideReads": 22,
       "outsideWrites": 12,
       "role": "code",
       "testRunners": [
@@ -3067,9 +3067,9 @@
       "to": "src"
     }
   ],
-  "engine": "1.24.0",
+  "engine": "1.26.0",
   "generatedFrom": {
-    "commit": "bdad13921c1ad81f053bbdd41572528995096513",
+    "commit": "034aa3f6fc18134757e84a9263a180b3b782e3bc",
     "tracked": 136
   },
   "landings": [
